@@ -4,7 +4,7 @@
 
 **Blocked by:** 10 — Select, Combobox and Navigation Menu join the package
 
-**Status:** code done (commits f245ac3); scratch-app browser check pending (batch B); unchecked items need it.
+**Status:** done (f245ac3); batch B scratch-app check passed on 2026-11-06 (Next.js PostCSS plugin, pnpm, light and dark)
 
 - [x] The shadcn CLI `add` command pulls toast, sidebar from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift for each.
 - [x] No new dependencies.
@@ -12,6 +12,6 @@
 - [x] New public subpaths: `/toast`, `/sidebar`. The root entry re-exports the new components and their prop types.
 - [x] The root entry's `Toaster` comes from Toast.
 - [x] Sidebar's mobile-breakpoint hook is shipped but internal. It is not re-exported from the root, and no subpath reaches it.
-- [ ] Sidebar collapses and expands, shows tooltips when collapsed, and becomes a Sheet below the mobile breakpoint.
-- [ ] A toast can be triggered, stacks, and can be dismissed.
-- [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).
+- [x] Sidebar collapses and expands, shows tooltips when collapsed, and becomes a Sheet below the mobile breakpoint.
+- [x] A toast can be triggered, stacks, and can be dismissed.
+- [x] Spec 1b's per-ticket release checklist passes (Testing Decisions).

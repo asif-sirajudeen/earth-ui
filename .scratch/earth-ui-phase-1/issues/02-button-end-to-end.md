@@ -4,7 +4,7 @@
 
 **Blocked by:** 01 — Repo setup
 
-**Status:** done (d21d32c); the scratch-app checks were re-run during the phase 1b batch A check on 2026-11-06
+**Status:** done (d21d32c); every variant and size re-checked in a scratch app on 2026-11-06
 
 - [x] Button is pulled from shadcn's `base-nova` style with the shadcn CLI `add` command, not copied by hand. Its dependencies are declared explicitly: `@base-ui/react ^1.9.0`, `class-variance-authority ^0.7.1`, `cn ~0.5.2`.
 - [x] The root entry exports `Button`, `buttonVariants` and the prop types.
@@ -20,8 +20,8 @@
   - an `@source` with an exact glob for the built JS files.
 - [x] The built Button file and root entry have no `"use client"` directive. Base UI provides the client boundary.
 - [x] A packed tarball installs into a scratch Next.js App Router app outside the repo, with Tailwind v4 imported before the package stylesheet.
-- [ ] In that app, a production build succeeds. A server component renders every Button variant and size, and calls `buttonVariants()` to style a link.
-- [ ] Every Button variant is visibly styled in light mode and under the `.dark` class, with readable text in both.
+- [x] In that app, a production build succeeds. A server component renders every Button variant and size, and calls `buttonVariants()` to style a link.
+- [x] Every Button variant is visibly styled in light mode and under the `.dark` class, with readable text in both.
 - [x] Unused-component tree-shaking is not broken: the stylesheet import is kept, and the package declares no other side effects.
 
-Open (2026-11-06): the batch A check rendered Button and `buttonVariants()` on a link from a server component, in a production build, in light and dark mode. It did not record every variant and size, so the last two scratch-app items stay open until that is checked.
+Checked 2026-11-06 against the 0.1.0 tarball from 2886803: a server component renders all 6 variants × 8 sizes (49 Buttons) in a production build, styled and readable in light and dark. The outline link's missing light-mode border is the known upstream `buttonVariants` quirk (Spec 1b, open decision).

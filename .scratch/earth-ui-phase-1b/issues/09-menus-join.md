@@ -4,12 +4,14 @@
 
 **Blocked by:** 08 — Popover, Tooltip and Hover Card float beside their triggers
 
-**Status:** code done (commits 8bf1ac6); scratch-app browser check pending (batch B); unchecked items need it.
+**Status:** code done (8bf1ac6); batch B scratch-app check passed on 2026-11-06 (Next.js PostCSS plugin, pnpm, light and dark). Open: disabled items are not skipped by arrow keys (upstream / Base UI default)
 
 - [x] The shadcn CLI `add` command pulls dropdown-menu, context-menu, menubar from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift for each.
 - [x] No new dependencies.
 - [x] Every built file for dropdown-menu, context-menu, menubar starts with `"use client"`, as upstream's source does. The root entry does not.
 - [x] New public subpaths: `/dropdown-menu`, `/context-menu`, `/menubar`. The root entry re-exports the new components and their prop types.
 - [ ] Menus open with click, right-click or keyboard as appropriate. Arrow keys move through items, disabled items are skipped and dimmed, and submenus open.
-- [ ] Checkbox and radio items show their indicator icons.
+- [x] Checkbox and radio items show their indicator icons.
 - [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).
+
+Open (2026-11-06): menus open by click, right-click and keyboard; arrow keys move; submenus open. Disabled items are dimmed and `aria-disabled`, but arrow keys still highlight them. That is likely Base UI's default; there is no drift from upstream. Menubar's ArrowRight from a plain item opened the next menu in 1 of 3 runs (low severity).

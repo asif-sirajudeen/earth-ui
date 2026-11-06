@@ -4,7 +4,7 @@
 
 **Blocked by:** 06 — Go public and publish 0.1.0 by hand
 
-**Status:** needs-human — not started (blocked by 06)
+**Status:** needs-human — not started. The first CI release will be 0.2.1, not 0.1.1, because 0.2.0 was published by hand
 
 Do these steps in order. A trusted-publisher configuration expires if it is not used within 2 days.
 
