@@ -484,3 +484,12 @@ export type CodeBlockCopyButtonProps = ComponentProps<typeof CodeBlockCopyButton
 export type CodeBlockContentProps = ComponentProps<typeof CodeBlockContent>;
 export type CodeBlockLineProps = ComponentProps<typeof CodeBlockLine>;
 export type CodeBlockFooterProps = ComponentProps<typeof CodeBlockFooter>;
+
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, useCarousel } from "./components/carousel";
+export { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, useCarousel };
+export type { CarouselApi } from "./components/carousel";
+export type CarouselProps = ComponentProps<typeof Carousel>;
+export type CarouselContentProps = ComponentProps<typeof CarouselContent>;
+export type CarouselItemProps = ComponentProps<typeof CarouselItem>;
+export type CarouselPreviousProps = ComponentProps<typeof CarouselPrevious>;
+export type CarouselNextProps = ComponentProps<typeof CarouselNext>;
