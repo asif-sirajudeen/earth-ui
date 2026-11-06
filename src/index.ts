@@ -59,3 +59,45 @@ export type EmptyTitleProps = ComponentProps<typeof EmptyTitle>;
 export type EmptyDescriptionProps = ComponentProps<typeof EmptyDescription>;
 export type EmptyContentProps = ComponentProps<typeof EmptyContent>;
 export type EmptyMediaProps = ComponentProps<typeof EmptyMedia>;
+
+import { Avatar, AvatarImage, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarBadge } from "./components/avatar";
+export { Avatar, AvatarImage, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarBadge };
+export type AvatarProps = ComponentProps<typeof Avatar>;
+export type AvatarImageProps = ComponentProps<typeof AvatarImage>;
+export type AvatarFallbackProps = ComponentProps<typeof AvatarFallback>;
+export type AvatarGroupProps = ComponentProps<typeof AvatarGroup>;
+export type AvatarGroupCountProps = ComponentProps<typeof AvatarGroupCount>;
+export type AvatarBadgeProps = ComponentProps<typeof AvatarBadge>;
+
+import { AspectRatio } from "./components/aspect-ratio";
+export { AspectRatio };
+export type AspectRatioProps = ComponentProps<typeof AspectRatio>;
+
+import { Progress, ProgressTrack, ProgressIndicator, ProgressLabel, ProgressValue } from "./components/progress";
+export { Progress, ProgressTrack, ProgressIndicator, ProgressLabel, ProgressValue };
+export type ProgressProps = ComponentProps<typeof Progress>;
+export type ProgressTrackProps = ComponentProps<typeof ProgressTrack>;
+export type ProgressIndicatorProps = ComponentProps<typeof ProgressIndicator>;
+export type ProgressLabelProps = ComponentProps<typeof ProgressLabel>;
+export type ProgressValueProps = ComponentProps<typeof ProgressValue>;
+
+import { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from "./components/table";
+export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption };
+export type TableProps = ComponentProps<typeof Table>;
+export type TableHeaderProps = ComponentProps<typeof TableHeader>;
+export type TableBodyProps = ComponentProps<typeof TableBody>;
+export type TableFooterProps = ComponentProps<typeof TableFooter>;
+export type TableHeadProps = ComponentProps<typeof TableHead>;
+export type TableRowProps = ComponentProps<typeof TableRow>;
+export type TableCellProps = ComponentProps<typeof TableCell>;
+export type TableCaptionProps = ComponentProps<typeof TableCaption>;
+
+import { Toggle, toggleVariants } from "./components/toggle";
+export { Toggle, toggleVariants };
+export type ToggleProps = ComponentProps<typeof Toggle>;
+
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./components/collapsible";
+export { Collapsible, CollapsibleTrigger, CollapsibleContent };
+export type CollapsibleProps = ComponentProps<typeof Collapsible>;
+export type CollapsibleTriggerProps = ComponentProps<typeof CollapsibleTrigger>;
+export type CollapsibleContentProps = ComponentProps<typeof CollapsibleContent>;
