@@ -101,3 +101,43 @@ export { Collapsible, CollapsibleTrigger, CollapsibleContent };
 export type CollapsibleProps = ComponentProps<typeof Collapsible>;
 export type CollapsibleTriggerProps = ComponentProps<typeof CollapsibleTrigger>;
 export type CollapsibleContentProps = ComponentProps<typeof CollapsibleContent>;
+
+import { Drawer, DrawerPortal, DrawerOverlay, DrawerSwipeHandle, DrawerTrigger, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription } from "./components/drawer";
+export { Drawer, DrawerPortal, DrawerOverlay, DrawerSwipeHandle, DrawerTrigger, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription };
+export type DrawerProps = ComponentProps<typeof Drawer>;
+export type DrawerPortalProps = ComponentProps<typeof DrawerPortal>;
+export type DrawerOverlayProps = ComponentProps<typeof DrawerOverlay>;
+export type DrawerSwipeHandleProps = ComponentProps<typeof DrawerSwipeHandle>;
+export type DrawerTriggerProps = ComponentProps<typeof DrawerTrigger>;
+export type DrawerCloseProps = ComponentProps<typeof DrawerClose>;
+export type DrawerContentProps = ComponentProps<typeof DrawerContent>;
+export type DrawerHeaderProps = ComponentProps<typeof DrawerHeader>;
+export type DrawerFooterProps = ComponentProps<typeof DrawerFooter>;
+export type DrawerTitleProps = ComponentProps<typeof DrawerTitle>;
+export type DrawerDescriptionProps = ComponentProps<typeof DrawerDescription>;
+
+import { DirectionProvider, useDirection } from "./components/direction";
+export { DirectionProvider, useDirection };
+export type DirectionProviderProps = ComponentProps<typeof DirectionProvider>;
+
+import { BubbleGroup, Bubble, BubbleContent, BubbleReactions } from "./components/bubble";
+export { BubbleGroup, Bubble, BubbleContent, BubbleReactions };
+export type BubbleGroupProps = ComponentProps<typeof BubbleGroup>;
+export type BubbleProps = ComponentProps<typeof Bubble>;
+export type BubbleContentProps = ComponentProps<typeof BubbleContent>;
+export type BubbleReactionsProps = ComponentProps<typeof BubbleReactions>;
+
+import { Marker, MarkerIcon, MarkerContent, markerVariants } from "./components/marker";
+export { Marker, MarkerIcon, MarkerContent, markerVariants };
+export type MarkerProps = ComponentProps<typeof Marker>;
+export type MarkerIconProps = ComponentProps<typeof MarkerIcon>;
+export type MarkerContentProps = ComponentProps<typeof MarkerContent>;
+
+import { MessageGroup, Message, MessageAvatar, MessageContent, MessageFooter, MessageHeader } from "./components/message";
+export { MessageGroup, Message, MessageAvatar, MessageContent, MessageFooter, MessageHeader };
+export type MessageGroupProps = ComponentProps<typeof MessageGroup>;
+export type MessageProps = ComponentProps<typeof Message>;
+export type MessageAvatarProps = ComponentProps<typeof MessageAvatar>;
+export type MessageContentProps = ComponentProps<typeof MessageContent>;
+export type MessageFooterProps = ComponentProps<typeof MessageFooter>;
+export type MessageHeaderProps = ComponentProps<typeof MessageHeader>;
