@@ -18,8 +18,8 @@ As an app developer, I want every shadcn component I use to arrive from the pack
 Ship all 61 remaining `base-nova` UI components through the phase 1 pipeline, in 20 small releases grouped into three batches:
 
 - **Batch A**, 19 components in 3 tickets. They need nothing new: only Base UI, class-variance-authority, `cn` and React.
-- **Batch B**, 32 components in 8 tickets. They need `lucide-react` icons, shadcn's custom variants and utilities, or `tw-animate-css` animations. The first B ticket adds all three. The others add only components.
-- **Batch C**, 10 components in 9 tickets, one per third-party library. The libraries are react-day-picker, embla, recharts, cmdk, input-otp, react-resizable-panels, `@shadcn/react`, shiki and sonner.
+- **Batch B**, 33 components in 8 tickets. They need `lucide-react` icons, shadcn's custom variants and utilities, or `tw-animate-css` animations. The first B ticket adds all three. The others add only components.
+- **Batch C**, 9 components in 8 tickets, one per third-party library. The libraries are react-day-picker, embla, recharts, cmdk, input-otp, react-resizable-panels, `@shadcn/react` and sonner. A final ticket holds the optional code-highlighting hook (shiki), pending an open decision.
 
 Every ticket is one minor release through Changesets. Each release is checked in the scratch Next.js app before its Version PR merges. The empty `form` registry item is excluded because it has no files.
 
@@ -68,9 +68,9 @@ Every ticket is one minor release through Changesets. Each release is checked in
 - Batch rules:
   - **A**: no new npm dependencies and no new CSS.
   - **B**: needs `lucide-react`, shadcn's custom variants and utilities, or `tw-animate-css`, but no other library.
-  - **C**: needs any other third-party library, either directly or through a registry hook it depends on.
+  - **C**: needs any other third-party library that its own file imports.
 - An item whose dependency ships in a later batch is promoted into that batch. Only `item` is promoted, because it imports `separator`, which is in batch B.
-- `code-block` sits in C, although its own file needs only batch-B features. Its registry dependency, the `use-highlighted-code` hook, pulls `shiki`, and `shadcn add code-block` writes the hook and adds `shiki` (dry run, inventory). It ships with the hook in one ticket.
+- `code-block` ships in batch B (ticket 06) as a component only. Its own file needs only batch-B features and never imports the `use-highlighted-code` hook, although `shadcn add code-block` would also write the hook and add `shiki` (dry run, inventory). Whether to ship the hook is an open decision.
 - The tickets form a single chain, from 01 to 20:
   - every ticket ships after the ones before it, and no component ships before a component it imports (checked by script);
   - the chain keeps the root entry, the package manifest and the changesets free of merge conflicts.
@@ -79,7 +79,7 @@ Every ticket is one minor release through Changesets. Each release is checked in
 
 **shadcn variants and utilities: vendor, do not depend**
 
-- Recommendation: copy the full contents of the shadcn package's Tailwind stylesheet into the package stylesheet, verbatim, under a comment that names the shadcn version.
+- Copy the full contents of the shadcn package's Tailwind stylesheet into the package stylesheet, verbatim, under a comment that names the shadcn version.
 - This is the same output as the CLI's own `eject` command. That command inlines the file under an "ejected from shadcn@version" comment and removes the shadcn dependency. Because the package never runs `init`, the content is copied, not ejected in place. It is the same file from the same pinned version.
 - Why not depend on the `shadcn` package:
   - it is the CLI;
@@ -97,7 +97,7 @@ Every ticket is one minor release through Changesets. Each release is checked in
 
 **tw-animate-css: dependency plus import**
 
-- Recommendation: add `tw-animate-css` as a regular dependency, pinned to its current minor, and import it at the top of the package stylesheet.
+- Add `tw-animate-css` as a regular dependency, with its range set by the ranges rule below, and import it at the top of the package stylesheet.
 - Order inside the package stylesheet: the `tw-animate-css` import comes first, then the vendored shadcn block, then the theme. Both files define the accordion keyframes, and the later definition wins. Only shadcn's version reads Base UI's accordion panel height. This matches the import order in the registry's own style item.
 - The consumer's order does not change: Tailwind first, then the package stylesheet. tw-animate-css is pure CSS, has no peer dependencies, and is MIT.
 - Unverified: whether the nested import resolves from the package's own folder under pnpm's strict layout with the Next.js PostCSS plugin. The first B ticket checks this. Fallback: if it does not resolve, vendor tw-animate-css the same way as the shadcn block, with its MIT notice added to the licence file.
@@ -105,7 +105,7 @@ Every ticket is one minor release through Changesets. Each release is checked in
 **Dependencies: regular by default, peers only for shared context**
 
 - Rule: package dependencies list exactly what the shipped source imports, with explicit ranges.
-  - The registry never declares `lucide-react`, and the CLI never installs it. It also leaves out `@base-ui/react` and `class-variance-authority` for most items.
+  - No `registry:ui` item declares `lucide-react`, and `shadcn add` never installs it; only the `registry:style` items do, for `shadcn init`. It also leaves out `@base-ui/react` and `class-variance-authority` for most items.
   - The registry over-declares `date-fns` for the calendar, which nothing imports.
   - The registry pins `react-day-picker@latest` and `recharts@3.8.0`.
 
@@ -117,7 +117,7 @@ Every ticket is one minor release through Changesets. Each release is checked in
   - `sonner` is a peer too. Apps call its `toast()` function directly, and that call must reach the same store as the package's Toaster.
 - Rule for optional peers: an optional peer may only be imported by a module that is not re-exported from the root entry, and that module gets its own explicit subpath.
   - Sonner follows this rule, with `sonner` and `next-themes` as optional peers. The root cannot export it anyway, because Toast already exports `Toaster`.
-  - The code-highlighting hook (needs `shiki`) follows it too.
+  - If it ships (open decision), the code-highlighting hook (needs `shiki`) follows it too.
 - Ranges: use the current minor for 0.x packages, following the `cn` precedent. For example, `@shadcn/react` is pinned to `~0.3.1`. Use a caret range for 1.x and later. For recharts, keep the upstream pin's minor (`~3.8.0`) until the chart is checked against a newer minor.
 - Every library accepts React 19 (inventory, third-party table):
   - lucide-react, embla, input-otp, recharts, next-themes, react-day-picker and Base UI cover 16.8 or 17 up to 19;
@@ -126,7 +126,6 @@ Every ticket is one minor release through Changesets. Each release is checked in
 - Known costs, accepted:
   - cmdk depends on Radix dialog primitives, so Radix comes in as a transitive dependency of Command only. Spec 1 says Radix is not used.
   - recharts has a required `react-is` peer, which npm and pnpm install automatically.
-  - shiki has a heavy install, which is why it is an optional peer.
 - Revisit Base UI as a peer in phase 2, as Spec 1 says. `direction` re-exports Base UI's direction provider, so its context only reaches components from the same Base UI copy.
 
 **`"use client"`**
@@ -155,11 +154,12 @@ Every ticket is one minor release through Changesets. Each release is checked in
 - The first B ticket's changeset also names the stylesheet change.
 - Each C ticket's changeset names the new dependency or peer.
 
-**Open decisions (not resolved here)**
+**Open decisions (need the maintainer)**
 
 - Upstream quirk carried forward: a bare `buttonVariants()` call still emits the conflicting `border-transparent` and `border-border`. The outline Link border is missing in light mode. Many new components compose Button or `buttonVariants`, including pagination, calendar, carousel, dialog and sidebar, so the effect spreads. Decide once whether to patch locally or wait for upstream; until then, keep the source unchanged.
 - Whether to ship Sonner at all. The CLI hides it in Base UI projects and points to Toast, and it brings a theme-library peer. It is planned last so that the decision can wait.
 - Whether the seven directive-less `useRender` components need server support later.
+- Whether to ship the code-highlighting hook and its optional `shiki` peer at all (ticket 20). Code Block ships without it.
 
 ## Testing Decisions
 
@@ -179,6 +179,20 @@ Every ticket is one minor release through Changesets. Each release is checked in
   3. The accordion keyframes come from shadcn's definition.
 - C tickets confirm that the root entry builds in an app that has not installed any optional peer.
 - Phase 1's risk acceptance still applies. A skipped check can ship a broken version, which is fixed by the next patch and a deprecation.
+
+### Per-ticket release checklist
+
+Every phase 1b ticket passes all of these, in addition to its own criteria:
+
+1. The shadcn CLI `add` command pulls the ticket's components from the `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift for each.
+2. The manifest's dependencies match what the package source actually imports, with every range set explicitly per the ranges rule. Any extra dependency the CLI adds is removed, and no runtime library is a dev dependency only.
+3. Built files start with `"use client"` only where upstream's source does. The root entry does not.
+4. The root entry re-exports the new components and their prop types, and each new component resolves from its own subpath.
+5. A dry-run pack lists only allowed files: build output, the stylesheet, README, licence and the package manifest.
+6. The packed tarball installs into the scratch Next.js App Router app, and a production build succeeds with no missing-module or peer warnings. A client component page renders every new component.
+7. Every new component is checked in the browser in light mode and under the `.dark` class, with readable text. Interactive ones are operated with mouse and keyboard.
+8. Phase 1's server-component checks still pass: Button, Input, Label and `buttonVariants()` on a link.
+9. A changeset requests a minor release and names the components added.
 
 ## Out of Scope
 

@@ -1,0 +1,17 @@
+# 20 — Code highlighting hook is available from its own subpath
+
+**What to build:** An app developer who wants syntax highlighting in Code Block can install shiki and use the shadcn code-highlighting hook from its own subpath. Apps that do not want highlighting never install or resolve shiki. Code Block itself shipped in ticket 06 and never imports the hook. This ticket starts with the maintainer's ship-or-drop decision. Source: Spec 1b, `docs/specs/phase-1b-component-coverage.md`.
+
+**Blocked by:** 19 — Sonner Toaster is available from its own subpath
+
+**Status:** needs-human (open decision (c): ship or drop the highlighting hook); the code change can be done by an agent
+
+- [ ] The maintainer decides whether to ship the hook (spec, open decision (c)). If they drop it, this ticket closes, the spec is updated, and nothing below applies.
+- [ ] The shadcn CLI `add` command pulls use-highlighted-code from shadcn's `base-nova` style, which also writes its highlighter lib; nothing is copied by hand. Afterwards, `add --diff` shows no drift.
+- [ ] Dependencies: `shiki` is added as an optional peer dependency, with the range that the spec's ranges rule gives. It is also a dev dependency for local builds, and is kept out of regular dependencies.
+- [ ] Neither the hook nor the highlighter lib has `"use client"`, as in upstream's source. The hook is called only from client components. The root entry does not have the directive.
+- [ ] New public subpath: `/use-highlighted-code`, an explicit export listed before the component wildcard. The root entry does not re-export it, and the highlighter lib is reachable only through it.
+- [ ] The hook gets its own build entry, as the spec requires for subpath-only modules. The built hook file appears in the dry-run pack.
+- [ ] The built hook and highlighter keep their shiki imports external. tsdown does not bundle shiki into them.
+- [ ] A scratch app without shiki still builds from the root entry. A scratch app with shiki renders highlighted code through the hook, in both themes.
+- [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).

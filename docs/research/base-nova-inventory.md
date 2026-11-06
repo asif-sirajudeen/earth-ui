@@ -2,7 +2,7 @@
 
 As of: 2026-11-06
 Feeds: `docs/specs/phase-1b-component-coverage.md`
-Method: every fact below comes from shadcn's published registry JSON, from the files that shadcn CLI 4.23.0 actually wrote, or from npm registry metadata. Raw extracted data and scripts are in the session scratch directory, not in the repository.
+Method: every fact below comes from shadcn's published registry JSON, from the files that shadcn CLI 4.23.0 actually wrote, or from npm registry metadata. Raw extracted data, the extraction scripts and the Tailwind probe live in `docs/research/base-nova-inventory/`; its README says how to re-run them.
 
 ## Sources
 
@@ -23,8 +23,8 @@ Method: every fact below comes from shadcn's published registry JSON, from the f
 | `registry:ui` total | 65 | |
 | Already shipped (phase 1) | 3 | button, input, label |
 | Batch A: no new dependencies or CSS | 19 | tickets 01 to 03 |
-| Batch B: icons, shadcn variants or animations | 32 | tickets 04 to 11 |
-| Batch C: third-party libraries | 10 | tickets 12 to 20 |
+| Batch B: icons, shadcn variants or animations | 33 | tickets 04 to 11 |
+| Batch C: third-party libraries | 9 | tickets 12 to 19 (ticket 20 is the optional highlighting hook) |
 | Excluded | 1 | form |
 
 The ticket numbers refer to `.scratch/earth-ui-phase-1b/issues/`. "Own needs" counts only what the file itself uses. An item whose dependency ships in a later batch is promoted into that batch. Only `item` is promoted: it needs only batch-A features, but it imports `separator`, which is in batch B.
@@ -80,6 +80,7 @@ Column notes:
 | B | 06 | scroll-area | yes | – | cn | @base-ui/react, cn | @base-ui/react | – | data-horizontal, data-vertical | – | – |
 | B | 06 | tabs | yes | – | cn | @base-ui/react, class-variance-authority, cn | @base-ui/react, class-variance-authority | – | data-active, data-horizontal, data-vertical | – | – |
 | B | 06 | trace | no | collapsible | cn | cn, lucide-react | lucide-react | 1 | shimmer, shimmer-none | – | – |
+| B | 06 | code-block | yes | button, use-highlighted-code | cn | class-variance-authority, cn, lucide-react | class-variance-authority, lucide-react | 2 | scroll-fade-x, scroll-fade-y | – | registry dep pulls shiki (not imported); ships without the hook |
 | B | 07 | alert-dialog | yes | button | cn | @base-ui/react, cn | @base-ui/react | – | data-closed, data-open | 6 | – |
 | B | 07 | dialog | yes | button | cn | @base-ui/react, cn, lucide-react | @base-ui/react, lucide-react | 1 | data-closed, data-open | 6 | – |
 | B | 07 | sheet | yes | button | cn | @base-ui/react, cn, lucide-react | @base-ui/react, lucide-react | 1 | – | – | – |
@@ -102,13 +103,12 @@ Column notes:
 | C | 17 | resizable | yes | – | cn, react-resizable-panels | cn, react-resizable-panels | – | – | – | – | – |
 | C | 18 | message-scroller | yes | button | cn, @shadcn/react | @shadcn/react, cn, lucide-react | lucide-react | 1 | scroll-fade-b | – | – |
 | C | 18 | questionnaire | yes | button | cn, @shadcn/react | @shadcn/react, cn, lucide-react | lucide-react | 1 | data-checked, data-disabled | – | – |
-| C | 19 | code-block | yes | button, use-highlighted-code | cn | class-variance-authority, cn, lucide-react | class-variance-authority, lucide-react | 2 | scroll-fade-x, scroll-fade-y | – | registry dep pulls shiki (not imported) |
-| C | 20 | sonner | yes | – | sonner, next-themes | lucide-react, next-themes, sonner | lucide-react | 5 | – | – | inert hook class cn-toast |
+| C | 19 | sonner | yes | – | sonner, next-themes | lucide-react, next-themes, sonner | lucide-react | 5 | – | – | inert hook class cn-toast |
 | excluded | – | form | – | – | – | – | – | – | – | – | Registry item has no files (empty `form.json`); nothing to ship. |
 
 Patterns:
 
-- **The registry under-declares dependencies for 50 of the 61 items that still need shipping.** No item declares `lucide-react`, and `shadcn add` never installs it: after `add --all`, `package.json` had no `lucide-react`, although 25 files import it. `@base-ui/react` and `class-variance-authority` are also missing from most items, as phase 1 found.
+- **The registry under-declares dependencies for 50 of the 61 items that still need shipping.** No `registry:ui` item declares `lucide-react`, and `shadcn add` never installs it (the `registry:style` items `index` and `style` do declare it, so `shadcn init` installs it): after `add --all`, `package.json` had no `lucide-react`, although 25 files import it. `@base-ui/react` and `class-variance-authority` are also missing from most items, as phase 1 found.
 - **The registry also over-declares and pins.**
   - `calendar` declares `date-fns` but does not import it. `react-day-picker` brings its own copy.
   - `calendar` declares `react-day-picker@latest`, and `chart` declares `recharts@3.8.0`. The CLI wrote `^10.0.2` and `^3.8.0`.
@@ -126,7 +126,7 @@ Patterns:
 | `registry:component` (`example`) | 1 | Excluded. Demo wrapper. |
 | `registry:lib` `utils` | 1 | Not needed. Components import `cn` from the `cn` package directly. |
 | `registry:hook` `use-mobile` | 1 | **Planned** with `sidebar` (ticket 11). Internal only. It has no npm dependencies. |
-| `registry:hook` `use-highlighted-code` (+ `lib/highlighter.tsx`) | 1 | **Planned** with `code-block` (ticket 19). It needs `shiki`. |
+| `registry:hook` `use-highlighted-code` (+ `lib/highlighter.tsx`) | 1 | **Open decision**: ship or drop (ticket 20, needs-human). It needs `shiki`. `code-block` ships without it in ticket 06. |
 
 ## Third-party packages
 
@@ -163,7 +163,7 @@ Resolved on 2026-11-06. Every package accepts React 19.
 - `animate-accordion-*`, `animate-collapsible-*` and `animate-caret-blink`;
 - the animation timing utilities.
 
-**Tailwind CLI 4.3.4 probe (scratch).** One class string was compiled with and without `@import "tw-animate-css"; @import "shadcn/tailwind.css";`:
+**Tailwind CLI 4.3.4 probe (inputs and outputs in `docs/research/base-nova-inventory/tailwind-probe/`).** One class string was compiled with and without `@import "tw-animate-css"; @import "shadcn/tailwind.css";`:
 - Without them, `data-horizontal:` compiles to `[data-horizontal]` and `data-selected:` compiles to `[data-selected]`. Base UI sets `data-orientation="horizontal"`, so separator, tabs, slider and the other orientation-aware items would lose those styles.
 - Without them, `animate-in`, `fade-in-0`, `zoom-in-95`, `no-scrollbar`, `scroll-fade-x`, `shimmer` and `animate-caret-blink` produce no CSS.
 - With them, the custom variants compile to `:where([data-orientation="horizontal"])`, `:where([data-selected="true"])` and so on.
