@@ -229,3 +229,45 @@ import { ToggleGroup, ToggleGroupItem } from "./components/toggle-group";
 export { ToggleGroup, ToggleGroupItem };
 export type ToggleGroupProps = ComponentProps<typeof ToggleGroup>;
 export type ToggleGroupItemProps = ComponentProps<typeof ToggleGroupItem>;
+
+import { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants } from "./components/tabs";
+export { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants };
+export type TabsProps = ComponentProps<typeof Tabs>;
+export type TabsListProps = ComponentProps<typeof TabsList>;
+export type TabsTriggerProps = ComponentProps<typeof TabsTrigger>;
+export type TabsContentProps = ComponentProps<typeof TabsContent>;
+
+import { ScrollArea, ScrollBar } from "./components/scroll-area";
+export { ScrollArea, ScrollBar };
+export type ScrollAreaProps = ComponentProps<typeof ScrollArea>;
+export type ScrollBarProps = ComponentProps<typeof ScrollBar>;
+
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "./components/accordion";
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };
+export type AccordionProps = ComponentProps<typeof Accordion>;
+export type AccordionItemProps = ComponentProps<typeof AccordionItem>;
+export type AccordionTriggerProps = ComponentProps<typeof AccordionTrigger>;
+export type AccordionContentProps = ComponentProps<typeof AccordionContent>;
+
+import { Attachment, AttachmentGroup, AttachmentMedia, AttachmentContent, AttachmentTitle, AttachmentDescription, AttachmentActions, AttachmentAction, AttachmentTrigger } from "./components/attachment";
+export { Attachment, AttachmentGroup, AttachmentMedia, AttachmentContent, AttachmentTitle, AttachmentDescription, AttachmentActions, AttachmentAction, AttachmentTrigger };
+export type AttachmentProps = ComponentProps<typeof Attachment>;
+export type AttachmentGroupProps = ComponentProps<typeof AttachmentGroup>;
+export type AttachmentMediaProps = ComponentProps<typeof AttachmentMedia>;
+export type AttachmentContentProps = ComponentProps<typeof AttachmentContent>;
+export type AttachmentTitleProps = ComponentProps<typeof AttachmentTitle>;
+export type AttachmentDescriptionProps = ComponentProps<typeof AttachmentDescription>;
+export type AttachmentActionsProps = ComponentProps<typeof AttachmentActions>;
+export type AttachmentActionProps = ComponentProps<typeof AttachmentAction>;
+export type AttachmentTriggerProps = ComponentProps<typeof AttachmentTrigger>;
+
+import { Trace, TraceLine, TraceIcon, TraceTitle, TraceDescription, TraceCollapsible, TraceCollapsibleTrigger, TraceCollapsibleContent } from "./components/trace";
+export { Trace, TraceLine, TraceIcon, TraceTitle, TraceDescription, TraceCollapsible, TraceCollapsibleTrigger, TraceCollapsibleContent };
+export type TraceProps = ComponentProps<typeof Trace>;
+export type TraceLineProps = ComponentProps<typeof TraceLine>;
+export type TraceIconProps = ComponentProps<typeof TraceIcon>;
+export type TraceTitleProps = ComponentProps<typeof TraceTitle>;
+export type TraceDescriptionProps = ComponentProps<typeof TraceDescription>;
+export type TraceCollapsibleProps = ComponentProps<typeof TraceCollapsible>;
+export type TraceCollapsibleTriggerProps = ComponentProps<typeof TraceCollapsibleTrigger>;
+export type TraceCollapsibleContentProps = ComponentProps<typeof TraceCollapsibleContent>;
