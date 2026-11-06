@@ -1,5 +1,5 @@
 /*
- * @asif-sirajudeen/earth-ui theme stylesheet (shadcn base-nova tokens).
+ * @asif-sirajudeen/earth-ui stylesheet: tw-animate-css, shadcn's Tailwind variants and utilities, and the base-nova theme tokens.
  * Consumers must `@import "tailwindcss";` before importing this file.
  * This file does not import Tailwind itself, so preflight is not included twice.
  */
@@ -646,6 +646,7 @@
   }
 }
 
+/* end of shadcn@4.23.0 block */
 
 /* Tells the consumer's Tailwind to scan the built components for classes. */
 @source "./dist/**/*.js";
