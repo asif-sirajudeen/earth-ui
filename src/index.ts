@@ -468,3 +468,8 @@ export type SidebarProviderProps = ComponentProps<typeof SidebarProvider>;
 export type SidebarRailProps = ComponentProps<typeof SidebarRail>;
 export type SidebarSeparatorProps = ComponentProps<typeof SidebarSeparator>;
 export type SidebarTriggerProps = ComponentProps<typeof SidebarTrigger>;
+
+import { Calendar, CalendarDayButton } from "./components/calendar";
+export { Calendar, CalendarDayButton };
+export type CalendarProps = ComponentProps<typeof Calendar>;
+export type CalendarDayButtonProps = ComponentProps<typeof CalendarDayButton>;
