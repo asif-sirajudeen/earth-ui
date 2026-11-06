@@ -20,7 +20,12 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./package.json": "./package.json"
+    "./styles.css": "./styles.css",
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./dist/components/*.d.ts",
+      "default": "./dist/components/*.js"
+    }
   },
   "publishConfig": {
     "access": "public"
@@ -46,5 +51,10 @@
     "tailwindcss": "^4",
     "tsdown": "^0.23.5",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.9.0",
+    "class-variance-authority": "^0.7.1",
+    "cn": "~0.5.2"
   }
 }
