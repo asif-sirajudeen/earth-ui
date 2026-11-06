@@ -22,6 +22,10 @@
     },
     "./styles.css": "./styles.css",
     "./package.json": "./package.json",
+    "./use-highlighted-code": {
+      "types": "./dist/hooks/use-highlighted-code.d.ts",
+      "default": "./dist/hooks/use-highlighted-code.js"
+    },
     "./*": {
       "types": "./dist/components/*.d.ts",
       "default": "./dist/components/*.js"
@@ -42,11 +46,15 @@
     "next-themes": "~0.4.6",
     "react": "^19",
     "react-dom": "^19",
+    "shiki": "^4.6.0",
     "sonner": "^2.0.8",
     "tailwindcss": "^4"
   },
   "peerDependenciesMeta": {
     "next-themes": {
+      "optional": true
+    },
+    "shiki": {
       "optional": true
     },
     "sonner": {
@@ -60,6 +68,7 @@
     "next-themes": "~0.4.6",
     "react": "^19",
     "react-dom": "^19",
+    "shiki": "^4.6.0",
     "sonner": "^2.0.8",
     "tailwindcss": "^4",
     "tsdown": "^0.23.5",
