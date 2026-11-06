@@ -141,3 +141,24 @@ export type MessageAvatarProps = ComponentProps<typeof MessageAvatar>;
 export type MessageContentProps = ComponentProps<typeof MessageContent>;
 export type MessageFooterProps = ComponentProps<typeof MessageFooter>;
 export type MessageHeaderProps = ComponentProps<typeof MessageHeader>;
+
+import { Separator } from "./components/separator";
+export { Separator };
+export type SeparatorProps = ComponentProps<typeof Separator>;
+
+import { Spinner } from "./components/spinner";
+export { Spinner };
+export type SpinnerProps = ComponentProps<typeof Spinner>;
+
+import { Checkbox } from "./components/checkbox";
+export { Checkbox };
+export type CheckboxProps = ComponentProps<typeof Checkbox>;
+
+import { RadioGroup, RadioGroupItem } from "./components/radio-group";
+export { RadioGroup, RadioGroupItem };
+export type RadioGroupProps = ComponentProps<typeof RadioGroup>;
+export type RadioGroupItemProps = ComponentProps<typeof RadioGroupItem>;
+
+import { Switch } from "./components/switch";
+export { Switch };
+export type SwitchProps = ComponentProps<typeof Switch>;
