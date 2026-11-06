@@ -61,6 +61,9 @@ jobs:
         uses: actions/checkout@v7
         with:
           persist-credentials: false # recommended: do not persist git credentials on disk
+          # Full history: the changelog looks up the commit that added each
+          # changeset, and without stored credentials it cannot deepen a shallow clone.
+          fetch-depth: 0
 
       - name: Set up pnpm
         uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
