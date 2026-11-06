@@ -1,5 +1,11 @@
 # @asif-sirajudeen/earth-ui
 
+## 0.2.1
+
+### Patch Changes
+
+- f4e435b: Button text uses `font-semibold` instead of `font-medium`. This is a temporary change to test the CI release pipeline, and the next patch reverts it.
+
 ## 0.2.0
 
 ### Minor Changes
