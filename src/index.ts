@@ -503,3 +503,15 @@ export type ChartTooltipContentProps = ComponentProps<typeof ChartTooltipContent
 export type ChartLegendProps = ComponentProps<typeof ChartLegend>;
 export type ChartLegendContentProps = ComponentProps<typeof ChartLegendContent>;
 export type ChartStyleProps = ComponentProps<typeof ChartStyle>;
+
+import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator } from "./components/command";
+export { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator };
+export type CommandProps = ComponentProps<typeof Command>;
+export type CommandDialogProps = ComponentProps<typeof CommandDialog>;
+export type CommandInputProps = ComponentProps<typeof CommandInput>;
+export type CommandListProps = ComponentProps<typeof CommandList>;
+export type CommandEmptyProps = ComponentProps<typeof CommandEmpty>;
+export type CommandGroupProps = ComponentProps<typeof CommandGroup>;
+export type CommandItemProps = ComponentProps<typeof CommandItem>;
+export type CommandShortcutProps = ComponentProps<typeof CommandShortcut>;
+export type CommandSeparatorProps = ComponentProps<typeof CommandSeparator>;
