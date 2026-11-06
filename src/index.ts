@@ -310,3 +310,25 @@ export type SheetHeaderProps = ComponentProps<typeof SheetHeader>;
 export type SheetFooterProps = ComponentProps<typeof SheetFooter>;
 export type SheetTitleProps = ComponentProps<typeof SheetTitle>;
 export type SheetDescriptionProps = ComponentProps<typeof SheetDescription>;
+
+import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "./components/popover";
+export { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger };
+export type PopoverProps = ComponentProps<typeof Popover>;
+export type PopoverContentProps = ComponentProps<typeof PopoverContent>;
+export type PopoverDescriptionProps = ComponentProps<typeof PopoverDescription>;
+export type PopoverHeaderProps = ComponentProps<typeof PopoverHeader>;
+export type PopoverTitleProps = ComponentProps<typeof PopoverTitle>;
+export type PopoverTriggerProps = ComponentProps<typeof PopoverTrigger>;
+
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./components/tooltip";
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };
+export type TooltipProps = ComponentProps<typeof Tooltip>;
+export type TooltipTriggerProps = ComponentProps<typeof TooltipTrigger>;
+export type TooltipContentProps = ComponentProps<typeof TooltipContent>;
+export type TooltipProviderProps = ComponentProps<typeof TooltipProvider>;
+
+import { HoverCard, HoverCardTrigger, HoverCardContent } from "./components/hover-card";
+export { HoverCard, HoverCardTrigger, HoverCardContent };
+export type HoverCardProps = ComponentProps<typeof HoverCard>;
+export type HoverCardTriggerProps = ComponentProps<typeof HoverCardTrigger>;
+export type HoverCardContentProps = ComponentProps<typeof HoverCardContent>;
