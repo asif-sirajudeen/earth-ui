@@ -4,7 +4,7 @@
 
 **Blocked by:** 03 — Input and Label join the package; 04 — Release pipeline opens a Version PR; 05 — AnywhereWorks sign-off
 
-**Status:** needs-human
+**Status:** needs-human — not started; `@asif-sirajudeen/earth-ui` returns 404 on the npm registry as of 2026-11-06
 
 - [ ] The GitHub repository is switched from private to public.
 - [ ] The pre-release check passes against a packed tarball in a scratch Next.js app:

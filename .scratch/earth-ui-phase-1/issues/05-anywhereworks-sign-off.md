@@ -4,7 +4,7 @@
 
 **Blocked by:** None — can start immediately.
 
-**Status:** needs-human
+**Status:** needs-human (no sign-off recorded as of 2026-11-06)
 
 - [ ] Security confirms that the code, its history and the package contain nothing confidential, and that a public GitHub repo and public npm package are allowed.
 - [ ] Legal confirms the MIT licence, including keeping shadcn's notice, and confirms publishing under the maintainer's personal npm scope.

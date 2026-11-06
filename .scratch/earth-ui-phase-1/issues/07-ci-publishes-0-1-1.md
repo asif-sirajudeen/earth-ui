@@ -4,7 +4,7 @@
 
 **Blocked by:** 06 — Go public and publish 0.1.0 by hand
 
-**Status:** needs-human (npm settings); the code change can be done by an agent
+**Status:** needs-human — not started (blocked by 06)
 
 Do these steps in order. A trusted-publisher configuration expires if it is not used within 2 days.
 
