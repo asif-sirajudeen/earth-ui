@@ -4,6 +4,7 @@ Status: ready-for-agent
 As of: 2026-11-06
 Plan: [Earth UI Plan](https://claude.ai/artifact/G2EioWL8tqdYYbkos8c1fk)
 Research: `docs/research/eds-npm-package-and-registry.md`
+Validation: `docs/research/phase-1-claims-validation.md` (claims checked against primary sources and real tool runs on 2026-11-06)
 
 ## Problem Statement
 
@@ -41,21 +42,24 @@ Releases run through Changesets. The first version, 0.1.0, is published by hand.
 18. As an app developer, I want a README that shows install, the stylesheet import and a usage example, so that I can set up the package in minutes.
 19. As an app developer, I want a clear install-time warning when my React or Tailwind version is unsupported, so that I learn about incompatibility before runtime.
 20. As an app developer, I want a provenance badge on releases after 0.1.0, so that I can check that the package was built from the public repository.
-21. As the maintainer, I want to copy primitives from shadcn's Base UI style with minimal edits, so that I can follow upstream improvements easily.
+21. As the maintainer, I want to pull primitives from shadcn's Base UI style with the shadcn CLI, and check upstream changes with `add --diff`, so that I can follow upstream improvements without hand-copying.
 22. As the maintainer, I want each change to carry a changeset, so that versions and changelogs are generated, not written by hand.
 23. As the maintainer, I want merges to main to open a "Version Packages" pull request, so that I can review the version bump and changelog before release.
 24. As the maintainer, I want merging that pull request to publish to npm, so that releasing takes no manual steps after 0.1.0.
 25. As the maintainer, I want CI to publish without a long-lived npm token, so that no publish secret can leak from the repository.
 26. As the maintainer, I want to turn on "Require two-factor authentication and disallow tokens" after trusted publishing works, so that only CI and I can publish.
 27. As the maintainer, I want a pre-release check against a packed tarball in a scratch Next.js app, so that I catch broken exports or missing styles before CI publishes.
-28. As the maintainer, I want the build to emit one output file per source file, so that each component keeps its `"use client"` directive.
-29. As the maintainer, I want to confirm that every built component file starts with `"use client"`, so that a bundler change cannot silently break App Router consumers.
+28. As the maintainer, I want the build to emit one output file per source file, so that each file keeps exactly the directive its source has.
+29. As the maintainer, I want to confirm that built files carry `"use client"` exactly where shadcn's source does, so that a bundler change cannot silently break App Router consumers.
 30. As the maintainer, I want the repository to be a single package with no workspace tooling, so that phase 1 has the least setup to maintain.
 31. As the maintainer, I want the licence file to keep shadcn's copyright notice next to mine, so that the package meets the MIT terms of the code it copies.
 32. As the maintainer, I want `cn` pinned to its current minor, so that a 0.x release of `cn` cannot break consumers without my review.
 33. As the maintainer, I want the theme to start from the shadcn defaults, so that phase 1 proves the delivery pipeline before branding work begins.
 34. As the maintainer, I want a later brand-token release to be a normal minor version, so that it also tests the upgrade path for real.
 35. As a reviewer at AnywhereWorks, I want to confirm the public release and the MIT licence before the first publish, so that company policy is met.
+36. As an app developer using the App Router, I want to call `buttonVariants()` from a server component, for example to style a `Link`, so that links can look like buttons without a client boundary.
+37. As an app developer, I want body text and inherited text colours to follow the theme, so that labels and input text stay readable in dark mode.
+38. As an app developer, I want the package tarball to contain only built files, the stylesheet, the README and the licence, so that installs stay small and leak no source or config.
 
 ## Implementation Decisions
 
@@ -69,52 +73,88 @@ Releases run through Changesets. The first version, 0.1.0, is published by hand.
 
 **Components**
 
-- Button, Input and Label, copied from shadcn's Base UI style (`base-nova`) with minimal edits.
+- Button, Input and Label come from shadcn's Base UI style (`base-nova`).
 - The components are built on Base UI (`@base-ui/react`), shadcn's default primitive library since July 2026. Radix is not used.
 - Components use the `cn` package for class merging. `clsx` and `tailwind-merge` are not used.
-- Components use the React 19 ref-as-prop pattern, with no `forwardRef`.
+- Components use the React 19 ref-as-prop pattern, with no `forwardRef`. They keep shadcn's `data-slot` attributes.
+- The components are pulled with the shadcn CLI, not copied by hand:
+  - The repository keeps a hand-written `components.json` with style `base-nova` and `rsc: true`, so the CLI keeps the `"use client"` directives that the registry source has.
+  - `shadcn add` with the component names writes or overwrites the components. `shadcn add <name> --diff` shows upstream changes. The deprecated `diff` command is not used, because it missed a local edit in testing.
+  - `shadcn init` is never run in the package. It rewrites the CSS and adds lucide-react, tw-animate-css and shadcn as dependencies.
+- Edits to the pulled files stay minimal, so upstream diffs stay readable.
 
 **Dependencies**
 
 - Peer dependencies: `react ^19`, `react-dom ^19` and `tailwindcss ^4`.
-- Regular dependencies: `@base-ui/react ^1.9.0`, `class-variance-authority`, and `cn` pinned to `~0.5.2`.
+- Regular dependencies: `@base-ui/react ^1.9.0`, `class-variance-authority ^0.7.1`, and `cn` pinned to `~0.5.2`. For a 0.x package, `~0.5.2` and `^0.5.2` allow the same versions: 0.5.x patches only.
+- Declare all three explicitly. shadcn's registry items list only `cn`, although Button imports Base UI and class-variance-authority, and Input imports Base UI.
+- Runtime libraries must never be devDependencies, because tsdown bundles imported devDependencies into the output.
+- The React peer range stays `^19`, even though Base UI accepts React 17 and 18, because the components pass `ref` as a prop.
 - Base UI's peer dependencies `date-fns` and `@date-fns/tz` are marked optional, so they do not reach consumers.
 - Excluded: `lucide-react` and `tw-animate-css`. The three components render no icons and no animations. Add them only when a component needs them.
 - Revisit Base UI as a peer dependency in phase 2, if registry blocks need to share one copy with the consuming app.
 
 **Styles and theme**
 
-- The package ships one stylesheet in its exports. Consumers import it from their main CSS file.
-- The stylesheet holds the shadcn default `base-nova` tokens on `:root` and `.dark`. It maps them to Tailwind through `@theme inline`, declares the `.dark` custom variant, and declares an `@source` that points at the package's built output.
+- The package ships one stylesheet in its exports, as a plain file. It does not go through tsdown, whose CSS support is experimental.
+- Consumers import Tailwind first, then the package stylesheet, from their main CSS file. The package stylesheet does not import Tailwind itself, so preflight is not included twice.
+- The stylesheet contains, matching what the shadcn CLI generates for `base-nova`:
+  - the default tokens on `:root` and `.dark`;
+  - the `@theme inline` mapping, including the radius scale (`--radius-sm` to `--radius-4xl` as multiples of `--radius`);
+  - the dark custom variant, `&:is(.dark *)`;
+  - the base layer rules: every element gets the border colour and the `ring/50` outline, and `body` gets the background and foreground colours. **The `body` rule is required.** Without it, Label, Input text and the outline and ghost Buttons inherit black text in dark mode;
+  - an `@source` with an exact glob for the built JavaScript files. A path that does not exist fails silently and scans the whole package folder.
+- Left out on purpose: the Geist font and font variables (the consumer's font applies), `tw-animate-css` and `shadcn/tailwind.css`. None of the three components uses them; a build comparison produced the same component selectors with and without them. Add them when animated or `data-open` components arrive.
 - The package ships no precompiled utility CSS. Tailwind in the consuming app generates the utilities.
+- The README tells next-themes users to set `attribute="class"` and `suppressHydrationWarning` on `<html>`.
 
 **Public API (exports map)**
 
-- Root entry: re-exports all components and their prop types.
+- Root entry: re-exports all components, `buttonVariants` and the prop types.
+- Stylesheet entry and `package.json` entry: declared explicitly, ahead of the wildcard, because a `./*` pattern matches any subpath.
 - Subpath wildcard: each component is importable from its own subpath, such as `/button`. Every component file is public API, so renaming or splitting a component file is a breaking change.
-- Stylesheet entry: the theme stylesheet.
-- The package declares CSS files as its only side effects, so bundlers can drop unused components.
+- Every JavaScript entry lists the `types` condition first, as the Node docs require.
+- The export map is written by hand. tsdown's `exports` generation is not used, because it emits mirrored paths and string shorthand without a `types` condition.
+- The export map's file extensions must match what the build emits (see Build).
+- The package declares CSS files as its only side effects, so bundlers can drop unused components. Webpack and Turbopack both honour this.
+- The `files` field limits the tarball to the build output and the stylesheet; npm always adds the package manifest, README and licence. Without `files`, the tarball also ships source and config files.
 
 **Build**
 
 - tsdown with `unbundle` mode, which gives one output file per source file. tsup is not used, because its README says it is no longer actively maintained.
-- Output is ESM with TypeScript declaration files.
-- Every component file and the root entry start with `"use client"`, because all three components are client components. This follows the Next.js advice to add the directive to library entry points.
-- Fallback: if tsdown drops the directive in `unbundle` mode, add it to every output file with a build banner. tsdown's handling of directives in this mode is not documented (see the research file).
+- Output is ESM with TypeScript declaration files, emitted as `.js` and `.d.ts`. tsdown's defaults emit `.mjs` and `.d.mts`, which breaks the export map. Turn off fixed extensions in the tsdown config, and keep the package `"type": "module"`.
+- `"use client"` placement follows shadcn's source exactly:
+  - **Label** keeps the directive, because its registry source has it.
+  - **Button and Input** have no directive. Base UI's own modules already carry `'use client'`, so the client boundary sits inside Base UI.
+  - **The root entry** has no directive.
+- Why not mark every file: exports of a `"use client"` module become client references, so a server component could no longer call `buttonVariants()`.
+- tsdown keeps per-file directives in `unbundle` mode. This was confirmed by a test build, and by Rolldown's documented rule that directives are kept when modules are preserved.
+- Do not switch to a bundled build. In a bundled build the directive survives only on the entry file.
+- Every build prints a `MODULE_LEVEL_DIRECTIVE` warning, even when the directive is kept. The warning is expected noise.
 
 **Release**
 
 - Changesets v3 handles versioning and changelogs. Every change to the package carries a changeset.
-- `changesets/action` v2 runs on pushes to main. It opens a "Version Packages" pull request, and merging that pull request publishes to npm.
+- The Changesets config sets access to `public`. Changesets always passes an access flag, and its default is `restricted`, which a free account cannot publish.
+- The release workflow uses the separate `changesets/action` v2 sub-actions, which Changesets documents for trusted publishing:
+  - jobs: `select-mode`, `version`, `pack`, `publish`;
+  - empty top-level permissions;
+  - `contents: write` and `pull-requests: write` on the version job;
+  - `id-token: write` only on the publish job.
+- On each push to main, the workflow either opens or updates the "Version Packages" pull request, or publishes when no changesets remain. Merging the Version PR therefore leads to a publish.
+- Checkout uses `persist-credentials: false`. Setup-node disables the package-manager cache.
+- The package manifest's `repository.url` matches the GitHub repository exactly, including case. Trusted publishing checks it.
+- The GitHub repository enables "Allow GitHub Actions to create and approve pull requests", so the action can open the Version PR.
 - Hybrid authentication, in this order:
   1. The maintainer publishes 0.1.0 from their machine with 2FA. This creates the package on npm.
   2. The maintainer pushes the repository to GitHub with the release workflow committed. npm requires the workflow file to exist before a trusted publisher can name it.
   3. The maintainer prepares the 0.1.1 change and its changeset on a branch.
-  4. The maintainer adds a trusted publisher (GitHub Actions, this repository, the release workflow file) in the package's npm settings. This starts a 2-day window.
+  4. The maintainer adds a trusted publisher (GitHub Actions, this repository, the release workflow file) in the package's npm settings, and ticks **npm publish** under Allowed actions. Configurations created after Sep 3, 2026 allow only staged publish by default, and staged publish does not work with Changesets. This starts a 2-day window. npm does not check the configuration when it is saved; a mismatch fails at publish time with E404 or ENEEDAUTH.
   5. The maintainer merges the 0.1.1 change and then the Version PR, so CI publishes 0.1.1 inside the window. Otherwise the configuration expires and must be recreated.
   6. The maintainer turns on "Require two-factor authentication and disallow tokens".
 - The release workflow needs `id-token: write`, `contents: write` and `pull-requests: write`. It runs on a GitHub-hosted runner.
-- The release workflow uses Node 24 LTS. Trusted publishing needs npm CLI 11.5.1 or later. Node 24.22.2 ships npm 11.19.1, but every Node 22 release ships npm 10.x.
+- The release workflow uses Node 24, version 24.5.0 or later. Trusted publishing needs npm CLI 11.5.1 or later; Node 24.5.0 is the first Node 24 that bundles it, and every Node 22 release bundles npm 10.x. All validation ran on Node 24.15.0. Node 26 (Active LTS since 2026-10-28) is the upgrade path.
+- pnpm 10 or later, as Changesets v3 requires. In a pnpm repository Changesets publishes with pnpm, whose docs describe trusted publishing support. The minimum pnpm version for this is unverified, so use the latest pnpm.
 - No `NPM_TOKEN` secret is stored in the repository.
 
 ## Testing Decisions
@@ -125,9 +165,10 @@ Releases run through Changesets. The first version, 0.1.0, is published by hand.
 - Manual pre-release check, required before merging any "Version Packages" pull request:
   1. Build and pack the package.
   2. Install the tarball into the scratch app.
-  3. Run a production build. A server component must render Button, Input and Label.
-  4. Check that every Button variant is styled and that light and dark themes both work.
-  5. Check that every built component file starts with `"use client"`.
+  3. Run a production build. A server component must render Button, Input and Label, and must call `buttonVariants()` to style a link.
+  4. Check that every Button variant is styled, and that light and dark themes both work, including Label and Input text colour in dark mode.
+  5. Check that the built Label file starts with `"use client"`, and that the Button, Input and root entry files do not.
+  6. Check that the tarball lists only build output, the stylesheet, README, licence and the package manifest.
 - Phase 1 exit checks:
   1. A fresh Next.js app installs the published 0.1.0, imports the stylesheet, and renders all three components, styled, in light and dark themes.
   2. A visible Button fix released through CI as 0.1.1 reaches that app after one upgrade command, with no code change.
@@ -153,9 +194,10 @@ Releases run through Changesets. The first version, 0.1.0, is published by hand.
 ## Further Notes
 
 - **Needs internal review before the first publish.** Publishing company-related design-system code publicly, and licensing it as MIT, is an outward-facing and partly irreversible step. Confirm both with the AnywhereWorks security and legal teams before running the first `npm publish`.
-- npm trusted publishing is set up in the package's own settings page, which implies that the package must exist first. The npm docs do not say this outright. That is why 0.1.0 is published by hand.
-- The `cn` package is at 0.5.x. Review each `cn` minor release before widening the pin.
-- Open assumptions carried from the research file:
-  - tsdown's `"use client"` handling in `unbundle` mode is undocumented.
-  - The rule that `@source` inside an imported package stylesheet resolves relative to that file is confirmed from Tailwind's source code only, not its docs.
-  - The manual pre-release check covers both assumptions.
+- npm states that the package must already exist on the registry before a trusted publisher can be configured (`npm trust` docs). That is why 0.1.0 is published by hand.
+- The `cn` package is at 0.5.x, supports Tailwind v4 only, and needs Node 22 or later. Review each `cn` minor release before widening the pin.
+- shadcn documents only an internal monorepo with raw source exports. Publishing a built package to npm is this project's own extension of shadcn, not a shadcn-documented path.
+- Unpublishing is limited. Within 72 hours, a version can be unpublished only if nothing depends on it. After 72 hours, only with no dependents, fewer than 300 downloads in the last week, and a single owner. A version number can never be reused.
+- Still unverified (see the validation file):
+  - `@source` resolution with the Vite and PostCSS Tailwind plugins; only the Tailwind CLI was tested. The manual pre-release check covers the Next.js path.
+  - The minimum pnpm version for trusted publishing.
