@@ -515,3 +515,10 @@ export type CommandGroupProps = ComponentProps<typeof CommandGroup>;
 export type CommandItemProps = ComponentProps<typeof CommandItem>;
 export type CommandShortcutProps = ComponentProps<typeof CommandShortcut>;
 export type CommandSeparatorProps = ComponentProps<typeof CommandSeparator>;
+
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from "./components/input-otp";
+export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator };
+export type InputOTPProps = ComponentProps<typeof InputOTP>;
+export type InputOTPGroupProps = ComponentProps<typeof InputOTPGroup>;
+export type InputOTPSlotProps = ComponentProps<typeof InputOTPSlot>;
+export type InputOTPSeparatorProps = ComponentProps<typeof InputOTPSeparator>;
