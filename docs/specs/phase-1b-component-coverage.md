@@ -145,6 +145,7 @@ Every ticket is one minor release through Changesets. Each release is checked in
   - The CLI writes hooks and libs outside the components folder, so the wildcard does not reach them.
   - The mobile-breakpoint hook stays internal. It is not re-exported from the root, because Sidebar is its only user.
   - The highlighter lib is reachable only through the hook's subpath.
+- Every subpath-only module needs its own build entry. The build emits only modules reachable from the root entry: in a test build on 2026-11-06, a component file the root did not import was not emitted. The wildcard can only map to files the build emits. Today this applies to Sonner and the code-highlighting hook.
 - `direction` re-exports two Base UI names. This ties that subpath to Base UI's API.
 
 **Release cadence**

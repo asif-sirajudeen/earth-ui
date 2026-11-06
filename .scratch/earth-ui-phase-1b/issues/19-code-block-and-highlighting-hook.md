@@ -12,6 +12,7 @@
 - [ ] New public subpath: `/code-block`. The root entry re-exports the new components and their prop types. The ticket records that renaming or removing it is a breaking change.
 - [ ] The hook has its own explicit subpath export, `/use-highlighted-code`, listed before the component wildcard. It is not re-exported from the root. Renaming it later is a breaking change.
 - [ ] Neither the hook nor the highlighter lib has `"use client"`, as in upstream's source. The hook is called only from client components.
+- [ ] The hook is added as an extra build entry, because the build emits only modules reachable from the root entry (checked on 2026-11-06: a component the root does not import was not emitted). The built hook file appears in the dry-run pack.
 - [ ] The built hook and highlighter keep their shiki imports external. tsdown does not bundle shiki into them.
 - [ ] A scratch app without shiki builds and renders Code Block from the root entry. A scratch app with shiki renders highlighted code through the hook, in both themes.
 - [ ] Code Block's copy button and its horizontal and vertical scroll fades work.
