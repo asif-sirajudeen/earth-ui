@@ -4,7 +4,7 @@
 
 **Blocked by:** 18 — Message Scroller and Questionnaire join the package
 
-**Status:** code done (commits 25f776d); scratch-app browser check pending (batch C); unchecked items need it. Maintainer decided on 2026-11-06 to ship Sonner.
+**Status:** done (commits 25f776d); batch C scratch-app check passed on 2026-11-06; shipped in 0.2.0. Maintainer decided on 2026-11-06 to ship Sonner.
 
 - [x] The maintainer decides whether to ship Sonner (spec, open decision (a)). If they drop it, this ticket closes, the spec is updated, and nothing below applies.
 - [x] The shadcn CLI `add` command pulls sonner from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift.
@@ -13,6 +13,6 @@
 - [x] New public subpath: `/sonner`. The root entry does not re-export it.
 - [x] Sonner is subpath-only. The root entry keeps Toast's `Toaster`, because the names collide.
 - [x] Sonner gets its own build entry, as the spec requires for subpath-only modules. The built Sonner file appears in the dry-run pack and keeps the sonner and next-themes imports external.
-- [ ] A scratch app without sonner or next-themes still builds from the root entry.
-- [ ] In a scratch app with next-themes, a toast fired with the app's own `sonner` import appears in the package's Toaster, and follows the theme in light and dark. The `cn-toast` class is kept as an unstyled upstream hook.
-- [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).
+- [x] A scratch app without sonner or next-themes still builds from the root entry.
+- [x] In a scratch app with next-themes, a toast fired with the app's own `sonner` import appears in the package's Toaster, and follows the theme in light and dark. The `cn-toast` class is kept as an unstyled upstream hook.
+- [x] Spec 1b's per-ticket release checklist passes (Testing Decisions).
