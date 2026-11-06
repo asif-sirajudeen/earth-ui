@@ -1,5 +1,11 @@
 # @asif-sirajudeen/earth-ui
 
+## 0.2.2
+
+### Patch Changes
+
+- aa5b983: Revert the temporary Button text weight change from 0.2.1. Button text uses `font-medium` again, matching upstream shadcn.
+
 ## 0.2.1
 
 ### Patch Changes
