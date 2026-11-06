@@ -493,3 +493,13 @@ export type CarouselContentProps = ComponentProps<typeof CarouselContent>;
 export type CarouselItemProps = ComponentProps<typeof CarouselItem>;
 export type CarouselPreviousProps = ComponentProps<typeof CarouselPrevious>;
 export type CarouselNextProps = ComponentProps<typeof CarouselNext>;
+
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle } from "./components/chart";
+export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle };
+export type { ChartConfig } from "./components/chart";
+export type ChartContainerProps = ComponentProps<typeof ChartContainer>;
+export type ChartTooltipProps = ComponentProps<typeof ChartTooltip>;
+export type ChartTooltipContentProps = ComponentProps<typeof ChartTooltipContent>;
+export type ChartLegendProps = ComponentProps<typeof ChartLegend>;
+export type ChartLegendContentProps = ComponentProps<typeof ChartLegendContent>;
+export type ChartStyleProps = ComponentProps<typeof ChartStyle>;
