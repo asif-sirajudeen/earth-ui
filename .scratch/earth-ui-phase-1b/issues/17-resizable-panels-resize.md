@@ -4,11 +4,11 @@
 
 **Blocked by:** 16 — Input OTP collects one-time codes
 
-**Status:** ready-for-agent
+**Status:** code done (commits 873f1e6); scratch-app browser check pending (batch C); unchecked items need it.
 
-- [ ] The shadcn CLI `add` command pulls resizable from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift.
-- [ ] Dependencies: `react-resizable-panels` is added as a regular dependency, with the range that the spec's ranges rule gives.
-- [ ] Every built file for resizable starts with `"use client"`, as upstream's source does. The root entry does not.
-- [ ] New public subpath: `/resizable`. The root entry re-exports the new components and their prop types.
+- [x] The shadcn CLI `add` command pulls resizable from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift.
+- [x] Dependencies: `react-resizable-panels` is added as a regular dependency, with the range that the spec's ranges rule gives.
+- [x] Every built file for resizable starts with `"use client"`, as upstream's source does. The root entry does not.
+- [x] New public subpath: `/resizable`. The root entry re-exports the new components and their prop types.
 - [ ] Dragging the handle resizes the panels horizontally and vertically, and the handle is keyboard-operable.
 - [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).

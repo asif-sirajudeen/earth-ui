@@ -4,12 +4,12 @@
 
 **Blocked by:** 07 — Dialog, Alert Dialog and Sheet open as animated modals
 
-**Status:** ready-for-agent
+**Status:** code done (commits ab595c4); scratch-app browser check pending (batch B); unchecked items need it.
 
-- [ ] The shadcn CLI `add` command pulls popover, tooltip, hover-card from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift for each.
-- [ ] No new dependencies.
-- [ ] Every built file for popover, tooltip, hover-card starts with `"use client"`, as upstream's source does. The root entry does not.
-- [ ] New public subpaths: `/popover`, `/tooltip`, `/hover-card`. The root entry re-exports the new components and their prop types.
+- [x] The shadcn CLI `add` command pulls popover, tooltip, hover-card from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift for each.
+- [x] No new dependencies.
+- [x] Every built file for popover, tooltip, hover-card starts with `"use client"`, as upstream's source does. The root entry does not.
+- [x] New public subpaths: `/popover`, `/tooltip`, `/hover-card`. The root entry re-exports the new components and their prop types.
 - [ ] The scratch app wraps its layout in the Tooltip provider, as upstream requires, and the ticket records this for the future README.
 - [ ] Each overlay animates in and out from the side it is placed on, and stays readable in dark mode.
 - [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).

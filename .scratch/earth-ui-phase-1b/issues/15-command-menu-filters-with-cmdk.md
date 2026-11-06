@@ -4,11 +4,11 @@
 
 **Blocked by:** 14 — Chart draws recharts charts in theme colours
 
-**Status:** ready-for-agent
+**Status:** code done (commits ba39756); scratch-app browser check pending (batch C); unchecked items need it.
 
-- [ ] The shadcn CLI `add` command pulls command from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift.
-- [ ] Dependencies: `cmdk` is added as a regular dependency, with the range that the spec's ranges rule gives. The ticket notes that cmdk brings Radix dialog primitives in as transitive dependencies.
-- [ ] Every built file for command starts with `"use client"`, as upstream's source does. The root entry does not.
-- [ ] New public subpath: `/command`. The root entry re-exports the new components and their prop types.
+- [x] The shadcn CLI `add` command pulls command from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift.
+- [x] Dependencies: `cmdk` is added as a regular dependency, with the range that the spec's ranges rule gives. The ticket notes that cmdk brings Radix dialog primitives in as transitive dependencies.
+- [x] Every built file for command starts with `"use client"`, as upstream's source does. The root entry does not.
+- [x] New public subpath: `/command`. The root entry re-exports the new components and their prop types.
 - [ ] Typing filters the items. Arrow keys move the selected item and show the selected style. The dialog form opens through the package's Dialog.
 - [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).

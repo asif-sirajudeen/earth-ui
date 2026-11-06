@@ -4,12 +4,12 @@
 
 **Blocked by:** 01 — Textarea, Input Group and six content components join the package
 
-**Status:** ready-for-agent
+**Status:** done (commits 9c2df85); scratch-app browser check passed on 2026-11-06 (batch A).
 
-- [ ] The shadcn CLI `add` command pulls avatar, aspect-ratio, progress, table, toggle, collapsible from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift for each.
-- [ ] No new dependencies.
-- [ ] Built files start with `"use client"` only where upstream's source does: avatar, progress, table, toggle, collapsible have it; aspect-ratio does not. The root entry does not.
-- [ ] New public subpaths: `/avatar`, `/aspect-ratio`, `/progress`, `/table`, `/toggle`, `/collapsible`. The root entry re-exports the new components and their prop types.
-- [ ] Toggle switches its pressed style when clicked, and Collapsible opens and closes its panel.
-- [ ] Avatar shows its fallback when the image fails to load.
-- [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).
+- [x] The shadcn CLI `add` command pulls avatar, aspect-ratio, progress, table, toggle, collapsible from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift for each.
+- [x] No new dependencies.
+- [x] Built files start with `"use client"` only where upstream's source does: avatar, progress, table, toggle, collapsible have it; aspect-ratio does not. The root entry does not.
+- [x] New public subpaths: `/avatar`, `/aspect-ratio`, `/progress`, `/table`, `/toggle`, `/collapsible`. The root entry re-exports the new components and their prop types.
+- [x] Toggle switches its pressed style when clicked, and Collapsible opens and closes its panel.
+- [x] Avatar shows its fallback when the image fails to load.
+- [x] Spec 1b's per-ticket release checklist passes (Testing Decisions).

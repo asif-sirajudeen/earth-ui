@@ -4,11 +4,11 @@
 
 **Blocked by:** 12 — Calendar picks dates with react-day-picker
 
-**Status:** ready-for-agent
+**Status:** code done (commits 2acdae2); scratch-app browser check pending (batch C); unchecked items need it.
 
-- [ ] The shadcn CLI `add` command pulls carousel from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift.
-- [ ] Dependencies: `embla-carousel-react` is added as a regular dependency, with the range that the spec's ranges rule gives.
-- [ ] Every built file for carousel starts with `"use client"`, as upstream's source does. The root entry does not.
-- [ ] New public subpath: `/carousel`. The root entry re-exports the new components and their prop types.
+- [x] The shadcn CLI `add` command pulls carousel from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift.
+- [x] Dependencies: `embla-carousel-react` is added as a regular dependency, with the range that the spec's ranges rule gives.
+- [x] Every built file for carousel starts with `"use client"`, as upstream's source does. The root entry does not.
+- [x] New public subpath: `/carousel`. The root entry re-exports the new components and their prop types.
 - [ ] The previous and next buttons move the carousel and disable at the ends. Arrow keys work. Horizontal and vertical orientations both work.
 - [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).

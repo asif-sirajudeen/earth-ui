@@ -4,14 +4,14 @@
 
 **Blocked by:** 19 — Sonner Toaster is available from its own subpath
 
-**Status:** needs-human (open decision (c): ship or drop the highlighting hook); the code change can be done by an agent
+**Status:** code done (commits d64e260); scratch-app browser check pending (batch C); unchecked items need it. Maintainer decided on 2026-11-06 to ship the hook.
 
-- [ ] The maintainer decides whether to ship the hook (spec, open decision (c)). If they drop it, this ticket closes, the spec is updated, and nothing below applies.
-- [ ] The shadcn CLI `add` command pulls use-highlighted-code from shadcn's `base-nova` style, which also writes its highlighter lib; nothing is copied by hand. Afterwards, `add --diff` shows no drift.
-- [ ] Dependencies: `shiki` is added as an optional peer dependency, with the range that the spec's ranges rule gives. It is also a dev dependency for local builds, and is kept out of regular dependencies.
-- [ ] Neither the hook nor the highlighter lib has `"use client"`, as in upstream's source. The hook is called only from client components. The root entry does not have the directive.
-- [ ] New public subpath: `/use-highlighted-code`, an explicit export listed before the component wildcard. The root entry does not re-export it, and the highlighter lib is reachable only through it.
-- [ ] The hook gets its own build entry, as the spec requires for subpath-only modules. The built hook file appears in the dry-run pack.
-- [ ] The built hook and highlighter keep their shiki imports external. tsdown does not bundle shiki into them.
+- [x] The maintainer decides whether to ship the hook (spec, open decision (c)). If they drop it, this ticket closes, the spec is updated, and nothing below applies.
+- [x] The shadcn CLI `add` command pulls use-highlighted-code from shadcn's `base-nova` style, which also writes its highlighter lib; nothing is copied by hand. Afterwards, `add --diff` shows no drift.
+- [x] Dependencies: `shiki` is added as an optional peer dependency, with the range that the spec's ranges rule gives. It is also a dev dependency for local builds, and is kept out of regular dependencies.
+- [x] Neither the hook nor the highlighter lib has `"use client"`, as in upstream's source. The hook is called only from client components. The root entry does not have the directive.
+- [x] New public subpath: `/use-highlighted-code`, an explicit export listed before the component wildcard. The root entry does not re-export it, and the highlighter lib is reachable only through it.
+- [x] The hook gets its own build entry, as the spec requires for subpath-only modules. The built hook file appears in the dry-run pack.
+- [x] The built hook and highlighter keep their shiki imports external. tsdown does not bundle shiki into them.
 - [ ] A scratch app without shiki still builds from the root entry. A scratch app with shiki renders highlighted code through the hook, in both themes.
 - [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).

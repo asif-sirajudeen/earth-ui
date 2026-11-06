@@ -4,11 +4,11 @@
 
 **Blocked by:** phase 1 — 07 — CI publishes 0.1.1 through trusted publishing
 
-**Status:** ready-for-agent
+**Status:** done (commits 5e1c92d); scratch-app browser check passed on 2026-11-06 (batch A).
 
-- [ ] The shadcn CLI `add` command pulls textarea, input-group, alert, badge, card, kbd, skeleton, empty from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift for each.
-- [ ] No new dependencies.
-- [ ] Built files start with `"use client"` only where upstream's source does: input-group has it; textarea, alert, badge, card, kbd, skeleton, empty do not. The root entry does not.
-- [ ] New public subpaths: `/textarea`, `/input-group`, `/alert`, `/badge`, `/card`, `/kbd`, `/skeleton`, `/empty`. The root entry re-exports the new components and their prop types.
-- [ ] Input Group's addons render around Input and Textarea, and its button addon uses the shipped Button.
-- [ ] Spec 1b's per-ticket release checklist passes (Testing Decisions).
+- [x] The shadcn CLI `add` command pulls textarea, input-group, alert, badge, card, kbd, skeleton, empty from shadcn's `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift for each.
+- [x] No new dependencies.
+- [x] Built files start with `"use client"` only where upstream's source does: input-group has it; textarea, alert, badge, card, kbd, skeleton, empty do not. The root entry does not.
+- [x] New public subpaths: `/textarea`, `/input-group`, `/alert`, `/badge`, `/card`, `/kbd`, `/skeleton`, `/empty`. The root entry re-exports the new components and their prop types.
+- [x] Input Group's addons render around Input and Textarea, and its button addon uses the shipped Button.
+- [x] Spec 1b's per-ticket release checklist passes (Testing Decisions).
