@@ -522,3 +522,9 @@ export type InputOTPProps = ComponentProps<typeof InputOTP>;
 export type InputOTPGroupProps = ComponentProps<typeof InputOTPGroup>;
 export type InputOTPSlotProps = ComponentProps<typeof InputOTPSlot>;
 export type InputOTPSeparatorProps = ComponentProps<typeof InputOTPSeparator>;
+
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./components/resizable";
+export { ResizableHandle, ResizablePanel, ResizablePanelGroup };
+export type ResizableHandleProps = ComponentProps<typeof ResizableHandle>;
+export type ResizablePanelProps = ComponentProps<typeof ResizablePanel>;
+export type ResizablePanelGroupProps = ComponentProps<typeof ResizablePanelGroup>;
