@@ -162,3 +162,70 @@ export type RadioGroupItemProps = ComponentProps<typeof RadioGroupItem>;
 import { Switch } from "./components/switch";
 export { Switch };
 export type SwitchProps = ComponentProps<typeof Switch>;
+
+import { Slider } from "./components/slider";
+export { Slider };
+export type SliderProps = ComponentProps<typeof Slider>;
+
+import { NativeSelect, NativeSelectOptGroup, NativeSelectOption } from "./components/native-select";
+export { NativeSelect, NativeSelectOptGroup, NativeSelectOption };
+export type NativeSelectProps = ComponentProps<typeof NativeSelect>;
+export type NativeSelectOptGroupProps = ComponentProps<typeof NativeSelectOptGroup>;
+export type NativeSelectOptionProps = ComponentProps<typeof NativeSelectOption>;
+
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from "./components/breadcrumb";
+export { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis };
+export type BreadcrumbProps = ComponentProps<typeof Breadcrumb>;
+export type BreadcrumbListProps = ComponentProps<typeof BreadcrumbList>;
+export type BreadcrumbItemProps = ComponentProps<typeof BreadcrumbItem>;
+export type BreadcrumbLinkProps = ComponentProps<typeof BreadcrumbLink>;
+export type BreadcrumbPageProps = ComponentProps<typeof BreadcrumbPage>;
+export type BreadcrumbSeparatorProps = ComponentProps<typeof BreadcrumbSeparator>;
+export type BreadcrumbEllipsisProps = ComponentProps<typeof BreadcrumbEllipsis>;
+
+import { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, buttonGroupVariants } from "./components/button-group";
+export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, buttonGroupVariants };
+export type ButtonGroupProps = ComponentProps<typeof ButtonGroup>;
+export type ButtonGroupSeparatorProps = ComponentProps<typeof ButtonGroupSeparator>;
+export type ButtonGroupTextProps = ComponentProps<typeof ButtonGroupText>;
+
+import { Item, ItemMedia, ItemContent, ItemActions, ItemGroup, ItemSeparator, ItemTitle, ItemDescription, ItemHeader, ItemFooter } from "./components/item";
+export { Item, ItemMedia, ItemContent, ItemActions, ItemGroup, ItemSeparator, ItemTitle, ItemDescription, ItemHeader, ItemFooter };
+export type ItemProps = ComponentProps<typeof Item>;
+export type ItemMediaProps = ComponentProps<typeof ItemMedia>;
+export type ItemContentProps = ComponentProps<typeof ItemContent>;
+export type ItemActionsProps = ComponentProps<typeof ItemActions>;
+export type ItemGroupProps = ComponentProps<typeof ItemGroup>;
+export type ItemSeparatorProps = ComponentProps<typeof ItemSeparator>;
+export type ItemTitleProps = ComponentProps<typeof ItemTitle>;
+export type ItemDescriptionProps = ComponentProps<typeof ItemDescription>;
+export type ItemHeaderProps = ComponentProps<typeof ItemHeader>;
+export type ItemFooterProps = ComponentProps<typeof ItemFooter>;
+
+import { Field, FieldLabel, FieldDescription, FieldError, FieldGroup, FieldLegend, FieldSeparator, FieldSet, FieldContent, FieldTitle } from "./components/field";
+export { Field, FieldLabel, FieldDescription, FieldError, FieldGroup, FieldLegend, FieldSeparator, FieldSet, FieldContent, FieldTitle };
+export type FieldProps = ComponentProps<typeof Field>;
+export type FieldLabelProps = ComponentProps<typeof FieldLabel>;
+export type FieldDescriptionProps = ComponentProps<typeof FieldDescription>;
+export type FieldErrorProps = ComponentProps<typeof FieldError>;
+export type FieldGroupProps = ComponentProps<typeof FieldGroup>;
+export type FieldLegendProps = ComponentProps<typeof FieldLegend>;
+export type FieldSeparatorProps = ComponentProps<typeof FieldSeparator>;
+export type FieldSetProps = ComponentProps<typeof FieldSet>;
+export type FieldContentProps = ComponentProps<typeof FieldContent>;
+export type FieldTitleProps = ComponentProps<typeof FieldTitle>;
+
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "./components/pagination";
+export { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious };
+export type PaginationProps = ComponentProps<typeof Pagination>;
+export type PaginationContentProps = ComponentProps<typeof PaginationContent>;
+export type PaginationEllipsisProps = ComponentProps<typeof PaginationEllipsis>;
+export type PaginationItemProps = ComponentProps<typeof PaginationItem>;
+export type PaginationLinkProps = ComponentProps<typeof PaginationLink>;
+export type PaginationNextProps = ComponentProps<typeof PaginationNext>;
+export type PaginationPreviousProps = ComponentProps<typeof PaginationPrevious>;
+
+import { ToggleGroup, ToggleGroupItem } from "./components/toggle-group";
+export { ToggleGroup, ToggleGroupItem };
+export type ToggleGroupProps = ComponentProps<typeof ToggleGroup>;
+export type ToggleGroupItemProps = ComponentProps<typeof ToggleGroupItem>;
