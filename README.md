@@ -1,6 +1,6 @@
 # @asif-sirajudeen/earth-ui
 
-shadcn-based React primitives (Button, Input, Label) built on Base UI, shipped as a versioned package.
+shadcn-based React components built on Base UI, shipped as a versioned package. It covers every component in shadcn's `base-nova` style.
 
 ## Install
 
@@ -57,6 +57,17 @@ import { buttonVariants } from "@asif-sirajudeen/earth-ui";
   Docs
 </Link>;
 ```
+
+## Optional subpaths
+
+Two modules are not exported from the package root and need peer dependencies that you install yourself:
+
+| Subpath | Exports | Install |
+| --- | --- | --- |
+| `@asif-sirajudeen/earth-ui/sonner` | Sonner's `Toaster` | `sonner` and `next-themes` |
+| `@asif-sirajudeen/earth-ui/use-highlighted-code` | `useHighlightedCode` (syntax highlighting for Code Block) | `shiki` |
+
+The root `Toaster` is Base UI Toast's. Use the Sonner one only if your app already uses sonner. Call `toast()` from your own `sonner` import, and mount the `next-themes` provider yourself.
 
 ## Dark mode
 
