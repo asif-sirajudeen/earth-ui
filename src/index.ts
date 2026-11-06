@@ -473,3 +473,14 @@ import { Calendar, CalendarDayButton } from "./components/calendar";
 export { Calendar, CalendarDayButton };
 export type CalendarProps = ComponentProps<typeof Calendar>;
 export type CalendarDayButtonProps = ComponentProps<typeof CalendarDayButton>;
+
+import { CodeBlock, CodeBlockHeader, CodeBlockTitle, CodeBlockActions, CodeBlockCopyButton, CodeBlockContent, CodeBlockLine, CodeBlockFooter } from "./components/code-block";
+export { CodeBlock, CodeBlockHeader, CodeBlockTitle, CodeBlockActions, CodeBlockCopyButton, CodeBlockContent, CodeBlockLine, CodeBlockFooter };
+export type CodeBlockProps = ComponentProps<typeof CodeBlock>;
+export type CodeBlockHeaderProps = ComponentProps<typeof CodeBlockHeader>;
+export type CodeBlockTitleProps = ComponentProps<typeof CodeBlockTitle>;
+export type CodeBlockActionsProps = ComponentProps<typeof CodeBlockActions>;
+export type CodeBlockCopyButtonProps = ComponentProps<typeof CodeBlockCopyButton>;
+export type CodeBlockContentProps = ComponentProps<typeof CodeBlockContent>;
+export type CodeBlockLineProps = ComponentProps<typeof CodeBlockLine>;
+export type CodeBlockFooterProps = ComponentProps<typeof CodeBlockFooter>;
