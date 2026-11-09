@@ -10,9 +10,11 @@
     "isolatedModules": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "types": ["node", "react", "react-dom"],
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "tsdown.config.ts"]
+  "include": ["src", "registry", "scripts", "tsdown.config.ts"]
 }
