@@ -1,5 +1,11 @@
 # @asif-sirajudeen/earth-ui
 
+## 0.3.0
+
+### Minor Changes
+
+- 19948db: Add the `earth-ui` CLI: `list`, `search`, `docs` and `source` print JSON about the installed components, including Base UI props tables and each component's TSX source. Run it with `npx @asif-sirajudeen/earth-ui <command>`.
+
 ## 0.2.2
 
 ### Patch Changes
@@ -27,8 +33,9 @@
 - ab595c4: Add Popover, Tooltip and Hover Card. Each is exported from the package root with its prop types and from its own subpath: `/popover`, `/tooltip`, `/hover-card`.
 - 35d5c4d: Add Slider, Native Select, Breadcrumb, Button Group, Item, Field, Pagination and Toggle Group. Each is exported from the package root with its prop types and from its own subpath: `/slider`, `/native-select`, `/breadcrumb`, `/button-group`, `/item`, `/field`, `/pagination`, `/toggle-group`.
 - ad08e66: Add Separator, Spinner, Checkbox, Radio Group and Switch. Each is exported from the package root with its prop types and from its own subpath: `/separator`, `/spinner`, `/checkbox`, `/radio-group`, `/switch`.
-  
+
   The stylesheet now imports `tw-animate-css` and includes shadcn's Tailwind variants and utilities (copied verbatim from shadcn@4.23.0), so orientation, state and animation classes work. The consumer's CSS setup does not change. New dependencies: `lucide-react` and `tw-animate-css`.
+
 - 90a1ef9: Add Input OTP, exported from the package root with its prop types and from the `/input-otp` subpath. New dependency: `input-otp`.
 - 8bf1ac6: Add Dropdown Menu, Context Menu and Menubar. Each is exported from the package root with its prop types and from its own subpath: `/dropdown-menu`, `/context-menu`, `/menubar`.
 - 7384962: Add Message Scroller and Questionnaire. Each is exported from the package root with its prop types and from its own subpath: `/message-scroller`, `/questionnaire`. New dependency: `@shadcn/react`.
