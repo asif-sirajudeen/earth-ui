@@ -1,9 +1,6 @@
 // The earth-ui CLI commands as pure functions over the Component Index.
 // cli/earth-ui.mts does the I/O; a future MCP server can wrap these same functions.
-import type {
-  ComponentEntry,
-  ComponentIndex,
-} from "../scripts/component-index.mts"
+import type { ComponentEntry, ComponentIndex } from "./component-index.mts"
 
 const summary = (c: ComponentEntry) => ({
   name: c.name,

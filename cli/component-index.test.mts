@@ -134,6 +134,33 @@ test("base ui doc falls back to the api link when the source imports the package
   )
 })
 
+test("built registry items carry their source as content", () => {
+  const index = buildComponentIndex(
+    pkg,
+    [
+      {
+        ...item("button", "registry:ui"),
+        files: [
+          {
+            path: "src/components/button.tsx",
+            content: `import { Button } from "@base-ui/react/button"`,
+          },
+        ],
+      },
+    ],
+    (path) => (path.startsWith("src/") ? null : read(path)),
+    baseUiDocs
+  )
+  const [button] = index.components
+  assert.deepEqual(button!.source, [
+    {
+      path: "src/components/button.tsx",
+      code: `import { Button } from "@base-ui/react/button"`,
+    },
+  ])
+  assert.equal(button!.baseUiDoc, "button")
+})
+
 test("drops items with no importable module", () => {
   const index = buildComponentIndex(pkg, registryItems, read, baseUiDocs)
   assert.deepEqual(

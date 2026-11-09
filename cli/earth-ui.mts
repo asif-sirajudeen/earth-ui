@@ -4,14 +4,14 @@
 //   earth-ui search <query> [--limit n]
 //   earth-ui docs <name>
 //   earth-ui source <name>
-// Reads dist/agent/index.json (the Component Index) and the docs shipped in @base-ui/react,
-// so answers match the installed version and need no network.
-import { existsSync, readFileSync } from "node:fs"
+// Derives the Component Index from the bundled shadcn registry (dist/registry), the built
+// .d.ts files and the docs shipped in @base-ui/react, so answers match the installed
+// version and need no network.
+import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { createRequire } from "node:module"
 import { dirname, join } from "node:path"
 import { parseArgs } from "node:util"
 
-import type { ComponentIndex } from "../scripts/component-index.mts"
 import {
   docs,
   list,
@@ -19,21 +19,48 @@ import {
   source,
   UnknownComponentError,
 } from "./commands.mts"
+import {
+  buildComponentIndex,
+  type IndexRegistryItem,
+} from "./component-index.mts"
 
 const USAGE =
   "Usage: earth-ui list | search <query> [--limit n] | docs <name> | source <name>"
 
-const index: ComponentIndex = JSON.parse(
-  readFileSync(new URL("./agent/index.json", import.meta.url), "utf8")
-)
+// Paths are relative to the package root, one level up from dist/cli.js.
+function readPackageFile(path: string): string | null {
+  const url = new URL(`../${path}`, import.meta.url)
+  return existsSync(url) ? readFileSync(url, "utf8") : null
+}
+const readJson = (path: string) => JSON.parse(readPackageFile(path)!)
 
-function readBaseUiDoc(doc: string): string | null {
-  const root = dirname(
+const baseUiDocsDir = join(
+  dirname(
     createRequire(import.meta.url).resolve("@base-ui/react/package.json")
-  )
-  const path = join(root, "docs/react/components", `${doc}.md`)
+  ),
+  "docs/react/components"
+)
+function readBaseUiDoc(doc: string): string | null {
+  const path = join(baseUiDocsDir, `${doc}.md`)
   return existsSync(path) ? readFileSync(path, "utf8") : null
 }
+
+const registry: { items: { name: string }[] } = readJson(
+  "dist/registry/registry.json"
+)
+const items: IndexRegistryItem[] = registry.items.map(({ name }) =>
+  readJson(`dist/registry/${name}.json`)
+)
+const index = buildComponentIndex(
+  readJson("package.json"),
+  items,
+  readPackageFile,
+  new Set(
+    readdirSync(baseUiDocsDir)
+      .filter((file) => file.endsWith(".md"))
+      .map((file) => file.slice(0, -3))
+  )
+)
 
 function run(): unknown {
   const { positionals, values } = parseArgs({

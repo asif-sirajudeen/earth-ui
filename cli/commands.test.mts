@@ -1,11 +1,8 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import type {
-  ComponentEntry,
-  ComponentIndex,
-} from "../scripts/component-index.mts"
 import { docs, list, search, source } from "./commands.mts"
+import type { ComponentEntry, ComponentIndex } from "./component-index.mts"
 
 const entry = (
   name: string,

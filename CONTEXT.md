@@ -12,13 +12,12 @@ A consumer copies component source into their project with `shadcn add @earth-ui
 
 ## Registry
 
-The copy-mode artifact: the set of `@earth-ui/*` items that the shadcn CLI installs. Not shipped in the npm package.
-_Avoid_: using "registry" for the data the CLI reads.
+The set of `@earth-ui/*` items, each with its source. The shadcn CLI installs them in copy mode. A built copy also ships inside the npm package, where the `earth-ui` CLI reads it.
 
 ## Component Index
 
-The package-mode lookup data shipped inside the npm package: one entry per importable component or hook, with its import path, exported parts, variants and the Base UI doc it wraps. Derived from the Registry and the built package. The `earth-ui` CLI reads it.
-_Avoid_: "registry", "manifest".
+The package-mode view of the Registry: one entry per importable component or hook, with its import path, exported parts, variants, the Base UI doc it wraps and its source. The `earth-ui` CLI derives it from the Registry and the built package each time it runs.
+_Avoid_: "manifest".
 
 ## Base UI doc
 

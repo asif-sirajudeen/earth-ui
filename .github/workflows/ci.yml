@@ -41,17 +41,20 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
-      # Builds the package, the Component Index and the earth-ui bin, then runs the bin.
+      # Builds the package, the bundled registry (dist/registry) and the earth-ui bin, then runs the bin.
       - name: Build package and smoke the CLI
         run: |
           pnpm build
           node dist/cli.js docs dialog | grep -q '"props": "## API reference'
           node dist/cli.js source dialog | grep -q '"code": "\\"use client\\"'
-          # Only items with no import path may be missing from the index.
-          node -e '
-            const names = new Set(require("./dist/agent/index.json").components.map((c) => c.name))
-            const missing = require("./registry.json").items.map((i) => i.name).filter((n) => !names.has(n))
-            if (missing.sort().join() !== "style,use-mobile") throw new Error("Missing from index: " + missing)
+          # Only items with no import path may be missing from the CLI.
+          node dist/cli.js list | node -e '
+            let out = ""
+            process.stdin.on("data", (d) => (out += d)).on("end", () => {
+              const names = new Set(JSON.parse(out).components.map((c) => c.name))
+              const missing = require("./registry.json").items.map((i) => i.name).filter((n) => !names.has(n))
+              if (missing.sort().join() !== "style,use-mobile") throw new Error("Missing from CLI: " + missing)
+            })
           '
 
       # Fails when registry.json is out of date with src/, registry/metadata.ts or styles.css.

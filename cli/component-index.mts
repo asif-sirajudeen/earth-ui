@@ -1,5 +1,6 @@
-// Pure rules for the Component Index: package-mode lookup data the earth-ui CLI reads.
-// scripts/build-component-index.mts does the file I/O and calls this.
+// Pure rules for the Component Index: package-mode lookup data the earth-ui CLI derives at
+// runtime from the bundled registry (dist/registry) and the built type declarations.
+// cli/earth-ui.mts does the file I/O and calls this.
 
 type ExportTarget = { types: string; default: string }
 export type IndexPackageJson = {
@@ -13,7 +14,8 @@ export type IndexRegistryItem = {
   title?: string
   description?: string
   dependencies?: string[]
-  files?: { path: string }[]
+  /** Built registry items (dist/registry/<name>.json) inline the source as `content`. */
+  files?: { path: string; content?: string }[]
   meta?: { links?: Record<string, string> }
 }
 
@@ -29,7 +31,7 @@ export type ComponentEntry = {
   dependencies: string[]
   links: Record<string, string>
   baseUiDoc: string | null
-  /** The TSX source files, with their code, as in the repo's src/. */
+  /** The TSX source files with their code. */
   source: { path: string; code: string }[]
 }
 export type ComponentIndex = {
@@ -129,13 +131,15 @@ export function buildComponentIndex(
       links,
       baseUiDoc: baseUiDocName(
         item.name,
-        (item.files ?? []).map((f) => read(f.path) ?? "").join("\n"),
+        (item.files ?? [])
+          .map((f) => f.content ?? read(f.path) ?? "")
+          .join("\n"),
         links.api,
         baseUiDocs
       ),
       source: (item.files ?? []).map((f) => ({
         path: f.path,
-        code: read(f.path) ?? "",
+        code: f.content ?? read(f.path) ?? "",
       })),
     })
   }
