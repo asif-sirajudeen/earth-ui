@@ -1,0 +1,3 @@
+/* Prettier-only entry so prettier-plugin-tailwindcss sees the default theme plus styles.css tokens. Not shipped. */
+@import "tailwindcss";
+@import "./styles.css";

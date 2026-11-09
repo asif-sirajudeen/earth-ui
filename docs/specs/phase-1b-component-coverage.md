@@ -172,7 +172,7 @@ Every ticket is one minor release through Changesets. Each release is checked in
   4. Check light and dark themes for every new component.
   5. Check that each built file starts with `"use client"` only where its upstream source does.
   6. Check that the tarball holds only the allowed files, and that the root entry and each new subpath resolve.
-  7. Check that `shadcn add <name> --diff` shows no upstream drift for the ticket's components.
+  7. Check that `shadcn add <name> --diff` shows no upstream drift for the ticket's components, beyond formatting-only hunks.
 - The first B ticket also confirms three things:
   1. The stylesheet's `tw-animate-css` import resolves in the scratch app installed with pnpm.
   2. The vendored shadcn variants compile to their `data-orientation` and `data-state` forms.
@@ -184,7 +184,7 @@ Every ticket is one minor release through Changesets. Each release is checked in
 
 Every phase 1b ticket passes all of these, in addition to its own criteria:
 
-1. The shadcn CLI `add` command pulls the ticket's components from the `base-nova` style; nothing is copied by hand. Afterwards, `add --diff` shows no drift for each.
+1. The shadcn CLI `add` command pulls the ticket's components from the `base-nova` style; nothing is copied by hand. Afterwards, `pnpm format:write` formats them, and `add --diff` shows no drift for each beyond formatting-only hunks.
 2. The manifest's dependencies match what the package source actually imports, with every range set explicitly per the ranges rule. Any extra dependency the CLI adds is removed, and no runtime library is a dev dependency only.
 3. Built files start with `"use client"` only where upstream's source does. The root entry does not.
 4. The root entry re-exports the new components and their prop types, and each new component resolves from its own subpath.
