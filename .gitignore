@@ -3,3 +3,4 @@ dist/
 *.tgz
 public/r
 .DS_Store
+.eslintcache

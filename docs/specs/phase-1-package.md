@@ -82,6 +82,7 @@ Releases run through Changesets. The first version, 0.1.0, is published by hand.
   - `shadcn add` with the component names writes or overwrites the components. `shadcn add <name> --diff` shows upstream changes. The deprecated `diff` command is not used, because it missed a local edit in testing.
   - `shadcn init` is never run in the package. It rewrites the CSS and adds lucide-react, tw-animate-css and shadcn as dependencies.
 - Edits to the pulled files stay minimal, so upstream diffs stay readable.
+- Pulled files are formatted with Prettier, using shadcn's config (`pnpm format:write`). The CLI writes its icon and import transforms unformatted, so `add --diff` can show formatting-only hunks. Those are not drift.
 
 **Dependencies**
 

@@ -1,12 +1,12 @@
 import * as React from "react"
 import { cn } from "cn"
+import { ChevronRightIcon } from "lucide-react"
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/collapsible"
-import { ChevronRightIcon } from "lucide-react"
 
 function Trace({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -119,8 +119,7 @@ function TraceCollapsibleTrigger({
     >
       {children}
       <TraceIcon className="transition-transform group-aria-expanded/trace-collapsible-trigger:rotate-90">
-        <ChevronRightIcon
-        />
+        <ChevronRightIcon />
       </TraceIcon>
     </CollapsibleTrigger>
   )
