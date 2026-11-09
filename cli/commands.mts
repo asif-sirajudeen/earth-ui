@@ -76,3 +76,50 @@ export function source(index: ComponentIndex, name: string) {
   const entry = find(index, name)
   return { name: entry.name, import: entry.import, files: entry.source }
 }
+
+const COMMANDS = [
+  {
+    name: "list",
+    usage: "earth-ui list",
+    description: "Every component with its title, description and import path.",
+    args: "",
+  },
+  {
+    name: "search",
+    usage: "earth-ui search <query> [--limit n]",
+    description:
+      "Components ranked by name, title, description and exported names. --limit defaults to 10.",
+    args: "modal --limit 5",
+  },
+  {
+    name: "docs",
+    usage: "earth-ui docs <name>",
+    description:
+      "Import path, exported parts, variants, dependencies, links and Base UI props tables.",
+    args: "dialog",
+  },
+  {
+    name: "source",
+    usage: "earth-ui source <name>",
+    description:
+      "The component's TSX source. Read it to see how it is built; import from the package, do not copy it.",
+    args: "dialog",
+  },
+  {
+    name: "help",
+    usage: "earth-ui help",
+    description: "This list. Also --help or -h.",
+    args: "",
+  },
+]
+
+export function help(pkg: string) {
+  return {
+    description:
+      "Look up components in the installed package. Every command prints JSON; errors print JSON on stderr and exit 1.",
+    commands: COMMANDS.map(({ args, ...c }) => ({
+      ...c,
+      example: `npx ${pkg} ${c.name}${args ? ` ${args}` : ""}`,
+    })),
+  }
+}

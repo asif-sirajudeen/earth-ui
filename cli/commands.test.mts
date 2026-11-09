@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { docs, list, search, source } from "./commands.mts"
+import { docs, help, list, search, source } from "./commands.mts"
 import type { ComponentEntry, ComponentIndex } from "./component-index.mts"
 
 const entry = (
@@ -97,4 +97,16 @@ test("docs on an unknown name throws with suggestions", () => {
       error.message === 'Unknown component "dialogs"' &&
       error.suggestions![0] === "dialog"
   )
+})
+
+test("help lists every command with usage and an example", () => {
+  const result = help("@scope/ui")
+  assert.deepEqual(
+    result.commands.map((c) => c.name),
+    ["list", "search", "docs", "source", "help"]
+  )
+  for (const c of result.commands) {
+    assert.ok(c.usage.startsWith(`earth-ui ${c.name}`))
+    assert.ok(c.example.startsWith(`npx @scope/ui ${c.name}`))
+  }
 })

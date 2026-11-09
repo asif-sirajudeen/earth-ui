@@ -4,6 +4,7 @@
 //   earth-ui search <query> [--limit n]
 //   earth-ui docs <name>
 //   earth-ui source <name>
+//   earth-ui help | --help | -h
 // Derives the Component Index from the bundled shadcn registry (dist/registry), the built
 // .d.ts files and the docs shipped in @base-ui/react, so answers match the installed
 // version and need no network.
@@ -14,6 +15,7 @@ import { parseArgs } from "node:util"
 
 import {
   docs,
+  help,
   list,
   search,
   source,
@@ -25,7 +27,7 @@ import {
 } from "./component-index.mts"
 
 const USAGE =
-  "Usage: earth-ui list | search <query> [--limit n] | docs <name> | source <name>"
+  'Usage: earth-ui list | search <query> [--limit n] | docs <name> | source <name>. Run "earth-ui help" for details.'
 
 // Paths are relative to the package root, one level up from dist/cli.js.
 function readPackageFile(path: string): string | null {
@@ -65,10 +67,14 @@ const index = buildComponentIndex(
 function run(): unknown {
   const { positionals, values } = parseArgs({
     allowPositionals: true,
-    options: { limit: { type: "string" } },
+    options: {
+      limit: { type: "string" },
+      help: { type: "boolean", short: "h" },
+    },
   })
   const [command, ...rest] = positionals
   const arg = rest.join(" ")
+  if (values.help || command === "help") return help(index.package)
   if (command === "list") return list(index)
   if (command === "search" && arg) {
     const limit = values.limit === undefined ? undefined : Number(values.limit)
