@@ -23,7 +23,7 @@ const entry = (
   dependencies: [],
   links: {},
   baseUiDoc: null,
-  source: [`src/components/${name}.tsx`],
+  source: [{ path: `src/components/${name}.tsx`, code: `// ${name}` }],
   ...extra,
 })
 
@@ -81,21 +81,16 @@ test("docs returns the entry plus the API reference slice of the Base UI doc", (
 })
 
 test("source returns each source file with its code", () => {
-  const files: Record<string, string> = {
-    "src/components/dialog.tsx": "export function Dialog() {}",
-  }
-  const result = source(index, "dialog", (path) => files[path] ?? null)
-  assert.deepEqual(result, {
+  assert.deepEqual(source(index, "dialog"), {
     name: "dialog",
     import: "@scope/ui/dialog",
-    files: [
-      {
-        path: "src/components/dialog.tsx",
-        code: "export function Dialog() {}",
-      },
-    ],
+    files: [{ path: "src/components/dialog.tsx", code: "// dialog" }],
   })
-  assert.throws(() => source(index, "nope", () => null), /Unknown component/)
+  assert.throws(() => source(index, "nope"), /Unknown component/)
+})
+
+test("docs leaves the source code out", () => {
+  assert.equal("source" in docs(index, "dialog", baseUiDoc), false)
 })
 
 test("docs on an unknown name throws with suggestions", () => {

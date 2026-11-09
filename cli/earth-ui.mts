@@ -35,12 +35,6 @@ function readBaseUiDoc(doc: string): string | null {
   return existsSync(path) ? readFileSync(path, "utf8") : null
 }
 
-// Package root, one level up from dist/cli.js.
-function readPackageFile(path: string): string | null {
-  const url = new URL(`../${path}`, import.meta.url)
-  return existsSync(url) ? readFileSync(url, "utf8") : null
-}
-
 function run(): unknown {
   const { positionals, values } = parseArgs({
     allowPositionals: true,
@@ -56,7 +50,7 @@ function run(): unknown {
     return search(index, arg, limit)
   }
   if (command === "docs" && arg) return docs(index, arg, readBaseUiDoc)
-  if (command === "source" && arg) return source(index, arg, readPackageFile)
+  if (command === "source" && arg) return source(index, arg)
   throw new Error(USAGE)
 }
 

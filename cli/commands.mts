@@ -70,22 +70,12 @@ export function docs(
   const entry = find(index, name)
   const doc = entry.baseUiDoc ? readBaseUiDoc(entry.baseUiDoc) : null
   const start = doc?.indexOf("## API reference") ?? -1
-  return { ...entry, props: start >= 0 ? doc!.slice(start) : null }
+  const { source: _source, ...rest } = entry
+  return { ...rest, props: start >= 0 ? doc!.slice(start) : null }
 }
 
-/** The component's TSX source as shipped in the package. `@/` imports point at the package's src/. */
-export function source(
-  index: ComponentIndex,
-  name: string,
-  readPackageFile: (path: string) => string | null
-) {
+/** The component's TSX source from the index. `@/` imports name other earth-ui modules. */
+export function source(index: ComponentIndex, name: string) {
   const entry = find(index, name)
-  return {
-    name: entry.name,
-    import: entry.import,
-    files: entry.source.map((path) => ({
-      path,
-      code: readPackageFile(path),
-    })),
-  }
+  return { name: entry.name, import: entry.import, files: entry.source }
 }
