@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  registry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
+        with:
+          install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Test registry rules
+        run: pnpm test
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      # Fails when registry.json is out of date with src/, registry/metadata.ts or styles.css.
+      - name: Check registry.json is current
+        run: pnpm registry:check
+
+      - name: Validate and build registry
+        run: pnpm registry
+
+      # Every item resolves from a local copy of the registry, in a radix-vega project like the directory health check.
+      - name: Dry-run install of every item
+        run: pnpm registry:smoke
+
+  registry-install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
+        with:
+          install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build registry
+        run: pnpm registry
+
+      # Real install into a fresh project, then typecheck, Tailwind compile, token placement and idempotent re-add.
+      - name: Install every item into a fresh project
+        run: pnpm registry:smoke --install

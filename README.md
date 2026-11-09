@@ -87,6 +87,41 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
+## Install with the shadcn CLI
+
+The components are also published as a shadcn registry under the `@earth-ui` namespace. Use it to copy the source into your project instead of installing the npm package.
+
+> The registry is not hosted yet. The URL below is a placeholder until it is.
+
+1. Add the namespace to your `components.json`:
+
+   ```json
+   {
+     "registries": {
+       "@earth-ui": "https://<registry-host>/r/{name}.json"
+     }
+   }
+   ```
+
+2. Add components:
+
+   ```sh
+   npx shadcn@latest add @earth-ui/button
+   ```
+
+Every component depends on `@earth-ui/style`, which installs the first time you add one. It adds the theme tokens, the `dark` variant and the base layer to your CSS file, together with `tw-animate-css` and `shadcn/tailwind.css`.
+
+To update a component, review the changes first, then overwrite your copy:
+
+```sh
+npx shadcn@latest add @earth-ui/button --diff
+npx shadcn@latest add @earth-ui/button --overwrite
+```
+
+`--overwrite` replaces your local edits to that file.
+
+Always use the `@earth-ui/` prefix. A bare name such as `button` installs the official shadcn component, not the Earth UI one.
+
 ## Credits and license
 
 The components and theme are adapted from [shadcn/ui](https://ui.shadcn.com) (MIT, Copyright (c) 2023 shadcn) and are built on [Base UI](https://base-ui.com).

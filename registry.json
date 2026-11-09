@@ -1,0 +1,1829 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "earth-ui",
+  "homepage": "https://github.com/asif-sirajudeen/earth-ui",
+  "items": [
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Vertically stacked headings that each expand to reveal a section of content.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/accordion",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/accordion-example.tsx",
+          "api": "https://base-ui.com/react/components/accordion.md"
+        }
+      }
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Modal dialog that interrupts the user and asks them to confirm an important action.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/alert-dialog",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/alert-dialog-example.tsx",
+          "api": "https://base-ui.com/react/components/alert-dialog.md"
+        }
+      }
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Callout that draws attention to a short, important message.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/alert.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/alert",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/alert-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Keeps content at a fixed width-to-height ratio.",
+      "dependencies": [
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/aspect-ratio",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/aspect-ratio-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "File or media attachment card with a preview, title, description and actions.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/attachment.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "User image with a text fallback.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/avatar",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/avatar-example.tsx",
+          "api": "https://base-ui.com/react/components/avatar.md"
+        }
+      }
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Small label for a status, count or category.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/badge",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/badge-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Shows the path to the current page in a hierarchy of links.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/breadcrumb",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/breadcrumb-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "Chat bubble with grouped messages and reactions.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/bubble.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Groups related buttons into one connected control.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/separator",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/button-group",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/button-group-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Button with variants and sizes, or a component that looks like a button.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/button",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/button-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Date picker grid built on React DayPicker.",
+      "dependencies": [
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0",
+        "react-day-picker@^10.0.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/calendar",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/calendar-example.tsx",
+          "api": "https://react-day-picker.js.org"
+        }
+      }
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Container with a header, content and footer.",
+      "dependencies": [
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/card",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/card-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Swipeable slide carousel built on Embla.",
+      "dependencies": [
+        "cn@~0.5.2",
+        "embla-carousel-react@^8.6.0",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/carousel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/carousel",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/carousel-example.tsx",
+          "api": "https://www.embla-carousel.com/get-started/react"
+        }
+      }
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Recharts wrapper with theme-aware colors, tooltips and legends.",
+      "dependencies": [
+        "cn@~0.5.2",
+        "recharts@~3.8.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/chart.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/chart",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/chart-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Control that toggles between checked and unchecked.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/checkbox",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/checkbox-example.tsx",
+          "api": "https://base-ui.com/react/components/checkbox.md"
+        }
+      }
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "description": "Code display with a header, title, copy button and syntax highlighting.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/code-block.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/code-block",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/code-block-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Panel that expands and collapses its content.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/collapsible.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/collapsible",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/collapsible-example.tsx",
+          "api": "https://base-ui.com/react/components/collapsible.md"
+        }
+      }
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Input with a filterable list of suggestions.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/input-group",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/combobox",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/combobox-example.tsx",
+          "api": "https://base-ui.com/react/components/combobox.md"
+        }
+      }
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Command menu with search, groups and keyboard navigation, built on cmdk.",
+      "dependencies": [
+        "cmdk@^1.1.1",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/dialog",
+        "@earth-ui/input-group",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/command.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/command",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/command-example.tsx",
+          "api": "https://github.com/dip/cmdk"
+        }
+      }
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Menu that opens on right-click or long press.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/context-menu",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/context-menu-example.tsx",
+          "api": "https://base-ui.com/react/components/context-menu.md"
+        }
+      }
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Modal window over the page, for focused tasks.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/dialog",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/dialog-example.tsx",
+          "api": "https://base-ui.com/react/components/dialog.md"
+        }
+      }
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "Provides left-to-right or right-to-left direction to its subtree.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/direction.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/direction",
+          "api": "https://base-ui.com/react/utils/direction-provider.md"
+        }
+      }
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Panel that slides in from the edge of the screen.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/drawer",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/drawer-example.tsx",
+          "api": "https://base-ui.com/react/components/drawer.md"
+        }
+      }
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Menu of actions or options opened from a trigger.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/dropdown-menu",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/dropdown-menu-example.tsx",
+          "api": "https://base-ui.com/react/components/menu.md"
+        }
+      }
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Empty state with an icon, title, description and actions.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/empty.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/empty",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/empty-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Form field layout with label, description and error message.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/label",
+        "@earth-ui/separator",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/field",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/field-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "Preview card shown when hovering over a link.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/hover-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/hover-card",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/hover-card-example.tsx",
+          "api": "https://base-ui.com/react/components/hover-card.md"
+        }
+      }
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Input with inline addons such as icons, text or buttons.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/input",
+        "@earth-ui/style",
+        "@earth-ui/textarea"
+      ],
+      "files": [
+        {
+          "path": "src/components/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/input-group",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/input-group-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "One-time password input with separate character slots.",
+      "dependencies": [
+        "cn@~0.5.2",
+        "input-otp@^1.5.0",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/input-otp",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/input-otp-example.tsx",
+          "api": "https://input-otp.rodz.dev"
+        }
+      }
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Text input field.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/input",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/input-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "Flexible list row with media, content and actions.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/separator",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/item.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/item",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/item-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Displays a keyboard key or shortcut.",
+      "dependencies": [
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/kbd",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/kbd-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Accessible label for a form control.",
+      "dependencies": [
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/label.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/label",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/label-example.tsx",
+          "api": "https://base-ui.com/react/components/label.md"
+        }
+      }
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "Inline marker with an icon and content, for annotating text.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/marker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "Horizontal menu bar of dropdown menus, like a desktop app.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/dropdown-menu",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/menubar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/menubar",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/menubar-example.tsx",
+          "api": "https://base-ui.com/react/components/menubar.md"
+        }
+      }
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "Scroll container for a message list that keeps the newest message in view.",
+      "dependencies": [
+        "@shadcn/react@~0.3.1",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/message-scroller.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Chat message with avatar, header, content and footer.",
+      "dependencies": [
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/message.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "Styled native HTML select element.",
+      "dependencies": [
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/native-select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/native-select",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/native-select-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "Site navigation links with dropdown panels.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/navigation-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/navigation-menu",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/navigation-menu-example.tsx",
+          "api": "https://base-ui.com/react/components/navigation-menu.md"
+        }
+      }
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Page navigation with previous, next and page links.",
+      "dependencies": [
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/pagination",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/pagination-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Floating panel anchored to a trigger.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/popover.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/popover",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/popover-example.tsx",
+          "api": "https://base-ui.com/react/components/popover.md"
+        }
+      }
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Bar that shows how far a task has progressed.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/progress",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/progress-example.tsx",
+          "api": "https://base-ui.com/react/components/progress.md"
+        }
+      }
+    },
+    {
+      "name": "questionnaire",
+      "type": "registry:ui",
+      "title": "Questionnaire",
+      "description": "Step-by-step questions with choices and a progress indicator.",
+      "dependencies": [
+        "@shadcn/react@~0.3.1",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/questionnaire.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/questionnaire",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/questionnaire-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Set of options where only one can be selected.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/radio-group",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/radio-group-example.tsx",
+          "api": "https://base-ui.com/react/components/radio-group.md"
+        }
+      }
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Panel groups with draggable resize handles.",
+      "dependencies": [
+        "cn@~0.5.2",
+        "react-resizable-panels@^4.18.1"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/resizable.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/resizable",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/resizable-example.tsx",
+          "api": "https://github.com/bvaughn/react-resizable-panels"
+        }
+      }
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Scroll container with custom scrollbars.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/scroll-area.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/scroll-area",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/scroll-area-example.tsx",
+          "api": "https://base-ui.com/react/components/scroll-area.md"
+        }
+      }
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Dropdown for choosing one option from a list.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/select",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/select-example.tsx",
+          "api": "https://base-ui.com/react/components/select.md"
+        }
+      }
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Horizontal or vertical divider line.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/separator.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/separator",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/separator-example.tsx",
+          "api": "https://base-ui.com/react/components/separator.md"
+        }
+      }
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Dialog that slides in from a side of the screen.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/sheet",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/sheet-example.tsx",
+          "api": "https://base-ui.com/react/components/dialog.md"
+        }
+      }
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Collapsible app sidebar with groups, menus and a mobile sheet.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/input",
+        "@earth-ui/separator",
+        "@earth-ui/sheet",
+        "@earth-ui/skeleton",
+        "@earth-ui/style",
+        "@earth-ui/tooltip",
+        "@earth-ui/use-mobile"
+      ],
+      "files": [
+        {
+          "path": "src/components/sidebar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/sidebar",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/sidebar-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Placeholder shown while content loads.",
+      "dependencies": [
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/skeleton",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/skeleton-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Control for choosing a value or range by dragging.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/slider",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/slider-example.tsx",
+          "api": "https://base-ui.com/react/components/slider.md"
+        }
+      }
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "Themed toast notifications built on Sonner.",
+      "dependencies": [
+        "lucide-react@^1.70.0",
+        "next-themes@~0.4.6",
+        "sonner@^2.0.8"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/sonner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/sonner",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/sonner-example.tsx",
+          "api": "https://sonner.emilkowal.ski"
+        }
+      }
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Animated loading indicator.",
+      "dependencies": [
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/spinner",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/spinner-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Toggle between on and off.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/switch",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/switch-example.tsx",
+          "api": "https://base-ui.com/react/components/switch.md"
+        }
+      }
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Styled HTML table with header, body, footer and caption.",
+      "dependencies": [
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/table",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/table-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Switches between panels of content in the same place.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/tabs",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/tabs-example.tsx",
+          "api": "https://base-ui.com/react/components/tabs.md"
+        }
+      }
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Multi-line text input.",
+      "dependencies": [
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/textarea",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/textarea-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Temporary notification built on Base UI Toast.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/button",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/toast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/toast",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/toast-example.tsx",
+          "api": "https://base-ui.com/react/components/toast.md"
+        }
+      }
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Set of toggle buttons where one or several can be on.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style",
+        "@earth-ui/toggle"
+      ],
+      "files": [
+        {
+          "path": "src/components/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/toggle-group",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/toggle-group-example.tsx",
+          "api": "https://base-ui.com/react/components/toggle-group.md"
+        }
+      }
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Two-state button that can be on or off.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "class-variance-authority@^0.7.1",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/toggle",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/toggle-example.tsx",
+          "api": "https://base-ui.com/react/components/toggle.md"
+        }
+      }
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Short label shown on hover or focus.",
+      "dependencies": [
+        "@base-ui/react@^1.9.0",
+        "cn@~0.5.2"
+      ],
+      "registryDependencies": [
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/tooltip",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/tooltip-example.tsx",
+          "api": "https://base-ui.com/react/components/tooltip.md"
+        }
+      }
+    },
+    {
+      "name": "trace",
+      "type": "registry:ui",
+      "title": "Trace",
+      "description": "Timeline of steps with icons, titles, descriptions and collapsible details.",
+      "dependencies": [
+        "cn@~0.5.2",
+        "lucide-react@^1.70.0"
+      ],
+      "registryDependencies": [
+        "@earth-ui/collapsible",
+        "@earth-ui/style"
+      ],
+      "files": [
+        {
+          "path": "src/components/trace.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/trace",
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/trace-example.tsx"
+        }
+      }
+    },
+    {
+      "name": "use-highlighted-code",
+      "type": "registry:hook",
+      "title": "useHighlightedCode",
+      "description": "Hook that highlights code with Shiki, loading languages and themes on demand.",
+      "dependencies": [
+        "shiki@^4.6.0"
+      ],
+      "files": [
+        {
+          "path": "src/hooks/use-highlighted-code.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/lib/highlighter.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "use-mobile",
+      "type": "registry:hook",
+      "title": "useIsMobile",
+      "description": "Hook that reports whether the viewport is below the mobile breakpoint.",
+      "files": [
+        {
+          "path": "src/hooks/use-mobile.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "style",
+      "type": "registry:style",
+      "title": "Earth UI style",
+      "description": "Theme tokens, dark variant and base layer for Earth UI components, plus tw-animate-css and shadcn's Tailwind utilities.",
+      "devDependencies": [
+        "tw-animate-css@^1.4.0",
+        "shadcn"
+      ],
+      "cssVars": {
+        "theme": {
+          "color-sidebar-ring": "var(--sidebar-ring)",
+          "color-sidebar-border": "var(--sidebar-border)",
+          "color-sidebar-accent-foreground": "var(--sidebar-accent-foreground)",
+          "color-sidebar-accent": "var(--sidebar-accent)",
+          "color-sidebar-primary-foreground": "var(--sidebar-primary-foreground)",
+          "color-sidebar-primary": "var(--sidebar-primary)",
+          "color-sidebar-foreground": "var(--sidebar-foreground)",
+          "color-sidebar": "var(--sidebar)",
+          "color-chart-5": "var(--chart-5)",
+          "color-chart-4": "var(--chart-4)",
+          "color-chart-3": "var(--chart-3)",
+          "color-chart-2": "var(--chart-2)",
+          "color-chart-1": "var(--chart-1)",
+          "color-ring": "var(--ring)",
+          "color-input": "var(--input)",
+          "color-border": "var(--border)",
+          "color-destructive": "var(--destructive)",
+          "color-accent-foreground": "var(--accent-foreground)",
+          "color-accent": "var(--accent)",
+          "color-muted-foreground": "var(--muted-foreground)",
+          "color-muted": "var(--muted)",
+          "color-secondary-foreground": "var(--secondary-foreground)",
+          "color-secondary": "var(--secondary)",
+          "color-primary-foreground": "var(--primary-foreground)",
+          "color-primary": "var(--primary)",
+          "color-popover-foreground": "var(--popover-foreground)",
+          "color-popover": "var(--popover)",
+          "color-card-foreground": "var(--card-foreground)",
+          "color-card": "var(--card)",
+          "color-foreground": "var(--foreground)",
+          "color-background": "var(--background)",
+          "radius-sm": "calc(var(--radius) * 0.6)",
+          "radius-md": "calc(var(--radius) * 0.8)",
+          "radius-lg": "var(--radius)",
+          "radius-xl": "calc(var(--radius) * 1.4)",
+          "radius-2xl": "calc(var(--radius) * 1.8)",
+          "radius-3xl": "calc(var(--radius) * 2.2)",
+          "radius-4xl": "calc(var(--radius) * 2.6)"
+        },
+        "light": {
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.145 0 0)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.145 0 0)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.145 0 0)",
+          "primary": "oklch(0.205 0 0)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.97 0 0)",
+          "secondary-foreground": "oklch(0.205 0 0)",
+          "muted": "oklch(0.97 0 0)",
+          "muted-foreground": "oklch(0.556 0 0)",
+          "accent": "oklch(0.97 0 0)",
+          "accent-foreground": "oklch(0.205 0 0)",
+          "destructive": "oklch(0.577 0.245 27.325)",
+          "border": "oklch(0.922 0 0)",
+          "input": "oklch(0.922 0 0)",
+          "ring": "oklch(0.708 0 0)",
+          "chart-1": "oklch(0.87 0 0)",
+          "chart-2": "oklch(0.556 0 0)",
+          "chart-3": "oklch(0.439 0 0)",
+          "chart-4": "oklch(0.371 0 0)",
+          "chart-5": "oklch(0.269 0 0)",
+          "radius": "0.625rem",
+          "sidebar": "oklch(0.985 0 0)",
+          "sidebar-foreground": "oklch(0.145 0 0)",
+          "sidebar-primary": "oklch(0.205 0 0)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.97 0 0)",
+          "sidebar-accent-foreground": "oklch(0.205 0 0)",
+          "sidebar-border": "oklch(0.922 0 0)",
+          "sidebar-ring": "oklch(0.708 0 0)"
+        },
+        "dark": {
+          "background": "oklch(0.145 0 0)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.205 0 0)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.205 0 0)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.922 0 0)",
+          "primary-foreground": "oklch(0.205 0 0)",
+          "secondary": "oklch(0.269 0 0)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.269 0 0)",
+          "muted-foreground": "oklch(0.708 0 0)",
+          "accent": "oklch(0.269 0 0)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.556 0 0)",
+          "chart-1": "oklch(0.87 0 0)",
+          "chart-2": "oklch(0.556 0 0)",
+          "chart-3": "oklch(0.439 0 0)",
+          "chart-4": "oklch(0.371 0 0)",
+          "chart-5": "oklch(0.269 0 0)",
+          "sidebar": "oklch(0.205 0 0)",
+          "sidebar-foreground": "oklch(0.985 0 0)",
+          "sidebar-primary": "oklch(0.488 0.243 264.376)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.269 0 0)",
+          "sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "sidebar-border": "oklch(1 0 0 / 10%)",
+          "sidebar-ring": "oklch(0.556 0 0)"
+        }
+      },
+      "css": {
+        "@import \"tw-animate-css\"": {},
+        "@import \"shadcn/tailwind.css\"": {},
+        "@custom-variant dark (&:is(.dark *))": {},
+        "@layer base": {
+          "*": {
+            "@apply border-border outline-ring/50": {}
+          },
+          "body": {
+            "@apply bg-background text-foreground": {}
+          }
+        }
+      }
+    }
+  ]
+}
