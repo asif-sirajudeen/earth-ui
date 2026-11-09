@@ -87,6 +87,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
+## Look up components with the CLI
+
+The package ships an `earth-ui` command. It answers from the installed version and works offline. Every command prints JSON.
+
+```sh
+npx @asif-sirajudeen/earth-ui list
+npx @asif-sirajudeen/earth-ui search modal --limit 5
+npx @asif-sirajudeen/earth-ui docs dialog
+npx @asif-sirajudeen/earth-ui source dialog
+npx @asif-sirajudeen/earth-ui help
+```
+
+- `list` prints every component with its title, description and import path.
+- `search <query>` ranks components by name, title, description and exported names.
+- `docs <name>` prints the import path, exported parts, variants and dependencies. For components built on Base UI, it also prints the props tables from the Base UI docs that ship with the installed `@base-ui/react`.
+- `source <name>` prints the component's TSX source. Read it to see how a component is built; import the component from the package, do not copy it. `@/` imports in the source name other earth-ui modules, such as `@/components/button`.
+- `help` (or `--help`, `-h`) lists the commands with usage and an example.
+
+In a project that has the package installed, `pnpm exec earth-ui` and `npm exec earth-ui` also work. Do not run `npx earth-ui` without the scope: that name belongs to a different npm package.
+
+### For AI coding agents
+
+Add this block to your project's `AGENTS.md` (or `CLAUDE.md`):
+
+```md
+## earth-ui
+
+UI comes from the `@asif-sirajudeen/earth-ui` npm package. Do not copy component source and do not run `shadcn add`.
+Before writing UI, run `npx @asif-sirajudeen/earth-ui search <need>`, then `npx @asif-sirajudeen/earth-ui docs <name>`.
+Import from the `import` path that `docs` prints.
+```
+
 ## Install with the shadcn CLI
 
 The components are also published as a shadcn registry under the `@earth-ui` namespace. Use it to copy the source into your project instead of installing the npm package.

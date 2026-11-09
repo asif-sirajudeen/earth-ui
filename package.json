@@ -15,6 +15,9 @@
   "sideEffects": [
     "*.css"
   ],
+  "bin": {
+    "earth-ui": "./dist/cli.js"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -39,11 +42,11 @@
   },
   "packageManager": "pnpm@12.18.0",
   "scripts": {
-    "build": "tsdown",
+    "build": "tsdown && shadcn build --output dist/registry",
     "registry": "node scripts/build-registry.mts && shadcn registry validate && shadcn build",
     "registry:check": "node scripts/build-registry.mts && git diff --exit-code registry.json",
     "registry:smoke": "node scripts/smoke-registry.mts",
-    "test": "node --test scripts/*.test.mts",
+    "test": "node --test scripts/*.test.mts cli/*.test.mts",
     "prepublishOnly": "pnpm build",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
     "lint": "eslint . --cache --cache-location .eslintcache",
