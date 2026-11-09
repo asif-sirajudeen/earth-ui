@@ -1,0 +1,69 @@
+// The earth-ui CLI commands as pure functions over the Component Index.
+// cli/earth-ui.mts does the I/O; a future MCP server can wrap these same functions.
+import type {
+  ComponentEntry,
+  ComponentIndex,
+} from "../scripts/component-index.mts"
+
+const summary = (c: ComponentEntry) => ({
+  name: c.name,
+  title: c.title,
+  description: c.description,
+  import: c.import,
+})
+
+export function list(index: ComponentIndex) {
+  return {
+    package: index.package,
+    version: index.version,
+    components: index.components.map(summary),
+  }
+}
+
+/** Token match: name hits outweigh title, description and export-name hits. */
+export function search(index: ComponentIndex, query: string, limit = 10) {
+  const tokens = query.toLowerCase().split(/\s+/).filter(Boolean)
+  const scored = index.components.map((c) => {
+    const exports = c.exports.join(" ").toLowerCase()
+    let score = 0
+    for (const t of tokens) {
+      if (c.name === t) score += 5
+      else if (c.name.includes(t) || t.includes(c.name)) score += 3
+      if (c.title.toLowerCase().includes(t)) score += 2
+      if (c.description.toLowerCase().includes(t)) score += 1
+      if (exports.includes(t)) score += 1
+    }
+    return { ...summary(c), score }
+  })
+  return {
+    components: scored
+      .filter((c) => c.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, limit),
+  }
+}
+
+export class UnknownComponentError extends Error {
+  readonly suggestions: string[]
+  constructor(name: string, suggestions: string[]) {
+    super(`Unknown component "${name}"`)
+    this.suggestions = suggestions
+  }
+}
+
+/** The full index entry plus the "## API reference" section of its Base UI doc. */
+export function docs(
+  index: ComponentIndex,
+  name: string,
+  readBaseUiDoc: (doc: string) => string | null
+) {
+  const entry = index.components.find((c) => c.name === name)
+  if (!entry)
+    throw new UnknownComponentError(
+      name,
+      search(index, name, 5).components.map((c) => c.name)
+    )
+  const doc = entry.baseUiDoc ? readBaseUiDoc(entry.baseUiDoc) : null
+  const start = doc?.indexOf("## API reference") ?? -1
+  return { ...entry, props: start >= 0 ? doc!.slice(start) : null }
+}
