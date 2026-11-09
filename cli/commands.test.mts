@@ -5,7 +5,7 @@ import type {
   ComponentEntry,
   ComponentIndex,
 } from "../scripts/component-index.mts"
-import { docs, list, search } from "./commands.mts"
+import { docs, list, search, source } from "./commands.mts"
 
 const entry = (
   name: string,
@@ -23,6 +23,7 @@ const entry = (
   dependencies: [],
   links: {},
   baseUiDoc: null,
+  source: [`src/components/${name}.tsx`],
   ...extra,
 })
 
@@ -77,6 +78,24 @@ test("docs returns the entry plus the API reference slice of the Base UI doc", (
   assert.equal(result.import, "@scope/ui/dialog")
   assert.equal(result.props, "## API reference\n\n### Root\n| Prop |")
   assert.equal(docs(index, "calendar", baseUiDoc).props, null)
+})
+
+test("source returns each source file with its code", () => {
+  const files: Record<string, string> = {
+    "src/components/dialog.tsx": "export function Dialog() {}",
+  }
+  const result = source(index, "dialog", (path) => files[path] ?? null)
+  assert.deepEqual(result, {
+    name: "dialog",
+    import: "@scope/ui/dialog",
+    files: [
+      {
+        path: "src/components/dialog.tsx",
+        code: "export function Dialog() {}",
+      },
+    ],
+  })
+  assert.throws(() => source(index, "nope", () => null), /Unknown component/)
 })
 
 test("docs on an unknown name throws with suggestions", () => {

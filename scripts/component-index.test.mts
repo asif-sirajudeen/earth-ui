@@ -75,6 +75,7 @@ test("builds entries with imports, exports, variants and base ui doc", () => {
     dependencies: ["dep@^1"],
     links: { api: "https://base-ui.com/react/components/button.md" },
     baseUiDoc: "button",
+    source: ["src/button.tsx"],
   })
 })
 

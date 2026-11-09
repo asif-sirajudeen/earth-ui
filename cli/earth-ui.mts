@@ -3,6 +3,7 @@
 //   earth-ui list
 //   earth-ui search <query> [--limit n]
 //   earth-ui docs <name>
+//   earth-ui source <name>
 // Reads dist/agent/index.json (the Component Index) and the docs shipped in @base-ui/react,
 // so answers match the installed version and need no network.
 import { existsSync, readFileSync } from "node:fs"
@@ -11,9 +12,16 @@ import { dirname, join } from "node:path"
 import { parseArgs } from "node:util"
 
 import type { ComponentIndex } from "../scripts/component-index.mts"
-import { docs, list, search, UnknownComponentError } from "./commands.mts"
+import {
+  docs,
+  list,
+  search,
+  source,
+  UnknownComponentError,
+} from "./commands.mts"
 
-const USAGE = "Usage: earth-ui list | search <query> [--limit n] | docs <name>"
+const USAGE =
+  "Usage: earth-ui list | search <query> [--limit n] | docs <name> | source <name>"
 
 const index: ComponentIndex = JSON.parse(
   readFileSync(new URL("./agent/index.json", import.meta.url), "utf8")
@@ -25,6 +33,12 @@ function readBaseUiDoc(doc: string): string | null {
   )
   const path = join(root, "docs/react/components", `${doc}.md`)
   return existsSync(path) ? readFileSync(path, "utf8") : null
+}
+
+// Package root, one level up from dist/cli.js.
+function readPackageFile(path: string): string | null {
+  const url = new URL(`../${path}`, import.meta.url)
+  return existsSync(url) ? readFileSync(url, "utf8") : null
 }
 
 function run(): unknown {
@@ -42,6 +56,7 @@ function run(): unknown {
     return search(index, arg, limit)
   }
   if (command === "docs" && arg) return docs(index, arg, readBaseUiDoc)
+  if (command === "source" && arg) return source(index, arg, readPackageFile)
   throw new Error(USAGE)
 }
 

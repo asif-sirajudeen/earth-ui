@@ -46,6 +46,7 @@ jobs:
         run: |
           pnpm build
           node dist/cli.js docs dialog | grep -q '"props": "## API reference'
+          node dist/cli.js source dialog | grep -q '"code": "\\"use client\\"'
           # Only items with no import path may be missing from the index.
           node -e '
             const names = new Set(require("./dist/agent/index.json").components.map((c) => c.name))

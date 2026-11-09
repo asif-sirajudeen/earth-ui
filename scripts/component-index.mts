@@ -29,6 +29,8 @@ export type ComponentEntry = {
   dependencies: string[]
   links: Record<string, string>
   baseUiDoc: string | null
+  /** Shipped TSX source files, as paths inside the package. */
+  source: string[]
 }
 export type ComponentIndex = {
   package: string
@@ -131,6 +133,7 @@ export function buildComponentIndex(
         links.api,
         baseUiDocs
       ),
+      source: (item.files ?? []).map((f) => f.path),
     })
   }
   return { package: pkg.name, version: pkg.version, components }

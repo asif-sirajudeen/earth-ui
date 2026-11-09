@@ -95,11 +95,13 @@ The package ships an `earth-ui` command. It answers from the installed version a
 npx @asif-sirajudeen/earth-ui list
 npx @asif-sirajudeen/earth-ui search modal --limit 5
 npx @asif-sirajudeen/earth-ui docs dialog
+npx @asif-sirajudeen/earth-ui source dialog
 ```
 
 - `list` prints every component with its title, description and import path.
 - `search <query>` ranks components by name, title, description and exported names.
 - `docs <name>` prints the import path, exported parts, variants and dependencies. For components built on Base UI, it also prints the props tables from the Base UI docs that ship with the installed `@base-ui/react`.
+- `source <name>` prints the component's TSX source as shipped in the package. Read it to see how a component is built; import the component from the package, do not copy it. `@/` imports in the source point at the package's `src/`.
 
 In a project that has the package installed, `pnpm exec earth-ui` and `npm exec earth-ui` also work. Do not run `npx earth-ui` without the scope: that name belongs to a different npm package.
 

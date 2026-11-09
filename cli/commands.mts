@@ -51,19 +51,41 @@ export class UnknownComponentError extends Error {
   }
 }
 
-/** The full index entry plus the "## API reference" section of its Base UI doc. */
-export function docs(
-  index: ComponentIndex,
-  name: string,
-  readBaseUiDoc: (doc: string) => string | null
-) {
+function find(index: ComponentIndex, name: string): ComponentEntry {
   const entry = index.components.find((c) => c.name === name)
   if (!entry)
     throw new UnknownComponentError(
       name,
       search(index, name, 5).components.map((c) => c.name)
     )
+  return entry
+}
+
+/** The full index entry plus the "## API reference" section of its Base UI doc. */
+export function docs(
+  index: ComponentIndex,
+  name: string,
+  readBaseUiDoc: (doc: string) => string | null
+) {
+  const entry = find(index, name)
   const doc = entry.baseUiDoc ? readBaseUiDoc(entry.baseUiDoc) : null
   const start = doc?.indexOf("## API reference") ?? -1
   return { ...entry, props: start >= 0 ? doc!.slice(start) : null }
+}
+
+/** The component's TSX source as shipped in the package. `@/` imports point at the package's src/. */
+export function source(
+  index: ComponentIndex,
+  name: string,
+  readPackageFile: (path: string) => string | null
+) {
+  const entry = find(index, name)
+  return {
+    name: entry.name,
+    import: entry.import,
+    files: entry.source.map((path) => ({
+      path,
+      code: readPackageFile(path),
+    })),
+  }
 }
