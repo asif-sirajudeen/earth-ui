@@ -54,6 +54,13 @@ test("deriveItems throws on a lib file no item imports", () => {
   assert.throws(() => deriveItems(s, metadata(), pkg), /orphan/);
 });
 
+test("deriveItems throws on an @/lib import with no file", () => {
+  const s = sources();
+  s.hooks[0]!.code = `import { x } from "@/lib/missing"`;
+  s.libs = [];
+  assert.throws(() => deriveItems(s, metadata(), pkg), /missing/);
+});
+
 test("deriveItems throws on an undeclared package", () => {
   const s = sources();
   s.components[0]!.code = `import pad from "left-pad"`;

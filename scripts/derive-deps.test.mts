@@ -33,40 +33,37 @@ const pkg = {
   peerDependencies: { react: "^19", sonner: "^2.0.8", shiki: "^4.6.0", tailwindcss: "^4" },
 };
 const itemNames = new Set(["button", "use-mobile"]);
-const ownFiles = ["src/components/card.tsx", "src/lib/highlighter.tsx"];
 
 test("deriveDeps maps npm deps with ranges, peers included, react/tailwind skipped", () => {
   const { dependencies } = deriveDeps(
     ["react", "cn", "@base-ui/react/button", "sonner", "shiki/core", "tailwindcss"],
-    { pkg, itemNames, ownFiles },
+    { pkg, itemNames },
   );
   assert.deepEqual(dependencies, ["@base-ui/react@^1.9.0", "cn@~0.5.2", "shiki@^4.6.0", "sonner@^2.0.8"]);
 });
 
 test("deriveDeps throws on a package missing from package.json", () => {
-  assert.throws(() => deriveDeps(["left-pad"], { pkg, itemNames, ownFiles }), /left-pad.*not in package.json/);
+  assert.throws(() => deriveDeps(["left-pad"], { pkg, itemNames }), /left-pad.*not in package.json/);
 });
 
 test("deriveDeps throws on a relative import", () => {
-  assert.throws(() => deriveDeps(["./button"], { pkg, itemNames, ownFiles }), /relative/);
+  assert.throws(() => deriveDeps(["./button"], { pkg, itemNames }), /relative/);
 });
 
 test("deriveDeps maps @/components and @/hooks to the @earth-ui namespace", () => {
   const { registryDependencies } = deriveDeps(["@/components/button", "@/hooks/use-mobile"], {
     pkg,
     itemNames,
-    ownFiles,
   });
   assert.deepEqual(registryDependencies, ["@earth-ui/button", "@earth-ui/use-mobile"]);
 });
 
-test("deriveDeps requires @/lib imports to ship in the same item", () => {
-  assert.doesNotThrow(() => deriveDeps(["@/lib/highlighter"], { pkg, itemNames, ownFiles }));
-  assert.throws(() => deriveDeps(["@/lib/missing"], { pkg, itemNames, ownFiles }), /missing/);
+test("deriveDeps leaves @/lib imports to deriveItems", () => {
+  assert.deepEqual(deriveDeps(["@/lib/highlighter"], { pkg, itemNames }), { dependencies: [], registryDependencies: [] });
 });
 
 test("deriveDeps throws on an unknown @/components import", () => {
-  assert.throws(() => deriveDeps(["@/components/nope"], { pkg, itemNames, ownFiles }), /nope/);
+  assert.throws(() => deriveDeps(["@/components/nope"], { pkg, itemNames }), /nope/);
 });
 
 test("withRange rejects a range that does not form name@range", () => {

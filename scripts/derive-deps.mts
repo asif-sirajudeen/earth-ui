@@ -12,7 +12,6 @@ export type PackageJson = {
 export type DeriveContext = {
   pkg: PackageJson;
   itemNames: ReadonlySet<string>;
-  ownFiles: readonly string[];
 };
 
 export const topLevelPackage = (spec: string): string =>
@@ -37,7 +36,7 @@ export function withRange(name: string, pkg: PackageJson): string {
 
 export function deriveDeps(
   specifiers: readonly string[],
-  { pkg, itemNames, ownFiles }: DeriveContext,
+  { pkg, itemNames }: DeriveContext,
 ): { dependencies: string[]; registryDependencies: string[] } {
   const dependencies = new Set<string>();
   const registryDependencies = new Set<string>();
@@ -46,11 +45,9 @@ export function deriveDeps(
     const alias = spec.match(/^@\/(components|hooks|lib)\/(.+)$/);
     if (alias) {
       const [, folder, name] = alias as unknown as [string, string, string];
-      if (folder === "lib") {
-        if (!ownFiles.some((f) => f.startsWith(`src/lib/${name}.`))) {
-          throw new Error(`${spec}: src/lib/${name} is not a file of this item`);
-        }
-      } else if (itemNames.has(name)) {
+      // @/lib files ship inside the item; deriveItems attaches them.
+      if (folder === "lib") continue;
+      if (itemNames.has(name)) {
         registryDependencies.add(`${NAMESPACE}/${name}`);
       } else {
         throw new Error(`${spec}: no registry item named "${name}"`);

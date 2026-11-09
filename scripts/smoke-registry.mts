@@ -68,10 +68,10 @@ try {
   tsconfig.exclude = ["node_modules"];
   writeFileSync(join(app, "tsconfig.json"), JSON.stringify(tsconfig, null, 2));
 
-  await add(names, "--dry-run");
-  console.log(`\n✔ dry-run resolved ${names.length} items`);
-
-  if (install) {
+  if (!install) {
+    await add(names, "--dry-run");
+    console.log(`\n✔ dry-run resolved ${names.length} items`);
+  } else {
     await run("npm", ["install", "--no-audit", "--no-fund", "--loglevel=error"]);
     await add(names, "--overwrite");
     await run("npx", ["--no-install", "tsc", "--noEmit", "-p", "."]);

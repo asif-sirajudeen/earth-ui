@@ -7,7 +7,7 @@ export type SourceFile = { path: string; code: string };
 export type ItemMetadata = { title: string; description: string; meta?: RegistryItem["meta"] };
 export type Sources = { components: SourceFile[]; hooks: SourceFile[]; libs: SourceFile[] };
 
-export const STYLE = "style";
+const STYLE = "style";
 const basename = (path: string) => path.split("/").pop()!.replace(/\.[^.]+$/, "");
 
 /** One item per component and hook file; src/lib files ride inside the item that imports them. */
@@ -48,11 +48,9 @@ export function deriveItems(sources: Sources, metadata: Record<string, ItemMetad
       }
     }
 
-    const ownFiles = files.map((f) => f.path);
     const specifiers = files.flatMap((f) => importSpecifiers(f.code));
-    const { dependencies, registryDependencies } = deriveDeps(specifiers, { pkg, itemNames, ownFiles });
-    const registryDeps = registryDependencies.filter((dep) => dep !== `${NAMESPACE}/${name}`);
-    if (type === "registry:ui") registryDeps.push(`${NAMESPACE}/${STYLE}`);
+    const { dependencies, registryDependencies } = deriveDeps(specifiers, { pkg, itemNames });
+    const registryDeps = type === "registry:ui" ? [...registryDependencies, `${NAMESPACE}/${STYLE}`] : registryDependencies;
 
     return {
       name,
