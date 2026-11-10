@@ -1,24 +1,40 @@
 // Pure rule: one component page as MDX, from the CLI `docs <name>` and `source <name>` JSON.
-// scripts/gen.mjs does the I/O and calls this.
+// scripts/gen.mts does the I/O and calls this.
+
+// The subset of the CLI JSON this file reads.
+export type Docs = {
+  name: string
+  title: string
+  description: string
+  import: string
+  rootImport?: boolean
+  exports: string[]
+  variants: Record<string, string[]> | null
+  dependencies?: string[]
+  links?: { api?: string | null }
+  baseUiDoc?: string | null
+}
+export type Source = { files: { path: string; code: string }[] }
+export type Example = { name: string; code: string }
 
 const SITE = "https://asif-sirajudeen.github.io/earth-ui"
 
 // Fence one backtick longer than the longest run inside the code (min 3).
-function fence(code) {
+function fence(code: string) {
   const longest = Math.max(0, ...(code.match(/`+/g) ?? []).map((m) => m.length))
   return "`".repeat(Math.max(3, longest + 1))
 }
 
-const titleCase = (s) =>
+const titleCase = (s: string) =>
   s
     .split("-")
     .map((w) => w[0].toUpperCase() + w.slice(1))
     .join(" ")
 
 /** Buckets [{ name, code }] under the component whose name is the longest `<component>-` prefix. */
-export function groupExamples(examples, components) {
+export function groupExamples(examples: Example[], components: string[]) {
   const byLen = [...components].sort((a, b) => b.length - a.length)
-  const groups = {}
+  const groups: Record<string, Example[]> = {}
   let ignored = 0
   for (const e of examples) {
     const c = byLen.find((c) => e.name.startsWith(`${c}-`))
@@ -27,7 +43,7 @@ export function groupExamples(examples, components) {
   }
   for (const [c, list] of Object.entries(groups))
     list.sort((a, b) => {
-      const demo = (e) => (e.name === `${c}-demo` ? 0 : 1)
+      const demo = (e: Example) => (e.name === `${c}-demo` ? 0 : 1)
       return demo(a) - demo(b) || a.name.localeCompare(b.name)
     })
   return { groups, ignored }
@@ -35,7 +51,7 @@ export function groupExamples(examples, components) {
 
 // How to import the component an example file exports: named (capitalised, so a data
 // `export const works = []` is skipped) or default.
-function importLine(local, name, code) {
+function importLine(local: string, name: string, code: string) {
   const m = code.match(/^export (?:function|const) ([A-Z]\w*)|^export default/m)
   return m?.[1]
     ? `import { ${m[1]} as ${local} } from "@/examples/${name}"`
@@ -43,7 +59,11 @@ function importLine(local, name, code) {
 }
 
 /** `examples` is [{ name, code }] from site/examples, already grouped to this component. */
-export function renderPage(docs, source, examples = []) {
+export function renderPage(
+  docs: Docs,
+  source: Source,
+  examples: Example[] = []
+) {
   const out = [
     "---",
     `title: ${JSON.stringify(docs.title)}`,

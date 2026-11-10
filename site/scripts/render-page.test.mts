@@ -1,11 +1,18 @@
 // Page layout rules for renderPage. Run with `pnpm --filter site test`.
 
 import assert from "node:assert/strict"
+import { execFileSync } from "node:child_process"
+import { existsSync } from "node:fs"
 import test from "node:test"
 
-import { groupExamples, renderPage } from "./render-page.mjs"
+import {
+  groupExamples,
+  renderPage,
+  type Docs,
+  type Example,
+} from "./render-page.mts"
 
-const docs = (over = {}) => ({
+const docs = (over: Partial<Docs> = {}): Docs => ({
   name: "dialog",
   title: 'Dia"log: modal',
   description: 'Says "hi": ok',
@@ -15,7 +22,6 @@ const docs = (over = {}) => ({
   variants: null,
   dependencies: ["cn@~0.5.2"],
   links: { api: "https://base-ui.com/react/components/dialog.md" },
-  props: "## API reference\n\n### Root\n",
   ...over,
 })
 const source = (code = "const a = 1") => ({
@@ -51,7 +57,10 @@ test("API link falls back to links.api without .md, omitted when neither", () =>
   assert.ok(!none.includes("API reference"))
 })
 
-const ex = (name, code = "export default function X() { return null }") => ({
+const ex = (
+  name: string,
+  code = "export default function X() { return null }"
+) => ({
   name,
   code,
 })
@@ -68,21 +77,25 @@ test("examples render as Examples section with tabs, after Source", () => {
       'import { CloseButton as Ex_1 } from "@/examples/dialog-close-button"'
     )
   )
-  assert.ok(out.includes('import { Tab, Tabs } from "fumadocs-ui/components/tabs"'))
+  assert.ok(
+    out.includes('import { Tab, Tabs } from "fumadocs-ui/components/tabs"')
+  )
   assert.ok(out.includes("### Demo"))
   assert.ok(out.includes("### Close Button"))
   assert.ok(out.includes("  <Ex_0 />"))
   assert.ok(out.includes("  <Ex_1 />"))
   assert.ok(out.includes('<Tabs items={["Preview", "Code"]}>'))
-  assert.ok(out.includes("```tsx\nexport default function X() { return null }\n```"))
+  assert.ok(
+    out.includes("```tsx\nexport default function X() { return null }\n```")
+  )
   assert.ok(out.indexOf("## Examples") > out.indexOf("## Source"))
 })
 
 test("export detection: function, const, default", () => {
-  const imp = (code) =>
+  const imp = (code: string) =>
     renderPage(docs(), source(), [ex("dialog-a", code)]).match(
       /import (.*) from "@\/examples/
-    )[1]
+    )?.[1]
   assert.equal(imp("export function A() {}"), "{ A as Ex_0 }")
   assert.equal(imp("export const B = () => null"), "{ B as Ex_0 }")
   assert.equal(imp("export default () => null"), "Ex_0")
@@ -147,3 +160,36 @@ test("copy-mode uses registry URL", () => {
   )
   assert.ok(out.includes("npx shadcn@latest add @earth-ui/dialog"))
 })
+
+// The fixtures above are hand-written; this pins them to the real CLI output, so a renamed
+// field fails here instead of silently dropping a page section. Needs `pnpm build` at the repo root.
+const cli = new URL("../../dist/cli.js", import.meta.url).pathname
+test(
+  "real CLI output renders every section the fixtures assume",
+  {
+    skip:
+      !existsSync(cli) &&
+      "dist/cli.js missing: run pnpm build at the repo root",
+  },
+  () => {
+    const run = (...a: string[]) =>
+      JSON.parse(execFileSync("node", [cli, ...a], { encoding: "utf8" }))
+    const out = renderPage(
+      run("docs", "hover-card"),
+      run("source", "hover-card")
+    )
+    assert.ok(
+      out.includes(
+        "[Base UI page](https://base-ui.com/react/components/preview-card)"
+      )
+    )
+    assert.ok(out.includes("also available from the package root"))
+    assert.ok(
+      out.includes(
+        'import { HoverCard, HoverCardContent, HoverCardTrigger } from "@asif-sirajudeen/earth-ui/hover-card"'
+      )
+    )
+    assert.ok(out.includes("## Dependencies"))
+    assert.match(out, /`src\/[\w/-]+\.tsx`/)
+  }
+)

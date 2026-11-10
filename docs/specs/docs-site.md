@@ -21,12 +21,12 @@ No file in `src/`, `cli/`, `scripts/` or `registry/` changes. Changes to existin
 
 ```
 pnpm build                          # existing: dist/ + dist/registry + dist/cli.js
-node site/scripts/gen.mjs           # new: CLI JSON -> site/content/docs/components/*.mdx (gitignored)
+node site/scripts/gen.mts           # new: CLI JSON -> site/content/docs/components/*.mdx (gitignored)
 cp -r dist/registry site/public/r   # dist/registry is byte-identical to public/r (verified with diff -rq)
 next build (output: "export")       # -> site/out
 ```
 
-`gen.mjs` runs `node dist/cli.js list`, then `docs <name>` and `source <name>` for each name. It uses the JSON contract that CI already smokes and does not import `cli/*.mts` internals. If about 130 spawns prove slow, it can import `buildComponentIndex` instead.
+`gen.mts` runs `node dist/cli.js list`, then `docs <name>` and `source <name>` for each name. It uses the JSON contract that CI already smokes and does not import `cli/*.mts` internals. If about 130 spawns prove slow, it can import `buildComponentIndex` instead.
 
 Each page is laid out as follows:
 
@@ -49,9 +49,9 @@ Checks already done:
 
 ## Examples
 
-`site/examples/*.tsx` are shadcn's `apps/v4/examples/base` files, copied by `site/scripts/sync-examples.mjs <checkout> [sha]` with `@/styles/base-*/ui/<c>` rewritten to `@asif-sirajudeen/earth-ui/<c>`. The script skips rtl files, files with other local imports, and files with npm packages earth-ui does not depend on (an explicit `SKIP` map holds any that fail typecheck). Copies are synced, not edited, and are excluded from ESLint and Prettier. `site/examples/README.md` records the source SHA and shadcn's MIT license.
+`site/examples/*.tsx` are shadcn's `apps/v4/examples/base` files, copied by `site/scripts/sync-examples.mts <checkout> [sha]` with `@/styles/base-*/ui/<c>` rewritten to `@asif-sirajudeen/earth-ui/<c>`. The script skips rtl files, files with other local imports, and files with npm packages earth-ui does not depend on (an explicit `SKIP` map holds any that fail typecheck). Copies are synced, not edited, and are excluded from ESLint and Prettier. `site/examples/README.md` records the source SHA and shadcn's MIT license.
 
-`gen.mjs` maps each file to the component with the longest name that prefixes it (`alert-dialog-basic` goes to alert-dialog), ignores the rest, and renders an `## Examples` section: `<component>-demo` first, then alphabetical, each as `### <Title>` with Preview and Code tabs.
+`gen.mts` maps each file to the component with the longest name that prefixes it (`alert-dialog-basic` goes to alert-dialog), ignores the rest, and renders an `## Examples` section: `<component>-demo` first, then alphabetical, each as `### <Title>` with Preview and Code tabs.
 
 ## Layout
 
@@ -62,8 +62,8 @@ site/
   next.config.mjs              # createMDX({ output: "export", basePath: "/earth-ui", env: { NEXT_PUBLIC_BASE_PATH } })
   postcss.config.mjs
   tsconfig.json
-  scripts/gen.mjs              # I/O; ignores for generated dirs live in the root .gitignore (Prettier reads only that one)
-  scripts/render-page.mjs      # pure page layout, tested by render-page.test.mjs
+  scripts/gen.mts              # I/O; ignores for generated dirs live in the root .gitignore (Prettier reads only that one)
+  scripts/render-page.mts      # pure page layout, tested by render-page.test.mts
   app/global.css
   app/layout.tsx
   app/docs/layout.tsx
@@ -86,7 +86,7 @@ Start from the `create-fumadocs-app` "Next.js + Fumadocs MDX + static" template,
 - `react` and `react-dom` ^19
 - dev: `tailwindcss` ^4, `@tailwindcss/postcss`, `@types/mdx`
 
-Scripts: `"build": "node scripts/gen.mjs && next build"`, with the same prefix on `dev`.
+Scripts: `"build": "node scripts/gen.mts && next build"`, with the same prefix on `dev`.
 
 `app/global.css`:
 
@@ -106,7 +106,7 @@ Scripts: `"build": "node scripts/gen.mjs && next build"`, with the same prefix o
 - **Changesets.** Changesets 3.0.3 defaults `privatePackages` to `{ version: false, tag: false }`, so `private: true` is enough and `ignore` stays empty. Never name `site` in a changeset file.
 - **Lockfile.** `pnpm install --frozen-lockfile` in CI now also installs the site dependencies. Commit the lockfile change in the same PR.
 - **Lint and format.** Root `eslint .` would lint `site/.next` and `site/out`. Add `site/.next/**`, `site/out/**`, `site/.source/**` and `site/content/docs/components/**` to the ESLint ignores. Prettier 3 respects `.gitignore` by default, so the generated MDX is skipped. Root `tsc` includes only `src`, so `site/` needs nothing there.
-- **Dev loop.** A change to a component needs `pnpm build`, then a rerun of `gen.mjs`. Next's dev watcher does not cover this.
+- **Dev loop.** A change to a component needs `pnpm build`, then a rerun of `gen.mts`. Next's dev watcher does not cover this.
 
 ## Deploy
 
@@ -128,7 +128,7 @@ One-time manual step (maintainer): in the repo settings, set Pages, then Source,
 ## Steps (each one verifiable)
 
 1. Scaffold `site/` and add the workspace entry. `pnpm --filter site build` produces `site/out/docs/index.html`.
-2. `gen.mjs`. `site/out/docs/components/dialog/index.html` exists, and its Base UI props table renders.
+2. `gen.mts`. `site/out/docs/components/dialog/index.html` exists, and its Base UI props table renders.
 3. Configure search with `basePath`. In `npx serve site/out` (served under `/earth-ui`), search returns "Dialog".
 4. Add the `/r` copy. `site/out/r/registry.json` and `site/out/r/button.json` exist. Run `registry:smoke` against them.
 5. Add `pages.yml` and the CI step. After merge, `https://asif-sirajudeen.github.io/earth-ui/docs/components/button` returns 200.

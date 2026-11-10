@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "gen": "node scripts/gen.mjs",
-    "build": "node scripts/gen.mjs && next build",
-    "dev": "node scripts/gen.mjs && next dev",
-    "test": "node --test scripts/*.test.mjs",
+    "gen": "node scripts/gen.mts",
+    "build": "node scripts/gen.mts && next build",
+    "dev": "node scripts/gen.mts && next dev",
+    "test": "node --test scripts/*.test.mts",
     "types:check": "next typegen && tsc --noEmit"
   },
   "dependencies": {

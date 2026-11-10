@@ -1,5 +1,5 @@
 // Writes one MDX page per component into content/docs/components (gitignored) from the
-// earth-ui CLI JSON. I/O only; the page layout lives in render-page.mjs. Needs `pnpm build` at the repo root first.
+// earth-ui CLI JSON. I/O only; the page layout lives in render-page.mts. Needs `pnpm build` at the repo root first.
 
 import { spawnSync } from "node:child_process"
 import {
@@ -10,10 +10,10 @@ import {
   writeFileSync,
 } from "node:fs"
 
-import { groupExamples, renderPage } from "./render-page.mjs"
+import { groupExamples, renderPage } from "./render-page.mts"
 
 const cli = new URL("../../dist/cli.js", import.meta.url).pathname
-const run = (...args) => {
+const run = (...args: string[]) => {
   const r = spawnSync("node", [cli, ...args], {
     encoding: "utf8",
     maxBuffer: 64 * 1024 * 1024,
@@ -27,7 +27,7 @@ rmSync(dir, { recursive: true, force: true })
 mkdirSync(dir, { recursive: true })
 
 const t0 = Date.now()
-const { components } = run("list")
+const { components }: { components: { name: string }[] } = run("list")
 const examplesDir = new URL("../examples/", import.meta.url)
 const { groups, ignored } = groupExamples(
   readdirSync(examplesDir)
@@ -45,7 +45,11 @@ for (const { name } of components)
   )
 writeFileSync(
   new URL("meta.json", dir),
-  JSON.stringify({ title: "Components", defaultOpen: true, pages: components.map((c) => c.name) })
+  JSON.stringify({
+    title: "Components",
+    defaultOpen: true,
+    pages: components.map((c) => c.name),
+  })
 )
 console.log(
   `gen: ${components.length} pages in ${Date.now() - t0}ms (${ignored} examples matched no component)`

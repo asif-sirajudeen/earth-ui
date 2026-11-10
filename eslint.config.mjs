@@ -45,7 +45,7 @@ export default tseslint.config(
       "site/out/**",
       "site/.source/**",
       "site/content/docs/components/**",
-      // Copied from shadcn; synced, not edited (site/scripts/sync-examples.mjs).
+      // Copied from shadcn; synced, not edited (site/scripts/sync-examples.mts).
       "site/examples/**",
       // Research scratch, not shipped; rsc-probe.mjs calls hooks at top level on purpose.
       "docs/**",
