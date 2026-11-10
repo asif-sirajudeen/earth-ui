@@ -51,34 +51,11 @@ export function renderPage(docs, source, examples = []) {
     "---",
     "",
   ]
+  // MDX imports stay at the top; the Examples section itself goes last.
   if (examples.length) {
     out.push('import { Tab, Tabs } from "fumadocs-ui/components/tabs"')
     examples.forEach((e, i) => out.push(importLine(`Ex_${i}`, e.name, e.code)))
-    out.push("", "## Examples", "")
-    examples.forEach((e, i) => {
-      const fc = fence(e.code)
-      out.push(
-        `### ${titleCase(e.name.slice(docs.name.length + 1))}`,
-        "",
-        '<Tabs items={["Preview", "Code"]}>',
-        '<Tab value="Preview">',
-        "",
-        '<div className="not-prose flex min-h-40 items-center justify-center rounded-lg border p-6">',
-        `  <Ex_${i} />`,
-        "</div>",
-        "",
-        "</Tab>",
-        '<Tab value="Code">',
-        "",
-        `${fc}tsx`,
-        e.code,
-        fc,
-        "",
-        "</Tab>",
-        "</Tabs>",
-        ""
-      )
-    })
+    out.push("")
   }
   out.push(
     "## Install",
@@ -141,6 +118,33 @@ export function renderPage(docs, source, examples = []) {
   for (const f of source.files) {
     const fc = fence(f.code)
     out.push(`\`${f.path}\``, "", `${fc}tsx`, f.code, fc, "")
+  }
+  if (examples.length) {
+    out.push("## Examples", "")
+    examples.forEach((e, i) => {
+      const fc = fence(e.code)
+      out.push(
+        `### ${titleCase(e.name.slice(docs.name.length + 1))}`,
+        "",
+        '<Tabs items={["Preview", "Code"]}>',
+        '<Tab value="Preview">',
+        "",
+        '<div className="not-prose flex min-h-40 items-center justify-center rounded-lg border p-6">',
+        `  <Ex_${i} />`,
+        "</div>",
+        "",
+        "</Tab>",
+        '<Tab value="Code">',
+        "",
+        `${fc}tsx`,
+        e.code,
+        fc,
+        "",
+        "</Tab>",
+        "</Tabs>",
+        ""
+      )
+    })
   }
   return out.join("\n")
 }

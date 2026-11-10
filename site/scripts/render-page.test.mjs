@@ -56,7 +56,7 @@ const ex = (name, code = "export default function X() { return null }") => ({
   code,
 })
 
-test("examples render as Examples section with tabs, before Install", () => {
+test("examples render as Examples section with tabs, after Source", () => {
   assert.ok(!renderPage(docs(), source()).includes("## Examples"))
   const out = renderPage(docs(), source(), [
     ex("dialog-demo"),
@@ -75,7 +75,7 @@ test("examples render as Examples section with tabs, before Install", () => {
   assert.ok(out.includes("  <Ex_1 />"))
   assert.ok(out.includes('<Tabs items={["Preview", "Code"]}>'))
   assert.ok(out.includes("```tsx\nexport default function X() { return null }\n```"))
-  assert.ok(out.indexOf("## Examples") < out.indexOf("## Install"))
+  assert.ok(out.indexOf("## Examples") > out.indexOf("## Source"))
 })
 
 test("export detection: function, const, default", () => {
