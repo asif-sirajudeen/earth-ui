@@ -41,6 +41,10 @@ export default tseslint.config(
       "node_modules/**",
       "dist/**",
       "public/r/**",
+      "site/.next/**",
+      "site/out/**",
+      "site/.source/**",
+      "site/content/docs/components/**",
       // Research scratch, not shipped; rsc-probe.mjs calls hooks at top level on purpose.
       "docs/**",
     ],

@@ -4,3 +4,10 @@ dist/
 public/r
 .DS_Store
 .eslintcache
+site/.source
+site/.next
+site/out
+site/next-env.d.ts
+site/public/r
+site/content/docs/components
+site/*.tsbuildinfo

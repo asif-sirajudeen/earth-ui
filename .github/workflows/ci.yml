@@ -57,6 +57,10 @@ jobs:
             })
           '
 
+      # A PR that breaks the docs site fails CI.
+      - name: Build docs site
+        run: pnpm --filter site build
+
       # Fails when registry.json is out of date with src/, registry/metadata.ts or styles.css.
       - name: Check registry.json is current
         run: pnpm registry:check
