@@ -48,6 +48,7 @@ const MAPPED: [RegExp, string][] = [
     /^@\/registry\/bases\/base\/hooks\/use-highlighted-code$/,
     `${PKG}/use-highlighted-code`,
   ],
+  [/^@\/hooks\/use-mobile$/, `${PKG}/use-mobile`],
 ]
 
 const specifiers = (code: string) =>

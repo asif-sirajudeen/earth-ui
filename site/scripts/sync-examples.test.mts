@@ -41,12 +41,21 @@ test("skips rtl by name or import", () => {
   )
 })
 
+test("maps use-mobile", () => {
+  const r = classify(
+    "x-demo",
+    `import { useIsMobile } from "@/hooks/use-mobile"\n`
+  )
+  assert.ok(r.keep)
+  assert.ok(r.code.includes('"@asif-sirajudeen/earth-ui/use-mobile"'))
+})
+
 test("skips local imports other than the mapped ones", () => {
   for (const spec of [
     "@/components/markdown",
     "@/lib/ai",
     "@/registry/new-york-v4/ui/card",
-    "@/hooks/use-mobile",
+    "@/hooks/use-other",
   ])
     assert.deepEqual(classify("x-demo", `import a from "${spec}"\n`), {
       keep: false,

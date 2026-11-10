@@ -53,7 +53,7 @@ jobs:
             process.stdin.on("data", (d) => (out += d)).on("end", () => {
               const names = new Set(JSON.parse(out).components.map((c) => c.name))
               const missing = require("./registry.json").items.map((i) => i.name).filter((n) => !names.has(n))
-              if (missing.sort().join() !== "style,use-mobile") throw new Error("Missing from CLI: " + missing)
+              if (missing.sort().join() !== "style") throw new Error("Missing from CLI: " + missing)
             })
           '
 
