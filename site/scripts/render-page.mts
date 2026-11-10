@@ -31,13 +31,20 @@ const titleCase = (s: string) =>
     .map((w) => w[0].toUpperCase() + w.slice(1))
     .join(" ")
 
+// Example prefixes that are not components, shown on the page of the one they compose.
+// shadcn's date picker is a docs-only recipe (Popover + Calendar + Button).
+const ALIASES: Record<string, string> = { "date-picker": "calendar" }
+
 /** Buckets [{ name, code }] under the component whose name is the longest `<component>-` prefix. */
 export function groupExamples(examples: Example[], components: string[]) {
   const byLen = [...components].sort((a, b) => b.length - a.length)
   const groups: Record<string, Example[]> = {}
   let ignored = 0
   for (const e of examples) {
-    const c = byLen.find((c) => e.name.startsWith(`${c}-`))
+    const alias = Object.keys(ALIASES).find((a) => e.name.startsWith(`${a}-`))
+    const c = alias
+      ? ALIASES[alias]
+      : byLen.find((c) => e.name.startsWith(`${c}-`))
     if (c) (groups[c] ??= []).push(e)
     else ignored++
   }
@@ -144,7 +151,8 @@ export function renderPage(
     examples.forEach((e, i) => {
       const fc = fence(e.code)
       out.push(
-        `### ${titleCase(e.name.slice(docs.name.length + 1))}`,
+        // An aliased example (date-picker-basic on calendar) keeps its full name as the title.
+        `### ${titleCase(e.name.startsWith(`${docs.name}-`) ? e.name.slice(docs.name.length + 1) : e.name)}`,
         "",
         '<Tabs items={["Preview", "Code"]}>',
         '<Tab value="Preview">',

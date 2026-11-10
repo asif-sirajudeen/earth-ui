@@ -49,7 +49,7 @@ Checks already done:
 
 ## Examples
 
-`site/examples/*.tsx` are shadcn's `apps/v4/examples/base` files, copied by `site/scripts/sync-examples.mts <checkout> [sha]` with `@/styles/base-*/ui/<c>` rewritten to `@asif-sirajudeen/earth-ui/<c>`. The script skips rtl files, files with other local imports, and files with npm packages earth-ui does not depend on (an explicit `SKIP` map holds any that fail typecheck). Copies are synced, not edited, and are excluded from ESLint and Prettier. `site/examples/README.md` records the source SHA and shadcn's MIT license.
+`site/examples/*.tsx` are shadcn's `apps/v4/examples/base` files, copied by `pnpm --filter site sync-examples [ref]` (fetches shadcn at that ref, default the SHA in `site/examples/README.md`) with `@/styles/base-*/ui/<c>` rewritten to `@asif-sirajudeen/earth-ui/<c>`. The script skips rtl files, files with other local imports, and files with npm packages the site does not depend on. An explicit `SKIP` map in the script holds examples broken upstream (fail typecheck or render wrong), each with a note naming the defect so it can be rechecked and dropped on a later sync. Copies are synced, not edited, and are excluded from ESLint and Prettier. `site/examples/README.md` records the source SHA and shadcn's MIT license.
 
 `gen.mts` maps each file to the component with the longest name that prefixes it (`alert-dialog-basic` goes to alert-dialog), ignores the rest, and renders an `## Examples` section: `<component>-demo` first, then alphabetical, each as `### <Title>` with Preview and Code tabs.
 

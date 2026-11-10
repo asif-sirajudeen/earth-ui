@@ -110,6 +110,24 @@ test("export detection: function, const, default", () => {
   )
 })
 
+test("date-picker examples go to calendar, titled by full name", () => {
+  const { groups } = groupExamples(
+    [ex("date-picker-basic"), ex("calendar-demo"), ex("date-picker-dob")],
+    ["calendar", "date"]
+  )
+  assert.deepEqual(
+    groups["calendar"].map((e) => e.name),
+    ["calendar-demo", "date-picker-basic", "date-picker-dob"]
+  )
+  const out = renderPage(
+    docs({ name: "calendar" }),
+    source(),
+    groups["calendar"]
+  )
+  assert.ok(out.includes("### Demo\n"))
+  assert.ok(out.includes("### Date Picker Basic\n"))
+})
+
 test("groupExamples: longest component prefix wins, order demo then alpha", () => {
   const names = ["alert", "alert-dialog", "dialog"]
   const { groups, ignored } = groupExamples(

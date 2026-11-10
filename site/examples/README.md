@@ -1,9 +1,9 @@
 # Examples
 
-Copied from [shadcn-ui/ui](https://github.com/shadcn-ui/ui) `apps/v4/examples/base` at 8ab27715521cbd4f87ae6886cd989cbb678f6de7, with imports rewritten to `@asif-sirajudeen/earth-ui/<component>`. Synced, not edited: change the rules in `scripts/sync-examples.mts` and re-sync.
+Copied from [shadcn-ui/ui](https://github.com/shadcn-ui/ui) `apps/v4/examples/base` at 8ab27715521cbd4f87ae6886cd989cbb678f6de7, with imports rewritten to `@asif-sirajudeen/earth-ui/<component>`. Synced, not edited: change the rules in `scripts/sync-examples.mts` and re-sync. A bare `pnpm --filter site sync-examples` re-syncs this sha; pass a ref (`main`, a tag, a sha) to move.
 
 ```bash
-node site/scripts/sync-examples.mts <path-to-shadcn-checkout> 8ab27715521cbd4f87ae6886cd989cbb678f6de7
+pnpm --filter site sync-examples 8ab27715521cbd4f87ae6886cd989cbb678f6de7
 ```
 
 ## License

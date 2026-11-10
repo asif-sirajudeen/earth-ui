@@ -51,22 +51,23 @@ test("skips local imports other than the mapped ones", () => {
     assert.deepEqual(classify("x-demo", `import a from "${spec}"\n`), {
       keep: false,
       reason: "local-import",
+      detail: spec,
     })
 })
 
 test("skips npm packages outside the allowlist, keeps allowed ones", () => {
   // Not site dependencies, so the site build could not resolve them.
   for (const spec of [
-    "date-fns",
+    "@tabler/icons-react",
     "@ai-sdk/react",
     "zod",
-    "react-day-picker",
     "embla-carousel-react",
     "@base-ui/react/dialog",
   ])
     assert.deepEqual(classify("x-demo", `import a from "${spec}"\n`), {
       keep: false,
       reason: "package",
+      detail: spec,
     })
   for (const spec of [
     "react",
@@ -75,6 +76,8 @@ test("skips npm packages outside the allowlist, keeps allowed ones", () => {
     "recharts",
     "cn",
     "input-otp",
+    "date-fns",
+    "react-day-picker",
     "@shadcn/react/questionnaire",
     "next/link",
     "next/image",
@@ -87,17 +90,33 @@ test("skips npm packages outside the allowlist, keeps allowed ones", () => {
 })
 
 test("catches side-effect and dynamic imports", () => {
-  assert.deepEqual(classify("x", `import "date-fns"\n`), {
+  assert.deepEqual(classify("x", `import "@tabler/icons-react"\n`), {
     keep: false,
     reason: "package",
+    detail: "@tabler/icons-react",
   })
   assert.deepEqual(classify("x", `const m = await import("zod")\n`), {
     keep: false,
     reason: "package",
+    detail: "zod",
   })
+})
+
+test("ignores from/import inside strings and JSX attributes", () => {
+  const code = `${nova("field")}export default () => <label htmlFor="time-from" id="re-import">x</label>\n`
+  assert.equal(classify("calendar-time", code).keep, true)
+})
+
+test("ignores CSS @import inside a code sample string", () => {
+  const code = `${nova("code-block")}const css = \`@import "tailwindcss";\`\n`
+  assert.equal(classify("code-block-languages", code).keep, true)
 })
 
 test("explicit SKIP map wins", () => {
   const r = classify("x-demo", nova("card"), { "x-demo": "drift" })
-  assert.deepEqual(r, { keep: false, reason: "drift" })
+  assert.deepEqual(r, {
+    keep: false,
+    reason: "upstream-bug",
+    detail: "drift",
+  })
 })
