@@ -9,13 +9,33 @@ function fence(code) {
   return "`".repeat(Math.max(3, longest + 1))
 }
 
-export function renderPage(docs, source) {
+/** `demo` is the code of site/examples/<name>.tsx, or null when there is none. */
+export function renderPage(docs, source, demo = null) {
   const out = [
     "---",
     `title: ${JSON.stringify(docs.title)}`,
     `description: ${JSON.stringify(docs.description)}`,
     "---",
     "",
+  ]
+  if (demo) {
+    const fc = fence(demo)
+    out.push(
+      `import Demo from "@/examples/${docs.name}"`,
+      "",
+      "## Preview",
+      "",
+      '<div className="not-prose flex min-h-40 items-center justify-center rounded-lg border p-6">',
+      "  <Demo />",
+      "</div>",
+      "",
+      `${fc}tsx`,
+      demo,
+      fc,
+      ""
+    )
+  }
+  out.push(
     "## Install",
     "",
     "Package mode:",
@@ -27,8 +47,8 @@ export function renderPage(docs, source) {
     "```tsx",
     `import { ${docs.exports.join(", ")} } from "${docs.import}"`,
     "```",
-    "",
-  ]
+    ""
+  )
   if (docs.rootImport)
     out.push(
       `These exports are also available from the package root, \`@asif-sirajudeen/earth-ui\`.`,

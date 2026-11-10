@@ -2,7 +2,7 @@
 // earth-ui CLI JSON. I/O only; the page layout lives in render-page.mjs. Needs `pnpm build` at the repo root first.
 
 import { spawnSync } from "node:child_process"
-import { mkdirSync, rmSync, writeFileSync } from "node:fs"
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 
 import { renderPage } from "./render-page.mjs"
 
@@ -22,11 +22,15 @@ mkdirSync(dir, { recursive: true })
 
 const t0 = Date.now()
 const { components } = run("list")
-for (const { name } of components)
+const examples = new URL("../examples/", import.meta.url)
+for (const { name } of components) {
+  const example = new URL(`${name}.tsx`, examples)
+  const demo = existsSync(example) ? readFileSync(example, "utf8") : null
   writeFileSync(
     new URL(`${name}.mdx`, dir),
-    renderPage(run("docs", name), run("source", name))
+    renderPage(run("docs", name), run("source", name), demo)
   )
+}
 writeFileSync(
   new URL("meta.json", dir),
   JSON.stringify({ title: "Components", defaultOpen: true, pages: components.map((c) => c.name) })

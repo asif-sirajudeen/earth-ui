@@ -130,7 +130,7 @@ One-time manual step (maintainer): in the repo settings, set Pages, then Source,
 
 ## Out of v1
 
-- Live demos. Later: `site/examples/<name>-demo.tsx`, which `gen.mjs` embeds when the file exists. The empty, untracked `registry/examples/` folder is not used by any script. Leave it alone or delete it.
+- Demos for every component. `site/examples/<name>.tsx` (default export, imports from the package) is rendered as a Preview plus its code when the file exists; Button and Dialog have one.
 - Hand-written prose per component.
 - Pages for `style` (theming) and `use-mobile`.
 - A custom domain, the directory PR, `registry:example` items and Open in v0.

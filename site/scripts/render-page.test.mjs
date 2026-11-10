@@ -51,6 +51,15 @@ test("API link falls back to links.api without .md, omitted when neither", () =>
   assert.ok(!none.includes("API reference"))
 })
 
+test("preview renders the example and its code when one exists", () => {
+  assert.ok(!renderPage(docs(), source()).includes("## Preview"))
+  const out = renderPage(docs(), source(), "export default () => null")
+  assert.ok(out.includes('import Demo from "@/examples/dialog"'))
+  assert.ok(out.includes("<Demo />"))
+  assert.ok(out.includes("```tsx\nexport default () => null\n```"))
+  assert.ok(out.indexOf("## Preview") < out.indexOf("## Install"))
+})
+
 test("source fence widens when code has triple backticks", () => {
   const plain = renderPage(docs(), source())
   assert.ok(plain.includes("```tsx\nconst a = 1\n```"))
