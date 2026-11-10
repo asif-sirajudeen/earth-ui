@@ -4,7 +4,7 @@ packages:
   - "."
   - "site"
 
-# site/ is the docs site (docs/specs/docs-site.md). Private, so Changesets skips it.
+# site/ is the docs site (spec: docs/specs/docs-site.md on the docs branch). Private, so Changesets skips it.
 # esbuild (via fumadocs-mdx) ships prebuilt binaries; its postinstall only checks them.
 # Declared so `pnpm install` does not fail with ERR_PNPM_IGNORED_BUILDS.
 allowBuilds:
