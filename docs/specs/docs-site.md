@@ -58,8 +58,8 @@ Checks already done:
 pnpm-workspace.yaml            # + packages: ["site"]
 site/
   package.json                 # private: true
-  next.config.mjs              # createMDX({ output: "export", basePath: "/earth-ui", env: { NEXT_PUBLIC_BASE_PATH } })
-  postcss.config.mjs
+  next.config.ts               # createMDX({ output: "export", basePath: "/earth-ui", env: { NEXT_PUBLIC_BASE_PATH } })
+  postcss.config.json
   tsconfig.json
   scripts/gen.mts              # I/O; ignores for generated dirs live in the root .gitignore (Prettier reads only that one)
   scripts/render-page.mts      # pure page layout, tested by render-page.test.mts
