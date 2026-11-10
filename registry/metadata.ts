@@ -1,6 +1,7 @@
 // Authored metadata per registry item, keyed by item name (the file basename in src/components or src/hooks).
 // Everything else (type, files, dependencies) is derived by scripts/build-registry.mts.
 // A component or hook without an entry here fails the build.
+// Hand-maintained on purpose, not generated: see .out-of-scope/generated-metadata.md.
 import type { ItemMetadata } from "../scripts/registry-items.mts"
 
 export const metadata: Record<string, ItemMetadata> = {
