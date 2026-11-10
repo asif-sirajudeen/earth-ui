@@ -1,4 +1,7 @@
+# "." keeps the root library a workspace package for Changesets; without it,
+# `changeset status` says @asif-sirajudeen/earth-ui "is not in the workspace".
 packages:
+  - "."
   - "site"
 
 # site/ is the docs site (docs/specs/docs-site.md). Private, so Changesets skips it.

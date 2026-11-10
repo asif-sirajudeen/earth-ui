@@ -141,7 +141,12 @@ One-time manual step (maintainer): in the repo settings, set Pages, then Source,
 
 ## Unverified
 
-- No Fumadocs build has been run in this repo.
-- The research agent read npm tarballs, not live fumadocs.dev pages. The `useStaticSearch` and `from` option names come from fumadocs-core 16.18.4 dist; confirm them against the installed version.
-- Whether `@asif-sirajudeen/earth-ui/styles.css` resolves from `site/` through `workspace:*`. It should, since `./styles.css` is in `exports`.
-- How long gen takes with about 130 CLI spawns.
+Verified locally on 2026-11-10: the site builds, gen writes 65 pages in about 6s, `styles.css` resolves through `workspace:*`, `useStaticSearch({ from })` exists, the static search index is served under `/earth-ui`, and Changesets bumps only `@asif-sirajudeen/earth-ui`.
+
+Still open:
+
+- Browser behaviour: the search dialog, styles and dark mode.
+- The `/earth-ui/` root redirect. It is client-side only, so it needs JS.
+- `registry:smoke` against `site/out/r`. Not run. `dist/registry` is byte-identical to `public/r` (`diff -rq`), which the smoke already covers.
+- The Pages deploy itself.
+- The Linux CI path. Nothing has been pushed yet, so the disabled esbuild postinstall and the `@next/swc-linux-*` binaries are untested.
