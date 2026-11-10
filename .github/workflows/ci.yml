@@ -6,40 +6,77 @@ on:
 permissions:
   contents: read
 
+# Each check runs in its own job, in parallel, so a failure names the check that broke.
 jobs:
-  registry:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
-      - name: Set up pnpm
-        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
-        with:
-          install: false
-
-      - name: Set up Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: 24
-          package-manager-cache: false
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
+      - uses: ./.github/actions/setup
       - name: Lint
         run: pnpm lint
 
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
       - name: Check formatting
         run: pnpm format:check
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
       - name: Test registry rules
         run: pnpm test
 
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
       - name: Typecheck
         run: pnpm typecheck
+
+  generated:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+
+      # Fails when src/index.ts is out of date with src/components/.
+      - name: Check src/index.ts is current
+        run: pnpm index:check
+
+      # Fails when registry.json is out of date with src/, registry/metadata.ts or styles.css.
+      - name: Check registry.json is current
+        run: pnpm registry:check
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
 
       # Builds the package, the bundled registry (dist/registry) and the earth-ui bin, then runs the bin.
       - name: Build package and smoke the CLI
@@ -57,13 +94,28 @@ jobs:
             })
           '
 
-      # A PR that breaks the docs site fails CI.
-      - name: Build docs site
+  # A PR that breaks the docs site fails CI. The site generates its pages from dist/cli.js, so build first.
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Build package
+        run: pnpm build
+      - name: Test and build docs site
         run: pnpm --filter site test && pnpm --filter site build
 
-      # Fails when registry.json is out of date with src/, registry/metadata.ts or styles.css.
-      - name: Check registry.json is current
-        run: pnpm registry:check
+  registry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
 
       - name: Validate and build registry
         run: pnpm registry
@@ -79,20 +131,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
-      - name: Set up pnpm
-        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
-        with:
-          install: false
-
-      - name: Set up Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: 24
-          package-manager-cache: false
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/setup
 
       - name: Build registry
         run: pnpm registry

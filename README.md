@@ -172,6 +172,94 @@ npx shadcn@latest add @earth-ui/button --overwrite
 
 Always use the `@earth-ui/` prefix. A bare name such as `button` installs the official shadcn component, not the Earth UI one.
 
+## Maintainers: upgrading shadcn
+
+This section is for people and agents who work on this repo. It is not for package consumers.
+
+earth-ui pins one shadcn version: `devDependencies.shadcn` in `package.json`. The components in `src/components`, the ejected block in `styles.css` and the examples in `site/examples` must all match that version. Checks fail when they do not.
+
+```mermaid
+flowchart TD
+  A["Detect: weekly upstream:check fails, or shadcn releases"] --> B["pnpm upstream:ledger"]
+  B --> C["pnpm add -D -E shadcn@x.y.z"]
+  C --> D["Re-eject tailwind.css into styles.css, update both markers"]
+  D --> E{"Ledger: change type"}
+  E -->|changed| F["shadcn add name --overwrite"]
+  E -->|added| G["shadcn add name"]
+  E -->|removed| H["Delete the file"]
+  F --> I["pnpm format:write, then pnpm index"]
+  G --> I
+  H --> I
+  G --> J["Add the entry to registry/metadata.ts by hand"]
+  H --> K["Remove the entry from registry/metadata.ts"]
+  I --> L["pnpm --filter site sync-examples"]
+  J --> L
+  K --> L
+  L --> M["Verify"]
+  M --> N["pnpm changeset, open PR"]
+```
+
+### Steps
+
+1. **Detect.** The `Upstream check` workflow runs `pnpm upstream:check` every Monday. It compares `src/` with what `shadcn add` installs today, after formatting both with our Prettier config, and fails on any real difference. It checks only the items we already have. New upstream components appear only in the ledger (step 2).
+2. **See what changed.** Run the ledger before you change the pin, because it reads the starting version from `devDependencies.shadcn`. It needs the network and a logged-in `gh`.
+
+   ```sh
+   pnpm upstream:ledger            # from the pinned version to the latest shadcn@* tag
+   pnpm upstream:ledger 4.24.0     # to a specific version
+   pnpm upstream:ledger 4.23.0 --from 4.21.5   # any past range
+   ```
+
+   The ledger tracks only upstream components, not upstream hooks or libs. A component can bring a new hook or lib with it (in 4.22.0, `code-block` brought `use-highlighted-code` and `lib/highlighter`). After each `shadcn add`, run `git status` and look for new files there.
+
+   The ledger lists, per release: added, changed and removed components; `cn-*` rule changes in `style-nova.css`; and whether `tailwind.css` changed. A `cn-*` rule change changes what `shadcn add` installs even when no upstream `.tsx` file changed, so treat it as a changed component.
+
+3. **Bump the pin.** Use an exact version (`-E`). The checks compare the pin as a string, so `^4.24.0` fails them.
+
+   ```sh
+   pnpm add -D -E shadcn@4.24.0
+   ```
+
+4. **Re-eject `tailwind.css`.** Do this on every bump, even when the ledger shows no `tailwind.css` change. In `styles.css`, replace everything between `/* ejected from shadcn@<old> ...` and `/* end of shadcn@<old> block */` with the contents of `node_modules/shadcn/dist/tailwind.css`. Then change `<old>` to the new version in both markers. `pnpm registry` fails when the markers differ from the pin, and `pnpm test` fails when the block differs from the installed file.
+5. **Apply each change from the ledger.**
+   - **Changed component:** `pnpm shadcn add <name> --overwrite`. This also rewrites the registry dependencies of `<name>` (for example, `sidebar` rewrites `sheet`). Then run `pnpm format:write` and `pnpm index`.
+   - **New component:** `pnpm shadcn add <name>`, then `pnpm format:write` and `pnpm index`. Add an entry for `<name>` to `registry/metadata.ts` by hand: title, description and `meta.links`. The file is hand-maintained on purpose (see `.out-of-scope/generated-metadata.md`).
+     - If the component imports a package that is not in `package.json`, add it to `dependencies`, or to `peerDependencies` if consumers provide it. `pnpm registry` fails on an undeclared import.
+     - If the component depends on an optional peer dependency (as `sonner` does), make it subpath-only: add it to `SUBPATH_ONLY` in `scripts/build-index.mts` and to `entry` in `tsdown.config.ts`. The `./*` export in `package.json` already covers components.
+     - A new hook in `src/hooks` needs its own `entry` in `tsdown.config.ts` and its own `exports` entry in `package.json`, like `use-mobile`.
+   - **Removed component:** delete `src/components/<name>.tsx`, run `pnpm index` and remove its entry from `registry/metadata.ts`. This is a breaking change for consumers.
+   - After any `shadcn add`, check the `package.json` diff. `shadcn add` installs the component's npm dependencies and can change their versions.
+6. **Sync examples.** `pnpm --filter site sync-examples` copies the examples at the git tag `shadcn@<pin>`. `pnpm --filter site test` fails until you do.
+7. **Verify.** All of these must pass:
+
+   ```sh
+   pnpm upstream:check
+   pnpm test
+   pnpm typecheck
+   pnpm lint
+   pnpm format:check
+   pnpm index:check
+   pnpm registry:check
+   pnpm registry
+   pnpm registry:smoke
+   pnpm build
+   pnpm --filter site test
+   pnpm --filter site build
+   ```
+
+8. **Ship.** Run `pnpm changeset` and paste the ledger output into the summary. Use `minor` when a component or export was added, and `patch` for changes to existing components. A removed component or export is a breaking change: a `major` changeset moves the package from `0.x` to `1.0.0`, so decide that with the maintainer, not by default. Open a PR.
+
+### Files you edit by hand, and files you generate
+
+| File                                     | How it changes                                      |
+| ---------------------------------------- | --------------------------------------------------- |
+| `src/components/*.tsx`, `src/hooks/*.ts` | `shadcn add`, then `pnpm format:write`              |
+| `src/index.ts`                           | Generated: `pnpm index`                             |
+| `registry/metadata.ts`                   | By hand                                             |
+| `registry.json`                          | Generated: `pnpm registry`                          |
+| `styles.css` (shadcn block)              | Copied from `node_modules/shadcn/dist/tailwind.css` |
+| `site/examples`                          | Generated: `pnpm --filter site sync-examples`       |
+
 ## Credits and license
 
 The components and theme are adapted from [shadcn/ui](https://ui.shadcn.com) (MIT, Copyright (c) 2023 shadcn) and are built on [Base UI](https://base-ui.com).
