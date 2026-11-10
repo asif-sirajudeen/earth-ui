@@ -5,7 +5,7 @@ As of: 2026-11-10
 Research: `docs/research/registry-docs-and-cli.md` (section A). This spec supersedes these parts of it:
 
 - **Data source.** The research reads `public/r/*.json` directly. Commit `19948db` added the `earth-ui` CLI. Its `docs <name>` and `source <name>` already return everything the reference half of a page needs. The site reads the CLI output instead.
-- **Install mode.** The research leads with `shadcn add`. README and CONTEXT.md make package mode primary, so pages lead with `pnpm add` and the import path. Copy mode comes second.
+- **Install mode.** The research leads with `shadcn add`. README and CONTEXT.md make package mode primary, so pages show only `pnpm add` and the import path. Copy mode is documented in the README, not on component pages.
 - **Examples.** The research imports demos from `src/` and rewrites the paths. Examples are instead copied from shadcn's `apps/v4/examples/base` into `site/examples/` (see Examples below) and import the workspace package.
 - **Section B (CLI).** That section is moot. The CLI shipped as a lookup tool, not an installer.
 
@@ -33,8 +33,7 @@ Each page is laid out as follows:
 | Section | From |
 |---|---|
 | Frontmatter `title`, `description` | `docs.title`, `docs.description` (written with `JSON.stringify` so YAML quoting is safe) |
-| Install (package mode) | `pnpm add @asif-sirajudeen/earth-ui`, plus `import { ...exports } from "<docs.import>"`. Note the root import when `rootImport` is true. |
-| Install (copy mode) | `npx shadcn@latest registry add @earth-ui=https://asif-sirajudeen.github.io/earth-ui/r/{name}.json`, then `npx shadcn@latest add @earth-ui/<name>` |
+| Install | `pnpm add @asif-sirajudeen/earth-ui`, plus `import { ...exports } from "<docs.import>"`. Note the root import when `rootImport` is true. |
 | Parts | `docs.exports` |
 | Variants | `docs.variants` as a table. The section is omitted when the value is null. |
 | Dependencies | `docs.dependencies` |

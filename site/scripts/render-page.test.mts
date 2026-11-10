@@ -159,7 +159,7 @@ test("source fence widens when code has triple backticks", () => {
   assert.ok(wide.includes("````tsx\nx\n```\ny\n````"))
 })
 
-test("package-mode install uses import path and exports", () => {
+test("install uses import path and exports, no copy mode", () => {
   const out = renderPage(docs(), source())
   assert.ok(out.includes("pnpm add @asif-sirajudeen/earth-ui"))
   assert.ok(
@@ -167,16 +167,7 @@ test("package-mode install uses import path and exports", () => {
       'import { Dialog, DialogTrigger } from "@asif-sirajudeen/earth-ui/dialog"'
     )
   )
-})
-
-test("copy-mode uses registry URL", () => {
-  const out = renderPage(docs(), source())
-  assert.ok(
-    out.includes(
-      "npx shadcn@latest registry add @earth-ui=https://asif-sirajudeen.github.io/earth-ui/r/dialog.json"
-    )
-  )
-  assert.ok(out.includes("npx shadcn@latest add @earth-ui/dialog"))
+  assert.ok(!out.includes("shadcn@latest"))
 })
 
 // The fixtures above are hand-written; this pins them to the real CLI output, so a renamed

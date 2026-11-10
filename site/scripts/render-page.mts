@@ -17,8 +17,6 @@ export type Docs = {
 export type Source = { files: { path: string; code: string }[] }
 export type Example = { name: string; code: string }
 
-const SITE = "https://asif-sirajudeen.github.io/earth-ui"
-
 // Fence one backtick longer than the longest run inside the code (min 3).
 function fence(code: string) {
   const longest = Math.max(0, ...(code.match(/`+/g) ?? []).map((m) => m.length))
@@ -87,8 +85,6 @@ export function renderPage(
   out.push(
     "## Install",
     "",
-    "Package mode:",
-    "",
     "```bash",
     "pnpm add @asif-sirajudeen/earth-ui",
     "```",
@@ -103,19 +99,7 @@ export function renderPage(
       `These exports are also available from the package root, \`@asif-sirajudeen/earth-ui\`.`,
       ""
     )
-  out.push(
-    "Copy mode:",
-    "",
-    "```bash",
-    `npx shadcn@latest registry add @earth-ui=${SITE}/r/${docs.name}.json`,
-    `npx shadcn@latest add @earth-ui/${docs.name}`,
-    "```",
-    "",
-    "## Parts",
-    "",
-    ...docs.exports.map((e) => `- \`${e}\``),
-    ""
-  )
+  out.push("## Parts", "", ...docs.exports.map((e) => `- \`${e}\``), "")
   if (docs.variants) {
     out.push("## Variants", "", "| Variant | Values |", "| --- | --- |")
     for (const [k, v] of Object.entries(docs.variants))
