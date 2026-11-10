@@ -47,6 +47,7 @@
     "registry:check": "node scripts/build-registry.mts && git diff --exit-code registry.json",
     "links:check": "node scripts/check-links.mts",
     "registry:smoke": "node scripts/smoke-registry.mts",
+    "upstream:check": "node scripts/upstream-check.mts",
     "test": "node --test scripts/*.test.mts cli/*.test.mts",
     "prepublishOnly": "pnpm build",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
