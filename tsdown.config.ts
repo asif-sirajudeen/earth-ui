@@ -8,6 +8,7 @@ export default defineConfig([
       "src/index.ts",
       "src/components/sonner.tsx",
       "src/hooks/use-highlighted-code.ts",
+      "src/hooks/use-mobile.ts",
     ],
     format: "esm",
     // Emitted by TS 6: `typescript` is aliased to @typescript/typescript6 for

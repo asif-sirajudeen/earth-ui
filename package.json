@@ -29,6 +29,10 @@
       "types": "./dist/hooks/use-highlighted-code.d.ts",
       "default": "./dist/hooks/use-highlighted-code.js"
     },
+    "./use-mobile": {
+      "types": "./dist/hooks/use-mobile.d.ts",
+      "default": "./dist/hooks/use-mobile.js"
+    },
     "./*": {
       "types": "./dist/components/*.d.ts",
       "default": "./dist/components/*.js"
