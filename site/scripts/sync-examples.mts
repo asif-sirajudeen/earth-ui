@@ -1,5 +1,5 @@
 // Copies shadcn's base examples into site/examples, keeping those that work against earth-ui.
-// Usage: pnpm --filter site sync-examples [ref]   (ref: sha, branch or tag; default: the sha in examples/README.md)
+// Usage: pnpm --filter site sync-examples [ref]   (default: the git tag shadcn@<devDependencies.shadcn>, the single upstream pin)
 // The pure keep/skip/rewrite rules live in classify(); the rest is I/O.
 
 import { execFileSync } from "node:child_process"
@@ -41,6 +41,30 @@ const pkgName = (s: string) =>
     .slice(0, s.startsWith("@") ? 2 : 1)
     .join("/")
 const allowed = (s: string) => DEPS.has(pkgName(s))
+
+/** Upstream git tag for the pinned shadcn CLI version. */
+export const pinTag = (pkg: { devDependencies?: Record<string, string> }) => {
+  const v = pkg.devDependencies?.shadcn
+  if (!v) throw new Error("devDependencies.shadcn is not set")
+  return `shadcn@${v}`
+}
+
+/** Ref recorded in the examples README (`at <ref> (<sha>)`), or undefined. */
+export const readmeRef = (readme: string) =>
+  readme.match(/ at (\S+) \([0-9a-f]{40}\)/)?.[1]
+
+/** Throws unless the examples README records the tag for `devDependencies.shadcn`. */
+export function assertExamplesPin(
+  readme: string,
+  pkg: { devDependencies?: Record<string, string> }
+): void {
+  const recorded = readmeRef(readme)
+  const want = pinTag(pkg)
+  if (recorded !== want)
+    throw new Error(
+      `site/examples/README.md: examples synced at ${recorded} but devDependencies.shadcn needs ${want}; run pnpm --filter site sync-examples`
+    )
+}
 
 const MAPPED: [RegExp, string][] = [
   [/^@\/styles\/base-(?:nova|rhea)\/ui\/([\w-]+)$/, `${PKG}/$1`],
@@ -96,13 +120,13 @@ export function classify(
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const dest = new URL("../examples/", import.meta.url)
   mkdirSync(dest, { recursive: true })
-  // Default ref: the sha the current copies came from, so a bare run re-syncs in place.
-  let ref: string | undefined = process.argv[2]
-  if (!ref) {
-    const readme = readFileSync(new URL("README.md", dest), "utf8")
-    ref = readme.match(/ at ([0-9a-f]{40})/)?.[1]
-    if (!ref) throw new Error("no sha in examples/README.md; pass a ref")
-  }
+  const ref =
+    process.argv[2] ??
+    pinTag(
+      JSON.parse(
+        readFileSync(new URL("../../package.json", import.meta.url), "utf8")
+      )
+    )
 
   // Shallow, sparse fetch of only the examples and the license.
   const root = mkdtempSync(join(tmpdir(), "shadcn-"))
@@ -120,13 +144,13 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     )
     git("fetch", "-q", "--depth=1", "--filter=blob:none", "origin", ref)
     git("checkout", "-q", "FETCH_HEAD")
-    sync(root, git("rev-parse", "HEAD"), dest)
+    sync(root, ref, git("rev-parse", "HEAD"), dest)
   } finally {
     rmSync(root, { recursive: true, force: true })
   }
 }
 
-function sync(root: string, sha: string, dest: URL) {
+function sync(root: string, ref: string, sha: string, dest: URL) {
   const src = `${root}/apps/v4/examples/base/`
 
   // Classify everything before touching dest, so a rule break leaves the old examples in place.
@@ -156,10 +180,10 @@ function sync(root: string, sha: string, dest: URL) {
     new URL("README.md", dest),
     `# Examples
 
-Copied from [shadcn-ui/ui](https://github.com/shadcn-ui/ui) \`apps/v4/examples/base\` at ${sha}, with imports rewritten to \`${PKG}/<component>\`. Synced, not edited: change the rules in \`scripts/sync-examples.mts\` and re-sync. A bare \`pnpm --filter site sync-examples\` re-syncs this sha; pass a ref (\`main\`, a tag, a sha) to move.
+Copied from [shadcn-ui/ui](https://github.com/shadcn-ui/ui) \`apps/v4/examples/base\` at ${ref} (${sha}), with imports rewritten to \`${PKG}/<component>\`. Synced, not edited: change the rules in \`scripts/sync-examples.mts\` and re-sync. The ref is the git tag \`shadcn@<version>\` for \`devDependencies.shadcn\` in the root package.json; a test fails when they differ. To move, bump that pin, then run:
 
 \`\`\`bash
-pnpm --filter site sync-examples ${sha}
+pnpm --filter site sync-examples
 \`\`\`
 
 ## License

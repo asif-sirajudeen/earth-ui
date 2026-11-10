@@ -1,9 +1,15 @@
 // Keep/skip and import-rewrite rules for sync-examples. Run with `pnpm --filter site test`.
 
 import assert from "node:assert/strict"
+import { readFileSync } from "node:fs"
 import test from "node:test"
 
-import { classify } from "./sync-examples.mts"
+import {
+  assertExamplesPin,
+  classify,
+  pinTag,
+  readmeRef,
+} from "./sync-examples.mts"
 
 const nova = (c: string) => `import { X } from "@/styles/base-nova/ui/${c}"\n`
 
@@ -119,4 +125,41 @@ test("explicit SKIP map wins", () => {
     reason: "upstream-bug",
     detail: "drift",
   })
+})
+
+const readme = (ref: string) =>
+  `Copied from x \`apps/v4/examples/base\` at ${ref} (${"a".repeat(40)}), with imports`
+
+test("pinTag builds the upstream tag from devDependencies.shadcn", () => {
+  assert.equal(
+    pinTag({ devDependencies: { shadcn: "4.23.0" } }),
+    "shadcn@4.23.0"
+  )
+  assert.throws(() => pinTag({}), /not set/)
+})
+
+test("readmeRef reads the recorded ref", () => {
+  assert.equal(readmeRef(readme("shadcn@4.23.0")), "shadcn@4.23.0")
+  assert.equal(readmeRef("no ref here"), undefined)
+})
+
+test("assertExamplesPin throws when README ref differs from the pin", () => {
+  const pkg = { devDependencies: { shadcn: "4.23.0" } }
+  assertExamplesPin(readme("shadcn@4.23.0"), pkg)
+  assert.throws(
+    () => assertExamplesPin(readme("shadcn@4.22.0"), pkg),
+    /needs shadcn@4.23.0/
+  )
+  assert.throws(
+    () => assertExamplesPin(readme("main"), pkg),
+    /needs shadcn@4.23.0/
+  )
+})
+
+test("committed examples are synced at the pinned shadcn tag", () => {
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), "utf8")
+  assertExamplesPin(
+    read("../examples/README.md"),
+    JSON.parse(read("../../package.json"))
+  )
 })
