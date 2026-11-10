@@ -11,3 +11,4 @@ site/next-env.d.ts
 site/public/r
 site/content/docs/components
 site/*.tsbuildinfo
+site/AGENTS.md

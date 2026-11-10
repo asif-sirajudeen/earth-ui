@@ -60,17 +60,18 @@ export function renderPage(docs, source) {
       ...docs.dependencies.map((d) => `- \`${d}\``),
       ""
     )
-  if (docs.props) {
+  // Link out rather than inline props: Base UI's page is the reference. baseUiDoc names the
+  // right part (hover-card wraps preview-card); links.api is the .md URL meant for agents.
+  const api = docs.baseUiDoc
+    ? `https://base-ui.com/react/components/${docs.baseUiDoc}`
+    : docs.links?.api?.replace(/\.md$/, "")
+  if (api)
     out.push(
       "## API reference",
       "",
-      "> The tables below use **Base UI part names** (Root, Trigger), not earth-ui export names.",
+      `Props are documented on the [Base UI page](${api}). It names parts the Base UI way (Root, Trigger), not by earth-ui export name.`,
       ""
     )
-    if (docs.links?.api) out.push(`[Base UI docs](${docs.links.api})`, "")
-    // Drop the leading "## API reference" heading; we emit our own.
-    out.push(docs.props.replace(/^## API reference\s*/, ""), "")
-  }
   out.push("## Source", "")
   for (const f of source.files) {
     const fc = fence(f.code)

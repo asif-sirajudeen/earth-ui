@@ -38,7 +38,7 @@ Each page is laid out as follows:
 | Parts | `docs.exports` |
 | Variants | `docs.variants` as a table. The section is omitted when the value is null. |
 | Dependencies | `docs.dependencies` |
-| API reference | `docs.props` verbatim, under a note that the tables use **Base UI part names** (Root, Trigger), not earth-ui exports. Link to `links.api`. The section is omitted when `props` is null. |
+| API reference | A link to the Base UI page, `https://base-ui.com/react/components/<docs.baseUiDoc>`, falling back to `links.api` without `.md`. Props are not inlined: Base UI's page is the reference, and the CLI's `docs` command still returns the version-matched tables for agents. The section is omitted when there is no link. |
 | Source | `source.files[]` as fenced `tsx` blocks. Use a 4-backtick fence if a file contains a triple backtick. |
 
 Checks already done:

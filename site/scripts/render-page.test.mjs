@@ -37,13 +37,18 @@ test("variants omitted when null, tabled when present", () => {
   assert.ok(out.includes("| size | `sm`, `lg` |"))
 })
 
-test("API reference omitted when props null, has part-name note when present", () => {
-  const none = renderPage(docs({ props: null }), source())
+test("API reference links to the Base UI page instead of inlining props", () => {
+  const out = renderPage(docs({ baseUiDoc: "preview-card" }), source())
+  assert.ok(out.includes("## API reference"))
+  assert.ok(out.includes("(https://base-ui.com/react/components/preview-card)"))
+  assert.ok(!out.includes("### Root"))
+})
+
+test("API link falls back to links.api without .md, omitted when neither", () => {
+  const out = renderPage(docs({ baseUiDoc: null }), source())
+  assert.ok(out.includes("(https://base-ui.com/react/components/dialog)"))
+  const none = renderPage(docs({ baseUiDoc: null, links: {} }), source())
   assert.ok(!none.includes("API reference"))
-  const out = renderPage(docs(), source())
-  assert.ok(out.includes("Base UI part names"))
-  assert.ok(out.includes("https://base-ui.com/react/components/dialog.md"))
-  assert.ok(out.includes("### Root"))
 })
 
 test("source fence widens when code has triple backticks", () => {
