@@ -1,0 +1,27 @@
+---
+title: earth-ui
+description: shadcn-based React components on Base UI, shipped as a versioned package.
+---
+
+## Install
+
+```sh
+pnpm add @asif-sirajudeen/earth-ui
+```
+
+Peer dependencies: `react` 19, `react-dom` 19 and `tailwindcss` 4.
+
+## CSS setup
+
+In your global stylesheet, import Tailwind **first**, then the package stylesheet:
+
+```css
+@import "tailwindcss";
+@import "@asif-sirajudeen/earth-ui/styles.css";
+```
+
+The package stylesheet does not import Tailwind itself. It adds the theme tokens and tells Tailwind to scan the package's built components for classes.
+
+## Components
+
+Pick a component from the sidebar, or press search.

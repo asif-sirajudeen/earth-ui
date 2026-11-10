@@ -41,6 +41,12 @@ export default tseslint.config(
       "node_modules/**",
       "dist/**",
       "public/r/**",
+      "site/.next/**",
+      "site/out/**",
+      "site/.source/**",
+      "site/content/docs/components/**",
+      // Copied from shadcn; synced, not edited (site/scripts/sync-examples.mts).
+      "site/examples/**",
     ],
   },
   {

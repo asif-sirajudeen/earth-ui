@@ -1,3 +1,5 @@
 dist
 node_modules
 public/r
+# Copied from shadcn; synced, not edited (site/scripts/sync-examples.mts).
+site/examples
