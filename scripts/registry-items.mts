@@ -152,20 +152,43 @@ export function findCycle(items: readonly RegistryItem[]): string[] | null {
   return null
 }
 
-const SHADCN_END = "/* end of shadcn@4.23.0 block */"
+const SHADCN_START = /\/\* ejected from shadcn@(\S+)/
+const SHADCN_END = /\/\* end of shadcn@(\S+) block \*\//
+
+/** Version in the ejected shadcn block's markers. Throws if a marker is missing or the two disagree. */
+export function ejectedShadcnVersion(css: string): string {
+  const start = SHADCN_START.exec(css)
+  const end = SHADCN_END.exec(css)
+  if (!start || !end || end.index < start.index)
+    throw new Error("styles.css: shadcn block markers not found")
+  if (start[1] !== end[1])
+    throw new Error(
+      `styles.css: shadcn marker versions differ (start ${start[1]}, end ${end[1]})`
+    )
+  return start[1]!
+}
+
+/** Throws unless the ejected block's version equals `devDependencies.shadcn`. */
+export function assertShadcnPin(css: string, pkg: PackageJson): void {
+  const ejected = ejectedShadcnVersion(css)
+  const pinned = pkg.devDependencies?.shadcn
+  if (ejected !== pinned)
+    throw new Error(
+      `styles.css: ejected shadcn block is ${ejected} but devDependencies.shadcn is ${pinned}; re-eject dist/tailwind.css from the new CLI version and update the markers`
+    )
+}
 
 /** Text of the shadcn tailwind.css copy inside styles.css, between its marker comments. */
 export function ejectedShadcnBlock(css: string): string {
-  const start = css.indexOf("/* ejected from shadcn@")
-  const end = css.indexOf(SHADCN_END)
-  if (start < 0 || end < start)
-    throw new Error("styles.css: shadcn block markers not found")
-  return css.slice(css.indexOf("\n", start) + 1, end)
+  ejectedShadcnVersion(css)
+  const start = SHADCN_START.exec(css)!.index
+  return css.slice(css.indexOf("\n", start) + 1, SHADCN_END.exec(css)!.index)
 }
 
 /** `--name: value;` pairs of the first `selector {` block after the shadcn block. */
 function tokensOf(css: string, selector: string): Record<string, string> {
-  const from = css.indexOf(SHADCN_END)
+  const endMatch = SHADCN_END.exec(css)
+  const from = endMatch ? endMatch.index : -1
   const open = css.indexOf(`${selector} {`, from)
   if (from < 0 || open < 0)
     throw new Error(`styles.css: no "${selector}" block after the shadcn block`)
@@ -191,6 +214,7 @@ export function parseTokens(css: string) {
 
 /** Mirrors shadcn's own base style item; tokens come from styles.css. */
 export function styleItem(css: string, pkg: PackageJson): RegistryItem {
+  assertShadcnPin(css, pkg)
   return {
     name: STYLE,
     type: "registry:style",

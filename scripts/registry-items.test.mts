@@ -3,8 +3,10 @@ import { readFileSync } from "node:fs"
 import { test } from "node:test"
 
 import {
+  assertShadcnPin,
   deriveItems,
   ejectedShadcnBlock,
+  ejectedShadcnVersion,
   findCycle,
   parseTokens,
   styleItem,
@@ -182,5 +184,35 @@ test("styles.css yields tokens for every block", () => {
     tokens.light["sidebar-primary"] &&
       tokens.dark["sidebar-primary"] &&
       tokens.theme["color-sidebar-primary"]
+  )
+})
+
+test("ejectedShadcnVersion reads the version from either marker", () => {
+  assert.equal(ejectedShadcnVersion(css), "4.23.0")
+})
+
+test("ejectedShadcnVersion throws when start and end versions differ", () => {
+  assert.throws(
+    () =>
+      ejectedShadcnVersion(
+        css.replace("end of shadcn@4.23.0", "end of shadcn@4.24.0")
+      ),
+    /differ.*4\.23\.0.*4\.24\.0/
+  )
+})
+
+test("assertShadcnPin throws when markers disagree with devDependencies.shadcn", () => {
+  const bumped = css.replaceAll("shadcn@4.23.0", "shadcn@4.24.0")
+  assert.throws(
+    () => assertShadcnPin(bumped, { devDependencies: { shadcn: "4.23.0" } }),
+    /re-eject/
+  )
+  assertShadcnPin(css, { devDependencies: { shadcn: "4.23.0" } })
+})
+
+test("styles.css markers match devDependencies.shadcn", () => {
+  assertShadcnPin(
+    readFileSync("styles.css", "utf8"),
+    JSON.parse(readFileSync("package.json", "utf8"))
   )
 })
