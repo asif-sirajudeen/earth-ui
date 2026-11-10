@@ -2,9 +2,15 @@
 // earth-ui CLI JSON. I/O only; the page layout lives in render-page.mjs. Needs `pnpm build` at the repo root first.
 
 import { spawnSync } from "node:child_process"
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import {
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs"
 
-import { renderPage } from "./render-page.mjs"
+import { groupExamples, renderPage } from "./render-page.mjs"
 
 const cli = new URL("../../dist/cli.js", import.meta.url).pathname
 const run = (...args) => {
@@ -22,17 +28,25 @@ mkdirSync(dir, { recursive: true })
 
 const t0 = Date.now()
 const { components } = run("list")
-const examples = new URL("../examples/", import.meta.url)
-for (const { name } of components) {
-  const example = new URL(`${name}.tsx`, examples)
-  const demo = existsSync(example) ? readFileSync(example, "utf8") : null
+const examplesDir = new URL("../examples/", import.meta.url)
+const { groups, ignored } = groupExamples(
+  readdirSync(examplesDir)
+    .filter((f) => f.endsWith(".tsx"))
+    .map((f) => ({
+      name: f.slice(0, -4),
+      code: readFileSync(new URL(f, examplesDir), "utf8"),
+    })),
+  components.map((c) => c.name)
+)
+for (const { name } of components)
   writeFileSync(
     new URL(`${name}.mdx`, dir),
-    renderPage(run("docs", name), run("source", name), demo)
+    renderPage(run("docs", name), run("source", name), groups[name])
   )
-}
 writeFileSync(
   new URL("meta.json", dir),
   JSON.stringify({ title: "Components", defaultOpen: true, pages: components.map((c) => c.name) })
 )
-console.log(`gen: ${components.length} pages in ${Date.now() - t0}ms`)
+console.log(
+  `gen: ${components.length} pages in ${Date.now() - t0}ms (${ignored} examples matched no component)`
+)

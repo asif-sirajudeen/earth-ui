@@ -22,3 +22,8 @@ _Avoid_: "manifest".
 ## Base UI doc
 
 The documentation page that `@base-ui/react` ships for one of its parts (for example `dialog`). A component's Base UI doc is the one for the Base UI part it wraps, which can have a different name (hover-card wraps preview-card).
+
+## Example
+
+A small usage file that the docs site renders as a live preview, with its code, on a component's page. Examples are copied from shadcn's examples and import from the package, so the shown code is what a consumer writes. The example named `<component>-demo` comes first on the page.
+_Avoid_: "demo" for the whole set (the `-demo` example is just the first one).

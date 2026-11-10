@@ -6,7 +6,7 @@ Research: `docs/research/registry-docs-and-cli.md` (section A). This spec supers
 
 - **Data source.** The research reads `public/r/*.json` directly. Commit `19948db` added the `earth-ui` CLI. Its `docs <name>` and `source <name>` already return everything the reference half of a page needs. The site reads the CLI output instead.
 - **Install mode.** The research leads with `shadcn add`. README and CONTEXT.md make package mode primary, so pages lead with `pnpm add` and the import path. Copy mode comes second.
-- **Demos.** The research imports demos from `src/` and rewrites the paths. Demos import the workspace package instead, so no rewrite is needed. Demos are out of v1.
+- **Examples.** The research imports demos from `src/` and rewrites the paths. Examples are instead copied from shadcn's `apps/v4/examples/base` into `site/examples/` (see Examples below) and import the workspace package.
 - **Section B (CLI).** That section is moot. The CLI shipped as a lookup tool, not an installer.
 
 ## Goal
@@ -46,6 +46,12 @@ Checks already done:
 - The `## API reference` sections in `@base-ui/react@1.9.0` docs have no bare `<`, `{` or `}` outside code, so they are MDX-safe. Verified over all 37 files.
 - The CLI omits `style` and `use-mobile`. Both are skipped in v1.
 - GFM tables are on by default in fumadocs-mdx.
+
+## Examples
+
+`site/examples/*.tsx` are shadcn's `apps/v4/examples/base` files, copied by `site/scripts/sync-examples.mjs <checkout> [sha]` with `@/styles/base-*/ui/<c>` rewritten to `@asif-sirajudeen/earth-ui/<c>`. The script skips rtl files, files with other local imports, and files with npm packages earth-ui does not depend on (an explicit `SKIP` map holds any that fail typecheck). Copies are synced, not edited, and are excluded from ESLint and Prettier. `site/examples/README.md` records the source SHA and shadcn's MIT license.
+
+`gen.mjs` maps each file to the component with the longest name that prefixes it (`alert-dialog-basic` goes to alert-dialog), ignores the rest, and renders an `## Examples` section: `<component>-demo` first, then alphabetical, each as `### <Title>` with Preview and Code tabs.
 
 ## Layout
 
@@ -130,7 +136,6 @@ One-time manual step (maintainer): in the repo settings, set Pages, then Source,
 
 ## Out of v1
 
-- Demos for every component. `site/examples/<name>.tsx` (default export, imports from the package) is rendered as a Preview plus its code when the file exists; Button and Dialog have one.
 - Hand-written prose per component.
 - Pages for `style` (theming) and `use-mobile`.
 - A custom domain, the directory PR, `registry:example` items and Open in v0.

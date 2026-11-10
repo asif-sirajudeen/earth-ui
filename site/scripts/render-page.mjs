@@ -9,8 +9,41 @@ function fence(code) {
   return "`".repeat(Math.max(3, longest + 1))
 }
 
-/** `demo` is the code of site/examples/<name>.tsx, or null when there is none. */
-export function renderPage(docs, source, demo = null) {
+const titleCase = (s) =>
+  s
+    .split("-")
+    .map((w) => w[0].toUpperCase() + w.slice(1))
+    .join(" ")
+
+/** Buckets [{ name, code }] under the component whose name is the longest `<component>-` prefix. */
+export function groupExamples(examples, components) {
+  const byLen = [...components].sort((a, b) => b.length - a.length)
+  const groups = {}
+  let ignored = 0
+  for (const e of examples) {
+    const c = byLen.find((c) => e.name.startsWith(`${c}-`))
+    if (c) (groups[c] ??= []).push(e)
+    else ignored++
+  }
+  for (const [c, list] of Object.entries(groups))
+    list.sort((a, b) => {
+      const demo = (e) => (e.name === `${c}-demo` ? 0 : 1)
+      return demo(a) - demo(b) || a.name.localeCompare(b.name)
+    })
+  return { groups, ignored }
+}
+
+// How to import the component an example file exports: named (capitalised, so a data
+// `export const works = []` is skipped) or default.
+function importLine(local, name, code) {
+  const m = code.match(/^export (?:function|const) ([A-Z]\w*)|^export default/m)
+  return m?.[1]
+    ? `import { ${m[1]} as ${local} } from "@/examples/${name}"`
+    : `import ${local} from "@/examples/${name}"`
+}
+
+/** `examples` is [{ name, code }] from site/examples, already grouped to this component. */
+export function renderPage(docs, source, examples = []) {
   const out = [
     "---",
     `title: ${JSON.stringify(docs.title)}`,
@@ -18,22 +51,34 @@ export function renderPage(docs, source, demo = null) {
     "---",
     "",
   ]
-  if (demo) {
-    const fc = fence(demo)
-    out.push(
-      `import Demo from "@/examples/${docs.name}"`,
-      "",
-      "## Preview",
-      "",
-      '<div className="not-prose flex min-h-40 items-center justify-center rounded-lg border p-6">',
-      "  <Demo />",
-      "</div>",
-      "",
-      `${fc}tsx`,
-      demo,
-      fc,
-      ""
-    )
+  if (examples.length) {
+    out.push('import { Tab, Tabs } from "fumadocs-ui/components/tabs"')
+    examples.forEach((e, i) => out.push(importLine(`Ex_${i}`, e.name, e.code)))
+    out.push("", "## Examples", "")
+    examples.forEach((e, i) => {
+      const fc = fence(e.code)
+      out.push(
+        `### ${titleCase(e.name.slice(docs.name.length + 1))}`,
+        "",
+        '<Tabs items={["Preview", "Code"]}>',
+        '<Tab value="Preview">',
+        "",
+        '<div className="not-prose flex min-h-40 items-center justify-center rounded-lg border p-6">',
+        `  <Ex_${i} />`,
+        "</div>",
+        "",
+        "</Tab>",
+        '<Tab value="Code">',
+        "",
+        `${fc}tsx`,
+        e.code,
+        fc,
+        "",
+        "</Tab>",
+        "</Tabs>",
+        ""
+      )
+    })
   }
   out.push(
     "## Install",

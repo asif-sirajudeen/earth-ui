@@ -3,7 +3,7 @@
 import assert from "node:assert/strict"
 import test from "node:test"
 
-import { renderPage } from "./render-page.mjs"
+import { groupExamples, renderPage } from "./render-page.mjs"
 
 const docs = (over = {}) => ({
   name: "dialog",
@@ -51,13 +51,74 @@ test("API link falls back to links.api without .md, omitted when neither", () =>
   assert.ok(!none.includes("API reference"))
 })
 
-test("preview renders the example and its code when one exists", () => {
-  assert.ok(!renderPage(docs(), source()).includes("## Preview"))
-  const out = renderPage(docs(), source(), "export default () => null")
-  assert.ok(out.includes('import Demo from "@/examples/dialog"'))
-  assert.ok(out.includes("<Demo />"))
-  assert.ok(out.includes("```tsx\nexport default () => null\n```"))
-  assert.ok(out.indexOf("## Preview") < out.indexOf("## Install"))
+const ex = (name, code = "export default function X() { return null }") => ({
+  name,
+  code,
+})
+
+test("examples render as Examples section with tabs, before Install", () => {
+  assert.ok(!renderPage(docs(), source()).includes("## Examples"))
+  const out = renderPage(docs(), source(), [
+    ex("dialog-demo"),
+    ex("dialog-close-button", "export function CloseButton() {}"),
+  ])
+  assert.ok(out.includes('import Ex_0 from "@/examples/dialog-demo"'))
+  assert.ok(
+    out.includes(
+      'import { CloseButton as Ex_1 } from "@/examples/dialog-close-button"'
+    )
+  )
+  assert.ok(out.includes('import { Tab, Tabs } from "fumadocs-ui/components/tabs"'))
+  assert.ok(out.includes("### Demo"))
+  assert.ok(out.includes("### Close Button"))
+  assert.ok(out.includes("  <Ex_0 />"))
+  assert.ok(out.includes("  <Ex_1 />"))
+  assert.ok(out.includes('<Tabs items={["Preview", "Code"]}>'))
+  assert.ok(out.includes("```tsx\nexport default function X() { return null }\n```"))
+  assert.ok(out.indexOf("## Examples") < out.indexOf("## Install"))
+})
+
+test("export detection: function, const, default", () => {
+  const imp = (code) =>
+    renderPage(docs(), source(), [ex("dialog-a", code)]).match(
+      /import (.*) from "@\/examples/
+    )[1]
+  assert.equal(imp("export function A() {}"), "{ A as Ex_0 }")
+  assert.equal(imp("export const B = () => null"), "{ B as Ex_0 }")
+  assert.equal(imp("export default () => null"), "Ex_0")
+  assert.equal(
+    imp("export const works = []\nexport function Demo() {}"),
+    "{ Demo as Ex_0 }"
+  )
+  // `export default` inside a template string must not count
+  assert.equal(
+    imp("const s = `@@ export default x`\nexport function T() {}"),
+    "{ T as Ex_0 }"
+  )
+})
+
+test("groupExamples: longest component prefix wins, order demo then alpha", () => {
+  const names = ["alert", "alert-dialog", "dialog"]
+  const { groups, ignored } = groupExamples(
+    [
+      ex("alert-dialog-basic"),
+      ex("alert-basic"),
+      ex("alert-demo"),
+      ex("alert-action"),
+      ex("alertish-x"),
+      ex("zzz-demo"),
+    ],
+    names
+  )
+  assert.deepEqual(
+    groups["alert"].map((e) => e.name),
+    ["alert-demo", "alert-action", "alert-basic"]
+  )
+  assert.deepEqual(
+    groups["alert-dialog"].map((e) => e.name),
+    ["alert-dialog-basic"]
+  )
+  assert.equal(ignored, 2)
 })
 
 test("source fence widens when code has triple backticks", () => {
