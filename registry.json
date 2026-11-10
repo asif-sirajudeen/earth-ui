@@ -125,7 +125,12 @@
           "path": "src/components/attachment.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/attachment"
+        }
+      }
     },
     {
       "name": "avatar",
@@ -223,7 +228,12 @@
           "path": "src/components/bubble.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/bubble"
+        }
+      }
     },
     {
       "name": "button-group",
@@ -354,7 +364,7 @@
         "links": {
           "docs": "https://ui.shadcn.com/docs/components/base/carousel",
           "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/carousel-example.tsx",
-          "api": "https://www.embla-carousel.com/get-started/react"
+          "api": "https://www.embla-carousel.com/docs/get-started/react"
         }
       }
     },
@@ -726,7 +736,7 @@
         "links": {
           "docs": "https://ui.shadcn.com/docs/components/base/hover-card",
           "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/hover-card-example.tsx",
-          "api": "https://base-ui.com/react/components/hover-card.md"
+          "api": "https://base-ui.com/react/components/preview-card.md"
         }
       }
     },
@@ -881,8 +891,7 @@
       "meta": {
         "links": {
           "docs": "https://ui.shadcn.com/docs/components/base/label",
-          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/label-example.tsx",
-          "api": "https://base-ui.com/react/components/label.md"
+          "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/label-example.tsx"
         }
       }
     },
@@ -904,7 +913,12 @@
           "path": "src/components/marker.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/marker"
+        }
+      }
     },
     {
       "name": "menubar",
@@ -953,7 +967,12 @@
           "path": "src/components/message-scroller.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/message-scroller"
+        }
+      }
     },
     {
       "name": "message",
@@ -971,7 +990,12 @@
           "path": "src/components/message.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "meta": {
+        "links": {
+          "docs": "https://ui.shadcn.com/docs/components/base/message"
+        }
+      }
     },
     {
       "name": "native-select",

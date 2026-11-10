@@ -56,6 +56,11 @@ export const metadata: Record<string, ItemMetadata> = {
     title: "Attachment",
     description:
       "File or media attachment card with a preview, title, description and actions.",
+    meta: {
+      links: {
+        docs: "https://ui.shadcn.com/docs/components/base/attachment",
+      },
+    },
   },
   avatar: {
     title: "Avatar",
@@ -94,6 +99,11 @@ export const metadata: Record<string, ItemMetadata> = {
   bubble: {
     title: "Bubble",
     description: "Chat bubble with grouped messages and reactions.",
+    meta: {
+      links: {
+        docs: "https://ui.shadcn.com/docs/components/base/bubble",
+      },
+    },
   },
   "button-group": {
     title: "Button Group",
@@ -149,7 +159,7 @@ export const metadata: Record<string, ItemMetadata> = {
         docs: "https://ui.shadcn.com/docs/components/base/carousel",
         examples:
           "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/carousel-example.tsx",
-        api: "https://www.embla-carousel.com/get-started/react",
+        api: "https://www.embla-carousel.com/docs/get-started/react",
       },
     },
   },
@@ -315,7 +325,7 @@ export const metadata: Record<string, ItemMetadata> = {
         docs: "https://ui.shadcn.com/docs/components/base/hover-card",
         examples:
           "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/hover-card-example.tsx",
-        api: "https://base-ui.com/react/components/hover-card.md",
+        api: "https://base-ui.com/react/components/preview-card.md",
       },
     },
   },
@@ -383,13 +393,17 @@ export const metadata: Record<string, ItemMetadata> = {
         docs: "https://ui.shadcn.com/docs/components/base/label",
         examples:
           "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/label-example.tsx",
-        api: "https://base-ui.com/react/components/label.md",
       },
     },
   },
   marker: {
     title: "Marker",
     description: "Inline marker with an icon and content, for annotating text.",
+    meta: {
+      links: {
+        docs: "https://ui.shadcn.com/docs/components/base/marker",
+      },
+    },
   },
   menubar: {
     title: "Menubar",
@@ -407,10 +421,20 @@ export const metadata: Record<string, ItemMetadata> = {
     title: "Message Scroller",
     description:
       "Scroll container for a message list that keeps the newest message in view.",
+    meta: {
+      links: {
+        docs: "https://ui.shadcn.com/docs/components/base/message-scroller",
+      },
+    },
   },
   message: {
     title: "Message",
     description: "Chat message with avatar, header, content and footer.",
+    meta: {
+      links: {
+        docs: "https://ui.shadcn.com/docs/components/base/message",
+      },
+    },
   },
   "native-select": {
     title: "Native Select",
