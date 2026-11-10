@@ -1,6 +1,6 @@
 {
   "name": "@asif-sirajudeen/earth-ui",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "shadcn-based React components on Base UI, shipped as a versioned package.",
   "license": "MIT",
   "type": "module",

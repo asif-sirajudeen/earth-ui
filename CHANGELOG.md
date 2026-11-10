@@ -1,5 +1,15 @@
 # @asif-sirajudeen/earth-ui
 
+## 0.4.0
+
+### Minor Changes
+
+- 3c0d4ad: Export `useIsMobile` from the new `@asif-sirajudeen/earth-ui/use-mobile` subpath.
+
+### Patch Changes
+
+- b26d625: Fix broken `earth-ui docs` links for hover-card, label and carousel, and add docs links for attachment, bubble, marker, message and message-scroller.
+
 ## 0.3.0
 
 ### Minor Changes
