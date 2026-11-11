@@ -47,13 +47,27 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       pages: write
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.retry.outputs.page_url || steps.deployment.outputs.page_url }}
     steps:
+      # Failed runs for #21 and #26 sat in "syncing_files" until the action's default 10 minute timeout, while the
+      # artifact was the same ~6.6 MB as in green runs: a GitHub-side stall, not our output. Fail fast, then retry once.
       - name: Deploy to GitHub Pages
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+        with:
+          timeout: 300000
+
+      # If the retry also fails, the job (and the run on main) fails visibly.
+      - name: Retry deploy to GitHub Pages
+        id: retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+        with:
+          timeout: 300000

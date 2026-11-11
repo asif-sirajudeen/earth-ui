@@ -7,6 +7,9 @@ export type IndexPackageJson = {
   name: string
   version: string
   exports: Record<string, ExportTarget | string>
+  dependencies?: Record<string, string>
+  peerDependencies?: Record<string, string>
+  peerDependenciesMeta?: Record<string, { optional?: boolean }>
 }
 export type IndexRegistryItem = {
   name: string
@@ -29,6 +32,8 @@ export type ComponentEntry = {
   exports: string[]
   variants: Record<string, string[]> | null
   dependencies: string[]
+  /** Packages the consumer must add themselves: `name@range` from the package's peerDependencies. */
+  install: string[]
   links: Record<string, string>
   baseUiDoc: string | null
   /** The TSX source files with their code. */
@@ -69,14 +74,43 @@ export function exportedNames(dts: string): string[] {
   return names
 }
 
-/** CVA literal unions such as `variant?: "default" | "ghost" | null | undefined`. */
+/**
+ * String-literal unions of two or more members, such as `variant?: "default" | "ghost"`,
+ * with or without a trailing `| null | undefined` (CVA). Matches inline too (`{ size?: "a" | "b"; }`).
+ * On a repeated prop name, a CVA union wins, else the first declaration.
+ */
 export function variantProps(dts: string): Record<string, string[]> | null {
   const variants: Record<string, string[]> = {}
-  for (const [, prop, union] of dts.matchAll(
-    /^\s*(\w+)\?:\s*((?:"[^"]*"\s*\|\s*)+)null\s*\|\s*undefined;/gm
-  ))
+  const matches = [
+    ...dts.matchAll(
+      /\b(\w+)\?:\s*("[^"]*"(?:\s*\|\s*"[^"]*")+)((?:\s*\|\s*(?:null|undefined))*)(?=\s*[;,}\n])/g
+    ),
+  ]
+  // CVA unions (tail `| null | undefined`) win a repeated name over hand-written ones.
+  const isCva = (m: RegExpMatchArray) => m[3]!.includes("null")
+  for (const [, prop, union] of [
+    ...matches.filter(isCva),
+    ...matches.filter((m) => !isCva(m)),
+  ])
     variants[prop!] ??= [...union!.matchAll(/"([^"]*)"/g)].map((m) => m[1]!)
   return Object.keys(variants).length ? variants : null
+}
+
+/**
+ * The `name@range` entries of `deps` the consumer must install: those that are peer
+ * dependencies of the package, with the range from `peerDependencies`. Package
+ * `dependencies` ship with it and are dropped.
+ */
+export function installList(
+  deps: string[],
+  pkg: Pick<IndexPackageJson, "peerDependencies">
+): string[] {
+  const peers = pkg.peerDependencies ?? {}
+  return deps.flatMap((dep) => {
+    const at = dep.lastIndexOf("@")
+    const name = at > 0 ? dep.slice(0, at) : dep
+    return Object.hasOwn(peers, name) ? [`${name}@${peers[name]}`] : []
+  })
 }
 
 /**
@@ -128,6 +162,7 @@ export function buildComponentIndex(
       exports: exportedNames(dts),
       variants: variantProps(dts),
       dependencies: item.dependencies ?? [],
+      install: installList(item.dependencies ?? [], pkg),
       links,
       baseUiDoc: baseUiDocName(
         item.name,

@@ -1,7 +1,11 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { buildComponentIndex } from "./component-index.mts"
+import {
+  buildComponentIndex,
+  installList,
+  variantProps,
+} from "../../lib/component-index.mts"
 
 const pkg = {
   name: "@scope/ui",
@@ -73,6 +77,7 @@ test("builds entries with imports, exports, variants and base ui doc", () => {
     exports: ["Button", "buttonVariants"],
     variants: { variant: ["default", "ghost"], size: ["sm", "lg"] },
     dependencies: ["dep@^1"],
+    install: [],
     links: { api: "https://base-ui.com/react/components/button.md" },
     baseUiDoc: "button",
     source: [{ path: "src/button.tsx", code: files["src/button.tsx"]! }],
@@ -166,5 +171,63 @@ test("drops items with no importable module", () => {
   assert.deepEqual(
     index.components.map((c) => c.name),
     ["button", "toaster", "use-thing"]
+  )
+})
+
+const installPkg = {
+  dependencies: { "lucide-react": "^1.70.0", "@base-ui/react": "^1.9.0" },
+  peerDependencies: {
+    react: "^19",
+    "next-themes": "~0.4.6",
+    sonner: "^2.0.8",
+    "@scope/peer": "^2",
+  },
+  peerDependenciesMeta: { sonner: { optional: true } },
+}
+
+test("installList keeps only peer dependencies, with the peer range", () => {
+  assert.deepEqual(
+    installList(
+      [
+        "@base-ui/react@^1.9.0",
+        "lucide-react@^1.70.0",
+        "next-themes@~0.4.6",
+        "sonner@^2.0.8",
+        "@scope/peer@^1",
+        "sonner",
+      ],
+      installPkg
+    ),
+    ["next-themes@~0.4.6", "sonner@^2.0.8", "@scope/peer@^2", "sonner@^2.0.8"]
+  )
+  assert.deepEqual(installList(["a@1"], {}), [])
+})
+
+test("variantProps finds CVA, plain and inline literal unions", () => {
+  assert.deepEqual(
+    variantProps(
+      [
+        `  variant?: "a" | "b" | null | undefined;`,
+        `  size?: "default" | "sm";`,
+        `  size?: "x" | "y";`,
+        `  single?: "a";`,
+        `  mixed?: "a" | "b" | string;`,
+        `declare function Card(props: React.ComponentProps<"div"> & { side?: "l" | "r"; }): void;`,
+      ].join("\n")
+    ),
+    { variant: ["a", "b"], size: ["default", "sm"], side: ["l", "r"] }
+  )
+  assert.equal(variantProps(`x?: "a";`), null)
+})
+
+test("variantProps keeps the CVA union when a hand-written prop repeats its name first", () => {
+  assert.deepEqual(
+    variantProps(
+      [
+        `  variant?: "sidebar" | "floating";`,
+        `  variant?: "default" | "outline" | null | undefined;`,
+      ].join("\n")
+    ),
+    { variant: ["default", "outline"] }
   )
 })

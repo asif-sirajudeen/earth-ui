@@ -14,6 +14,7 @@ export default defineConfig([
     // Emitted by TS 6: `typescript` is aliased to @typescript/typescript6 for
     // typescript-eslint, and the dts plugin's TS 7.0 backend only runs when
     // `typescript` itself is 7.0. Union member order differs from TS 7; types don't.
+    // Exit condition: README, "Maintainers: TypeScript versions".
     dts: true,
     // One output file per source file, so each file keeps its own "use client".
     unbundle: true,

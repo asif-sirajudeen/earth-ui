@@ -9,20 +9,9 @@ packages:
 # Declared so `pnpm install` does not fail with ERR_PNPM_IGNORED_BUILDS.
 allowBuilds:
   esbuild: false
-# Releases newer than the minimum release age. The next and fumadocs entries are the
-# docs site's pinned versions; drop them once those versions age past the limit.
-minimumReleaseAgeExclude:
-  - lucide-react@1.70.0
-  - "@next/env@16.4.6"
-  - "@next/swc-darwin-arm64@16.4.6"
-  - "@next/swc-darwin-x64@16.4.6"
-  - "@next/swc-linux-arm64-gnu@16.4.6"
-  - "@next/swc-linux-arm64-musl@16.4.6"
-  - "@next/swc-linux-x64-gnu@16.4.6"
-  - "@next/swc-linux-x64-musl@16.4.6"
-  - "@next/swc-win32-arm64-msvc@16.4.6"
-  - "@next/swc-win32-x64-msvc@16.4.6"
-  - fumadocs-core@16.18.4
-  - fumadocs-mdx@15.5.3
-  - fumadocs-ui@16.18.4
-  - next@16.4.6
+# Minutes a release must age before pnpm installs it (1 day).
+minimumReleaseAge: 1440
+# Exact "name@version" entries exempt from that age, for a version the repo must install before it ages out.
+# Add a comment saying why. The weekly "Upstream check" workflow runs scripts/check-release-age.mts, which fails
+# once an entry is older than minimumReleaseAge; delete it then and confirm `pnpm install --frozen-lockfile`.
+minimumReleaseAgeExclude: []
