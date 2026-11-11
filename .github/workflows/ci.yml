@@ -10,21 +10,45 @@ permissions:
 
 # Each check runs in its own job, in parallel, so a failure names the check that broke.
 jobs:
-  # PRs only. Fails when shipped package code changes without a changeset; opt out with `pnpm changeset --empty`.
+  # PRs only. Never fails: when shipped package code changes without a changeset, CI keeps one comment on the PR
+  # saying so (and removes it once fixed). Opt out with `pnpm changeset --empty`.
   # The release bot's "Version Packages" PR consumes changesets, so it is exempt.
   changeset:
     if: github.event_name == 'pull_request' && github.head_ref != 'changeset-release/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Check out repo
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           fetch-depth: 0 # the check diffs against the base branch
-      - name: Require a changeset for package changes
+      - name: Check for a changeset
         env:
           BASE_REF: ${{ github.base_ref }}
-        run: node scripts/check/changeset.mts "origin/$BASE_REF"
+        run: node scripts/check/changeset.mts "origin/$BASE_REF" --comment-file "$RUNNER_TEMP/changeset-comment.md"
+      - name: Keep the changeset comment up to date
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          # Fork PRs get a read-only token, so a failed API call only warns.
+          {
+            id=$(gh api --paginate "repos/$REPO/issues/$PR/comments" \
+              --jq '.[] | select(.body | startswith("<!-- changeset-check -->")) | .id' | head -n 1)
+            if [ -s "$RUNNER_TEMP/changeset-comment.md" ]; then
+              if [ -n "$id" ]; then
+                gh api -X PATCH "repos/$REPO/issues/comments/$id" -F body=@"$RUNNER_TEMP/changeset-comment.md"
+              else
+                gh api -X POST "repos/$REPO/issues/$PR/comments" -F body=@"$RUNNER_TEMP/changeset-comment.md"
+              fi
+            elif [ -n "$id" ]; then
+              gh api -X DELETE "repos/$REPO/issues/comments/$id"
+            fi
+          } > /dev/null || echo "::warning::could not update the changeset comment"
 
   lint:
     runs-on: ubuntu-latest
