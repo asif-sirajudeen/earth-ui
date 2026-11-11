@@ -53,6 +53,7 @@
     "index:check": "node scripts/build-index.mts --check",
     "links:check": "node scripts/check-links.mts",
     "registry:smoke": "node scripts/smoke-registry.mts",
+    "package:smoke": "node scripts/smoke-package.mts",
     "upstream:check": "node scripts/upstream-check.mts",
     "upstream:ledger": "node scripts/upstream-ledger.mts",
     "test": "node --test scripts/*.test.mts cli/*.test.mts",

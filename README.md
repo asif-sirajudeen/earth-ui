@@ -141,14 +141,12 @@ The same block is in [`cli/README.md`](./cli/README.md).
 
 The components are also published as a shadcn registry under the `@earth-ui` namespace. Use it to copy the source into your project instead of installing the npm package.
 
-> The registry is not hosted yet. The URL below is a placeholder until it is.
-
 1. Add the namespace to your `components.json`:
 
    ```json
    {
      "registries": {
-       "@earth-ui": "https://<registry-host>/r/{name}.json"
+       "@earth-ui": "https://asif-sirajudeen.github.io/earth-ui/r/{name}.json"
      }
    }
    ```
@@ -171,6 +169,20 @@ npx shadcn@latest add @earth-ui/button --overwrite
 `--overwrite` replaces your local edits to that file.
 
 Always use the `@earth-ui/` prefix. A bare name such as `button` installs the official shadcn component, not the Earth UI one.
+
+## Maintainers: TypeScript versions
+
+Two TypeScript versions are installed on purpose, because typescript-eslint caps its peer range at `<6.1.0` and cannot load TypeScript 7.
+
+| Used for | Version | Where |
+| --- | --- | --- |
+| `pnpm typecheck` (`tsc`) | TypeScript 7 | `devDependencies["@typescript/native"]` |
+| `pnpm lint` (typescript-eslint) | TypeScript 6 | `devDependencies.typescript` (aliased to `@typescript/typescript6`) |
+| `pnpm build` (tsdown, emits the shipped `.d.ts`) | TypeScript 6 | the same `typescript` alias; see `tsdown.config.ts` |
+
+The `.d.ts` files come from TypeScript 6 because tsdown's declaration backend only uses TypeScript 7 when `typescript` itself is 7.
+
+Exit condition: when a typescript-eslint release accepts TypeScript 7, point `typescript` at `^7`, delete `@typescript/native`, run `pnpm build`, and review the `.d.ts` diff (union member order may change; the types do not).
 
 ## Maintainers: upgrading shadcn
 
