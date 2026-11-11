@@ -7,7 +7,7 @@ import {
   importSpecifiers,
   topLevelPackage,
   withRange,
-} from "./derive-deps.mts"
+} from "../../lib/derive-deps.mts"
 
 test("topLevelPackage collapses subpaths, keeps scope", () => {
   assert.equal(topLevelPackage("@base-ui/react/button"), "@base-ui/react")

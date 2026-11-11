@@ -6,7 +6,7 @@ import {
   extractDeps,
   extractFiles,
   missingDeps,
-} from "./upstream-check.mts"
+} from "../../upstream/check.mts"
 
 const VIEW = `- Resolving items.
 ┌ shadcn add calendar (dry run)

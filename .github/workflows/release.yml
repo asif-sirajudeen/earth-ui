@@ -83,7 +83,7 @@ jobs:
       - name: Build and smoke the CLI
         run: |
           pnpm build
-          scripts/smoke-cli.sh
+          scripts/smoke/cli.sh
 
       - name: Smoke the packed package in a fresh project
         run: pnpm package:smoke

@@ -1,5 +1,5 @@
 // Runtime half of `docs` props: shapes the build-time part data (dist/props.json, from
-// scripts/build-props.mts) and the Base UI markdown reference into one structure.
+// scripts/build/props.mts) and the Base UI markdown reference into one structure.
 // Stdlib only: this ships in the CLI bin.
 
 export type Prop = { name: string; type: string }

@@ -1,4 +1,4 @@
-// Runtime lookup over dist/examples.json (built by scripts/build-examples.mts).
+// Runtime lookup over dist/examples.json (built by scripts/build/examples.mts).
 export type Example = { name: string; code: string; imports: string[] }
 export type ExamplesData = Record<string, Example[]>
 

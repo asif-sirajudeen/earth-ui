@@ -4,9 +4,13 @@
 // Run: pnpm registry   (then `shadcn build` turns registry.json into public/r/)
 import { readdirSync, readFileSync, writeFileSync } from "node:fs"
 
-import { metadata } from "../registry/metadata.ts"
-import type { PackageJson } from "./derive-deps.mts"
-import { deriveItems, styleItem, type SourceFile } from "./registry-items.mts"
+import { metadata } from "../../registry/metadata.ts"
+import type { PackageJson } from "../lib/derive-deps.mts"
+import {
+  deriveItems,
+  styleItem,
+  type SourceFile,
+} from "../lib/registry-items.mts"
 
 const read = (dir: string, ext: RegExp): SourceFile[] =>
   readdirSync(dir)

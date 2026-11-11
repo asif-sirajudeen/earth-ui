@@ -2,7 +2,7 @@ import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import { test } from "node:test"
 
-import { parseWorkspace, staleEntries } from "./check-release-age.mts"
+import { parseWorkspace, staleEntries } from "../../check/release-age.mts"
 
 const yaml = `allowBuilds:
   esbuild: false

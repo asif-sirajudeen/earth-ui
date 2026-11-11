@@ -72,7 +72,7 @@ export function loadContext(metaUrl: string): Context {
     readJson(`dist/registry/${name}.json`)
   )
   const pkg = readJson("package.json")
-  // Built by scripts/build-props.mts; a missing file only leaves `parts` empty.
+  // Built by scripts/build/props.mts; a missing file only leaves `parts` empty.
   const partsData: Record<string, Part[]> = JSON.parse(
     readPackageFile("dist/props.json") ?? "{}"
   )

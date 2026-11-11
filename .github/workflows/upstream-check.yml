@@ -24,4 +24,4 @@ jobs:
         run: pnpm upstream:check
 
       - name: Flag stale minimumReleaseAgeExclude entries
-        run: node scripts/check-release-age.mts
+        run: node scripts/check/release-age.mts

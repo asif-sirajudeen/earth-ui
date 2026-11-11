@@ -1,5 +1,5 @@
 // Fails on any non-2xx meta.links URL in registry.json. Network check, so it runs on a schedule, not in PR CI.
-import registry from "../registry.json" with { type: "json" }
+import registry from "../../registry.json" with { type: "json" }
 
 type Item = { name: string; meta?: { links?: Record<string, string> } }
 

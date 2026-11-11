@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { partsFromDts } from "./build-props.mts"
+import { partsFromDts } from "../../build/props.mts"
 
 // Fixtures: exact text of dist/components/*.d.ts and dist/hooks/*.d.ts.
 const CARD = `import * as React from "react";

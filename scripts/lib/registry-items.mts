@@ -1,5 +1,5 @@
 // Pure registry rules: derive items from source files, check them, and build the style item.
-// scripts/build-registry.mts does the file I/O and calls these.
+// scripts/build/registry.mts does the file I/O and calls these.
 import type { RegistryItem } from "shadcn/schema"
 
 import {

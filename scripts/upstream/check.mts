@@ -10,7 +10,7 @@ import { existsSync, readFileSync } from "node:fs"
 import { fileURLToPath } from "node:url"
 import { promisify } from "node:util"
 
-import { topLevelPackage } from "./derive-deps.mts"
+import { topLevelPackage } from "../lib/derive-deps.mts"
 
 const exec = promisify(execFile)
 

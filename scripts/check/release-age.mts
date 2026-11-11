@@ -1,7 +1,7 @@
 // Fails when a minimumReleaseAgeExclude entry in pnpm-workspace.yaml has aged past minimumReleaseAge,
 // so the exemption can be deleted. Needs the network (npm registry). Run weekly by upstream-check.yml.
 //
-//   node scripts/check-release-age.mts
+//   node scripts/check/release-age.mts
 import { readFileSync } from "node:fs"
 import { fileURLToPath } from "node:url"
 
