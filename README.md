@@ -247,7 +247,7 @@ flowchart TD
    - **Changed component:** `pnpm shadcn add <name> --overwrite`. This also rewrites the registry dependencies of `<name>` (for example, `sidebar` rewrites `sheet`). Then run `pnpm format:write` and `pnpm index`.
    - **New component:** `pnpm shadcn add <name>`, then `pnpm format:write` and `pnpm index`. Add an entry for `<name>` to `registry/metadata.ts` by hand: title, description and `meta.links`. The file is hand-maintained on purpose (see `.out-of-scope/generated-metadata.md`).
      - If the component imports a package that is not in `package.json`, add it to `dependencies`, or to `peerDependencies` if consumers provide it. `pnpm registry` fails on an undeclared import.
-     - If the component depends on an optional peer dependency (as `sonner` does), make it subpath-only: add it to `SUBPATH_ONLY` in `scripts/build-index.mts` and to `entry` in `tsdown.config.ts`. The `./*` export in `package.json` already covers components.
+     - If the component depends on an optional peer dependency (as `sonner` does), make it subpath-only: add it to `SUBPATH_ONLY` in `scripts/build/barrel.mts` and to `entry` in `tsdown.config.ts`. The `./*` export in `package.json` already covers components.
      - A new hook in `src/hooks` needs its own `entry` in `tsdown.config.ts` and its own `exports` entry in `package.json`, like `use-mobile`.
    - **Removed component:** delete `src/components/<name>.tsx`, run `pnpm index` and remove its entry from `registry/metadata.ts`. This is a breaking change for consumers.
    - After any `shadcn add`, check the `package.json` diff. `shadcn add` installs the component's npm dependencies and can change their versions.

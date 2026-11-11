@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { missingChangeset } from "./check-changeset.mts"
+import { missingChangeset } from "../../check/changeset.mts"
 
 const cs = [".changeset/brave-owls-sing.md"]
 

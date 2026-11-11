@@ -7,7 +7,7 @@ import {
   externalImports,
   readExampleFiles,
   registryNames,
-} from "./build-examples.mts"
+} from "../../build/examples.mts"
 
 test("imports exclude react, package, relative", () => {
   const code = `import * as React from "react"

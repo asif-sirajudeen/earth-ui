@@ -6,7 +6,7 @@ import {
   diffRules,
   parseCnRules,
   releaseVersions,
-} from "./upstream-ledger.mts"
+} from "../../upstream/ledger.mts"
 
 const css = `.style-nova {
   /* MARK: Checkbox */

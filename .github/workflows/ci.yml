@@ -24,7 +24,7 @@ jobs:
       - name: Require a changeset for package changes
         env:
           BASE_REF: ${{ github.base_ref }}
-        run: node scripts/check-changeset.mts "origin/$BASE_REF"
+        run: node scripts/check/changeset.mts "origin/$BASE_REF"
 
   lint:
     runs-on: ubuntu-latest
@@ -103,7 +103,7 @@ jobs:
       - name: Build package and smoke the CLI
         run: |
           pnpm build
-          scripts/smoke-cli.sh
+          scripts/smoke/cli.sh
 
   # A PR that breaks the docs site fails CI. The site generates its pages from dist/cli.js, so build first.
   site:

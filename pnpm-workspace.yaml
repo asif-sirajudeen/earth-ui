@@ -12,6 +12,6 @@ allowBuilds:
 # Minutes a release must age before pnpm installs it (1 day).
 minimumReleaseAge: 1440
 # Exact "name@version" entries exempt from that age, for a version the repo must install before it ages out.
-# Add a comment saying why. The weekly "Upstream check" workflow runs scripts/check-release-age.mts, which fails
+# Add a comment saying why. The weekly "Upstream check" workflow runs scripts/check/release-age.mts, which fails
 # once an entry is older than minimumReleaseAge; delete it then and confirm `pnpm install --frozen-lockfile`.
 minimumReleaseAgeExclude: []

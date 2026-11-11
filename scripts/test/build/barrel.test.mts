@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { buildIndex, parseExports } from "./build-index.mts"
+import { buildIndex, parseExports } from "../../build/barrel.mts"
 
 test("parseExports reads export lists, type exports and declarations", () => {
   const code = [

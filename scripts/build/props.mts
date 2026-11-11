@@ -3,7 +3,7 @@
 // props type it forwards. Runs at build time only: the CLI reads the JSON and never imports
 // `typescript`.
 //
-// Run after tsdown: node scripts/build-props.mts
+// Run after tsdown: node scripts/build/props.mts
 import { readdirSync, readFileSync, writeFileSync } from "node:fs"
 import ts from "typescript"
 

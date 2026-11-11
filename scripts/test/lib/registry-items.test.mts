@@ -11,7 +11,7 @@ import {
   parseTokens,
   styleItem,
   type Sources,
-} from "./registry-items.mts"
+} from "../../lib/registry-items.mts"
 
 const pkg = {
   dependencies: { cn: "~0.5.2", "tw-animate-css": "^1.4.0" },

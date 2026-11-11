@@ -1,6 +1,6 @@
 // Fails a PR that changes shipped package code without a changeset.
 //
-//   node scripts/check-changeset.mts origin/main
+//   node scripts/check/changeset.mts origin/main
 //
 // Opt out with an empty changeset (`pnpm changeset --empty`) for a change that intentionally ships no release.
 import { execFileSync } from "node:child_process"
