@@ -7,7 +7,7 @@ import { execFileSync } from "node:child_process"
 import { fileURLToPath } from "node:url"
 
 const SHIPPED =
-  /^(src\/|cli\/(?!.*\.test\.)|registry\/|styles\.css$|tsdown\.config\.ts$)/
+  /^(src\/|cli\/(?!test\/)(?!.*\.test\.)|registry\/|styles\.css$|tsdown\.config\.ts$)/
 const CHANGESET = /^\.changeset\/(?!README\.md$).+\.md$/
 
 /** Message when a package change has no added changeset, else null. */

@@ -2,93 +2,52 @@
 // earth-ui: look up earth-ui components from the installed package. JSON on stdout.
 //   earth-ui list
 //   earth-ui search <query> [--limit n]
-//   earth-ui docs <name>
-//   earth-ui source <name>
-//   earth-ui help | --help | -h
+//   earth-ui docs <name> [--full]
+//   earth-ui examples <name>
+//   earth-ui source <name> [--raw]   (plain text instead of JSON)
+//   earth-ui setup
+//   earth-ui help | --help | -h      (text at a terminal; JSON when piped or with --json)
 // Derives the Component Index from the bundled shadcn registry (dist/registry), the built
 // .d.ts files and the docs shipped in @base-ui/react, so answers match the installed
 // version and need no network.
-import { existsSync, readdirSync, readFileSync } from "node:fs"
-import { createRequire } from "node:module"
-import { dirname, join } from "node:path"
+//
+// Layout: this file parses arguments and dispatches; commands/ has one file per command
+// and commands/index.mts the registry (COMMANDS, USAGE, OPTIONS); context.mts loads the
+// package data; lib/ holds the Component Index, props, examples data and shared helpers.
+// Tests live in test/.
 import { parseArgs } from "node:util"
 
-import {
-  docs,
-  help,
-  list,
-  search,
-  source,
-  UnknownComponentError,
-} from "./commands.mts"
-import {
-  buildComponentIndex,
-  type IndexRegistryItem,
-} from "./component-index.mts"
+import { COMMANDS, OPTIONS, USAGE } from "./commands/index.mts"
+import { loadContext } from "./context.mts"
+import { UnknownComponentError } from "./lib/find.mts"
+import { printJson } from "./lib/print-json.mts"
 
-const USAGE =
-  'Usage: earth-ui list | search <query> [--limit n] | docs <name> | source <name>. Run "earth-ui help" for details.'
-
-// Paths are relative to the package root, one level up from dist/cli.js.
-function readPackageFile(path: string): string | null {
-  const url = new URL(`../${path}`, import.meta.url)
-  return existsSync(url) ? readFileSync(url, "utf8") : null
-}
-const readJson = (path: string) => JSON.parse(readPackageFile(path)!)
-
-const baseUiDocsDir = join(
-  dirname(
-    createRequire(import.meta.url).resolve("@base-ui/react/package.json")
-  ),
-  "docs/react/components"
-)
-function readBaseUiDoc(doc: string): string | null {
-  const path = join(baseUiDocsDir, `${doc}.md`)
-  return existsSync(path) ? readFileSync(path, "utf8") : null
-}
-
-const registry: { items: { name: string }[] } = readJson(
-  "dist/registry/registry.json"
-)
-const items: IndexRegistryItem[] = registry.items.map(({ name }) =>
-  readJson(`dist/registry/${name}.json`)
-)
-const index = buildComponentIndex(
-  readJson("package.json"),
-  items,
-  readPackageFile,
-  new Set(
-    readdirSync(baseUiDocsDir)
-      .filter((file) => file.endsWith(".md"))
-      .map((file) => file.slice(0, -3))
-  )
-)
+const ctx = loadContext(import.meta.url)
 
 function run(): unknown {
   const { positionals, values } = parseArgs({
     allowPositionals: true,
-    options: {
-      limit: { type: "string" },
-      help: { type: "boolean", short: "h" },
-    },
+    options: OPTIONS,
   })
-  const [command, ...rest] = positionals
+  const [name, ...rest] = positionals
   const arg = rest.join(" ")
-  if (values.help || command === "help") return help(index.package)
-  if (command === "list") return list(index)
-  if (command === "search" && arg) {
-    const limit = values.limit === undefined ? undefined : Number(values.limit)
-    if (limit !== undefined && (!Number.isInteger(limit) || limit < 1))
-      throw new Error("--limit must be a positive integer")
-    return search(index, arg, limit)
+  const flags = {
+    limit: values.limit as string | undefined,
+    full: values.full as boolean | undefined,
+    raw: values.raw as boolean | undefined,
+    json: values.json as boolean | undefined,
+    tty: Boolean(process.stdout.isTTY),
   }
-  if (command === "docs" && arg) return docs(index, arg, readBaseUiDoc)
-  if (command === "source" && arg) return source(index, arg)
-  throw new Error(USAGE)
+  const command = COMMANDS.find((c) =>
+    values.help ? c.name === "help" : c.name === name
+  )
+  if (!command || (command.needsArg && !arg)) throw new Error(USAGE)
+  return command.run(ctx, arg, flags, COMMANDS)
 }
 
 try {
-  console.log(JSON.stringify(run(), null, 2))
+  const out = run()
+  console.log(typeof out === "string" ? out : printJson(out))
 } catch (error) {
   const { message } = error as Error
   const suggestions =

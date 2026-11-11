@@ -56,6 +56,9 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup
+      # Build first: the CLI real-data tests read dist/ and skip without it.
+      - name: Build
+        run: pnpm build
       - name: Test registry rules
         run: pnpm test
 

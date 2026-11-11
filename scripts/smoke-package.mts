@@ -3,8 +3,8 @@
 //   pnpm package:smoke
 //
 // Run `pnpm build` first (the tarball ships dist/). Checks, in order: tarball install (not a workspace link),
-// imports from the root, a component subpath and each optional subpath type-check, Tailwind compiles a class
-// that only the package's components use (so styles.css `@source` reaches the installed dist), and the
+// imports from the root, a component subpath and each optional subpath type-check, `earth-ui setup` supplies app.css, Tailwind compiles a class
+// that only the package's components use (so styles.css `@source` reaches the installed dist) and `--primary`, and the
 // installed `earth-ui` bin runs. Counterpart of `registry:smoke --install` for copy mode.
 import { spawn } from "node:child_process"
 import {
@@ -121,12 +121,13 @@ export function App() {
 }
 `
   )
-  writeFileSync(
-    join(app, "app.css"),
-    '@import "tailwindcss";\n@import "@asif-sirajudeen/earth-ui/styles.css";\n'
-  )
 
   await run("npm", ["install", "--no-audit", "--no-fund", "--loglevel=error"])
+  // The stylesheet lines come from the installed CLI, the way a consumer would copy them.
+  const setup = JSON.parse(
+    await run("npx", ["--no-install", "earth-ui", "setup"])
+  )
+  writeFileSync(join(app, "app.css"), setup.css.lines.join("\n") + "\n")
   await run("npx", ["--no-install", "tsc", "--noEmit", "-p", "."])
   // tsc only resolves the "types" condition; importing each specifier in Node resolves the "default" one.
   for (const specifier of SPECIFIERS)
@@ -143,22 +144,42 @@ export function App() {
     "-o",
     "out.css",
   ])
-  if (!readFileSync(join(app, "out.css"), "utf8").includes(SENTINEL))
+  const css = readFileSync(join(app, "out.css"), "utf8")
+  if (!css.includes(SENTINEL))
     throw new Error(
       `out.css has no ${SENTINEL}: styles.css @source does not reach the installed dist`
     )
+  if (!css.includes("--primary"))
+    throw new Error("out.css has no --primary: the theme tokens are missing")
 
   const list = JSON.parse(
     await run("npx", ["--no-install", "earth-ui", "list"])
   )
   if (!list.components.some((c: { name: string }) => c.name === "button"))
     throw new Error("earth-ui list does not include button")
-  if (
-    !(
-      await run("npx", ["--no-install", "earth-ui", "docs", "dialog"])
-    ).includes("## API reference")
+  const dialog = JSON.parse(
+    await run("npx", ["--no-install", "earth-ui", "docs", "dialog"])
   )
-    throw new Error("earth-ui docs dialog has no API reference")
+  if (dialog.name !== "dialog")
+    throw new Error("earth-ui docs dialog did not return the dialog entry")
+
+  const select = JSON.parse(
+    await run("npx", ["--no-install", "earth-ui", "docs", "select"])
+  )
+  if (!(select.props?.baseUi?.parts?.length > 0))
+    throw new Error("earth-ui docs select has no props.baseUi.parts")
+
+  const ex = JSON.parse(
+    await run("npx", ["--no-install", "earth-ui", "examples", "dialog"])
+  )
+  if (ex.examples[0]?.name !== "dialog-demo")
+    throw new Error(
+      "earth-ui examples dialog: first Example is not dialog-demo"
+    )
+  if (!ex.examples[0].code.includes("@asif-sirajudeen/earth-ui"))
+    throw new Error(
+      "earth-ui examples dialog: code does not import the package"
+    )
 
   console.log(
     "\n✔ tarball installed, imports typecheck, Tailwind picks up package classes, bin runs"

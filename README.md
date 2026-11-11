@@ -26,7 +26,7 @@ The package stylesheet does not import Tailwind itself. It adds the theme tokens
 Import from the package root:
 
 ```tsx
-import { Button, Input, Label } from "@asif-sirajudeen/earth-ui";
+import { Button, Input, Label } from "@asif-sirajudeen/earth-ui"
 
 export function SignupForm() {
   return (
@@ -35,37 +35,37 @@ export function SignupForm() {
       <Input id="email" type="email" placeholder="you@example.com" />
       <Button type="submit">Sign up</Button>
     </form>
-  );
+  )
 }
 ```
 
 Or import one component from its subpath:
 
 ```tsx
-import { Button } from "@asif-sirajudeen/earth-ui/button";
-import { Input } from "@asif-sirajudeen/earth-ui/input";
-import { Label } from "@asif-sirajudeen/earth-ui/label";
+import { Button } from "@asif-sirajudeen/earth-ui/button"
+import { Input } from "@asif-sirajudeen/earth-ui/input"
+import { Label } from "@asif-sirajudeen/earth-ui/label"
 ```
 
 Style a link as a button with `buttonVariants`:
 
 ```tsx
-import Link from "next/link";
-import { buttonVariants } from "@asif-sirajudeen/earth-ui";
+import Link from "next/link"
+import { buttonVariants } from "@asif-sirajudeen/earth-ui"
 
-<Link href="/docs" className={buttonVariants({ variant: "outline" })}>
+;<Link href="/docs" className={buttonVariants({ variant: "outline" })}>
   Docs
-</Link>;
+</Link>
 ```
 
 ## Optional subpaths
 
 Two modules are not exported from the package root and need peer dependencies that you install yourself:
 
-| Subpath | Exports | Install |
-| --- | --- | --- |
-| `@asif-sirajudeen/earth-ui/sonner` | Sonner's `Toaster` | `sonner` and `next-themes` |
-| `@asif-sirajudeen/earth-ui/use-highlighted-code` | `useHighlightedCode` (syntax highlighting for Code Block) | `shiki` |
+| Subpath                                          | Exports                                                   | Install                    |
+| ------------------------------------------------ | --------------------------------------------------------- | -------------------------- |
+| `@asif-sirajudeen/earth-ui/sonner`               | Sonner's `Toaster`                                        | `sonner` and `next-themes` |
+| `@asif-sirajudeen/earth-ui/use-highlighted-code` | `useHighlightedCode` (syntax highlighting for Code Block) | `shiki`                    |
 
 The root `Toaster` is Base UI Toast's. Use the Sonner one only if your app already uses sonner. Call `toast()` from your own `sonner` import, and mount the `next-themes` provider yourself.
 
@@ -74,36 +74,44 @@ The root `Toaster` is Base UI Toast's. Use the Sonner one only if your app alrea
 Dark styles apply under a `.dark` class on an ancestor, usually `<html>`. With [next-themes](https://github.com/pacocoursey/next-themes), use `attribute="class"` and add `suppressHydrationWarning` to `<html>`:
 
 ```tsx
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "next-themes"
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class">{children}</ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
 ```
 
 ## Look up components with the CLI
 
-The package ships an `earth-ui` command. It answers from the installed version and works offline. Every command prints JSON.
+The package ships an `earth-ui` command. It answers from the installed version and works offline. Every command prints JSON, except `source --raw`, and `help` at a terminal, which prints text (`--json` forces JSON).
 
 ```sh
+npx @asif-sirajudeen/earth-ui setup
 npx @asif-sirajudeen/earth-ui list
 npx @asif-sirajudeen/earth-ui search modal --limit 5
 npx @asif-sirajudeen/earth-ui docs dialog
+npx @asif-sirajudeen/earth-ui examples dialog
 npx @asif-sirajudeen/earth-ui source dialog
 npx @asif-sirajudeen/earth-ui help
 ```
 
+- `setup` prints what to do before using any component: the CSS import lines, the dark-mode rule, the providers and mounted elements, and the optional peer dependencies.
 - `list` prints every component with its title, description and import path.
-- `search <query>` ranks components by name, title, description and exported names.
-- `docs <name>` prints the import path, exported parts, variants and dependencies. For components built on Base UI, it also prints the props tables from the Base UI docs that ship with the installed `@base-ui/react`.
-- `source <name>` prints the component's TSX source. Read it to see how a component is built; import the component from the package, do not copy it. `@/` imports in the source name other earth-ui modules, such as `@/components/button`.
-- `help` (or `--help`, `-h`) lists the commands with usage and an example.
+- `search <query>` ranks components by name, title, description and exported names. It also points to topics such as `setup`.
+- `docs <name>` prints the import path, exported parts, variants, dependencies and the packages to install. Its `props` field lists each exported part's props, from the built types and, for components built on Base UI, from the Base UI docs that ship with the installed `@base-ui/react`. `--full` adds the complete Base UI reference.
+- `examples <name>` prints the component's Examples, `-demo` first.
+- `source <name>` prints the component's TSX source. Read it to see how a component is built; import the component from the package, do not copy it. `@/` imports in the source name other earth-ui modules, such as `@/components/button`. `--raw` prints plain text instead of JSON.
+- `help` (or `--help`, `-h`) prints text at a terminal and JSON when piped or with `--json`. It lists the commands with usage and an example, what each `docs` field means, and conventions. Parts compose with `render={<Element />}`; there is no `asChild`.
 
 In a project that has the package installed, `pnpm exec earth-ui` and `npm exec earth-ui` also work. Do not run `npx earth-ui` without the scope: that name belongs to a different npm package.
 
@@ -119,8 +127,10 @@ UI components come from the `@asif-sirajudeen/earth-ui` npm package. Import them
 Look components up with the `earth-ui` CLI before you write UI. It reads the installed version and works offline. Every command prints JSON.
 
 ```sh
+npx @asif-sirajudeen/earth-ui setup              # CSS imports, dark mode, providers (run once)
 npx @asif-sirajudeen/earth-ui search <need>     # find components, e.g. search modal
 npx @asif-sirajudeen/earth-ui docs <name>       # import path, parts, variants, props
+npx @asif-sirajudeen/earth-ui examples <name>   # usage Examples
 npx @asif-sirajudeen/earth-ui source <name>     # TSX source, to see how it is built
 npx @asif-sirajudeen/earth-ui list              # every component
 npx @asif-sirajudeen/earth-ui help              # all commands
@@ -174,11 +184,11 @@ Always use the `@earth-ui/` prefix. A bare name such as `button` installs the of
 
 Two TypeScript versions are installed on purpose, because typescript-eslint caps its peer range at `<6.1.0` and cannot load TypeScript 7.
 
-| Used for | Version | Where |
-| --- | --- | --- |
-| `pnpm typecheck` (`tsc`) | TypeScript 7 | `devDependencies["@typescript/native"]` |
-| `pnpm lint` (typescript-eslint) | TypeScript 6 | `devDependencies.typescript` (aliased to `@typescript/typescript6`) |
-| `pnpm build` (tsdown, emits the shipped `.d.ts`) | TypeScript 6 | the same `typescript` alias; see `tsdown.config.ts` |
+| Used for                                         | Version      | Where                                                               |
+| ------------------------------------------------ | ------------ | ------------------------------------------------------------------- |
+| `pnpm typecheck` (`tsc`)                         | TypeScript 7 | `devDependencies["@typescript/native"]`                             |
+| `pnpm lint` (typescript-eslint)                  | TypeScript 6 | `devDependencies.typescript` (aliased to `@typescript/typescript6`) |
+| `pnpm build` (tsdown, emits the shipped `.d.ts`) | TypeScript 6 | the same `typescript` alias; see `tsdown.config.ts`                 |
 
 The `.d.ts` files come from TypeScript 6 because tsdown's declaration backend only uses TypeScript 7 when `typescript` itself is 7.
 

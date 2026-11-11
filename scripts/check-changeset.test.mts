@@ -21,7 +21,9 @@ test("docs, site, CI, planning and test-only changes pass", () => {
         "README.md",
         "site/app/page.tsx",
         ".github/workflows/ci.yml",
-        "cli/commands.test.mts",
+        "cli/commands/search.test.mts",
+        "cli/test/fixtures.mts",
+        "cli/test/commands/docs.test.mts",
         "scripts/x.mts",
       ],
       []
