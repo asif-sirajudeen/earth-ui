@@ -93,7 +93,7 @@ export default function RootLayout({
 
 ## Themes
 
-A theme changes the color tokens (`--primary`, the chart colors, the sidebar accent). It never changes component source. The package ships `blue` and `green`. Import a theme after the package stylesheet:
+A theme changes the color tokens (`--primary`, the chart colors, the sidebar accent). It never changes component source. The package ships `blue`, `green` and `setmore`. `blue` and `green` change color tokens only. `setmore` also sets `--radius` and adds a few component rules (pill buttons, focus ring, dark-mode field fills); see the theming docs. Import a theme after the package stylesheet:
 
 ```css
 @import "tailwindcss";
@@ -148,7 +148,7 @@ Add this block to your project's `AGENTS.md` (or `CLAUDE.md`):
 
 UI components come from the `@asif-sirajudeen/earth-ui` npm package. Import them from the package. Do not copy component source into the project and do not run `shadcn add`.
 
-Look components up with the `earth-ui` CLI before you write UI. It reads the installed version and works offline. Every command prints JSON, except `source --raw`, and `help` at a terminal, which prints text (`--json` forces JSON).
+Look components up with the `earth-ui` CLI before you write UI. It reads the installed version and works offline. Every command prints JSON.
 
 ```sh
 npx @asif-sirajudeen/earth-ui setup              # CSS imports, dark mode, providers (run once)

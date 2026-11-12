@@ -2,7 +2,7 @@
 // shadcn's tailwind.css pasted in, plus the `shadcn init` output (neutral tokens, base-nova) minus fonts.
 //
 //   pnpm styles           rewrite styles.css
-//   pnpm styles --check   exit 1 if styles.css differs from what this script generates
+//   pnpm styles:check     exit 1 if styles.css differs from what this script generates
 //
 // Needs the network: `shadcn init` runs in a throwaway Vite project and resolves base-nova from ui.shadcn.com.
 import { execFileSync } from "node:child_process"

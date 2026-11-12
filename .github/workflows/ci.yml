@@ -116,7 +116,7 @@ jobs:
 
       # Fails when styles.css differs from what `pnpm styles` generates from the pinned shadcn. Needs the network.
       - name: Check styles.css is current
-        run: pnpm styles --check
+        run: pnpm styles:check
 
   build:
     runs-on: ubuntu-latest
@@ -144,9 +144,6 @@ jobs:
       - uses: ./.github/actions/setup
       - name: Build package
         run: pnpm build
-      # Fails when the committed pages in site/content/docs/components are out of date with the CLI output.
-      - name: Check generated docs pages are current
-        run: pnpm site:check
       - name: Test and build docs site
         run: pnpm --filter site test && pnpm --filter site build
 

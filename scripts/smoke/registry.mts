@@ -142,10 +142,10 @@ try {
       )
 
     const before = [sha("app.css"), sha("package.json")]
-    await add(["style", "theme-blue"], "--overwrite")
+    await add(["style", "theme-blue", "theme-setmore"], "--overwrite")
     if (sha("app.css") !== before[0] || sha("package.json") !== before[1]) {
       throw new Error(
-        "re-adding @earth-ui/style and @earth-ui/theme-blue changed app.css or package.json (not idempotent)"
+        "re-adding @earth-ui/style and the theme items changed app.css or package.json (not idempotent)"
       )
     }
     console.log(
