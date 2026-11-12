@@ -8,7 +8,9 @@ import { metadata } from "../../registry/metadata.ts"
 import type { PackageJson } from "../lib/derive-deps.mts"
 import {
   deriveItems,
+  parseTokens,
   styleItem,
+  themeItem,
   type SourceFile,
 } from "../lib/registry-items.mts"
 
@@ -22,6 +24,8 @@ const read = (dir: string, ext: RegExp): SourceFile[] =>
     }))
 
 const pkg: PackageJson = JSON.parse(readFileSync("package.json", "utf8"))
+const styles = readFileSync("styles.css", "utf8")
+const baseTokens = parseTokens(styles).light
 const items = [
   ...deriveItems(
     {
@@ -32,7 +36,10 @@ const items = [
     metadata,
     pkg
   ),
-  styleItem(readFileSync("styles.css", "utf8"), pkg),
+  styleItem(styles, pkg),
+  ...read("themes", /\.css$/).map((file) =>
+    themeItem(file.path.slice("themes/".length, -4), file.code, baseTokens)
+  ),
 ]
 
 const registry = {

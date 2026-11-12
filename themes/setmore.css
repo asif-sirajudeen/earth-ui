@@ -1,0 +1,137 @@
+/* Setmore theme. Colors mapped from the Setmore brand tokens onto shadcn's semantic tokens. Import after styles.css; apply with data-theme="setmore". */
+[data-theme="setmore"] {
+  --background: #ffffff;
+  --foreground: #1a1f23;
+  --card: #ffffff;
+  --card-foreground: #1a1f23;
+  --popover: #ffffff;
+  --popover-foreground: #1a1f23;
+  --primary: #1d90f5;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f5f6;
+  --secondary-foreground: #1a1f23;
+  --muted: #f3f5f6;
+  --muted-foreground: #586874;
+  --accent: #cee7fd;
+  --accent-foreground: #1a1f23;
+  --destructive: #dd2727;
+  --border: #d6dce0;
+  --input: #d6dce0;
+  --ring: #2c343a;
+  --radius: 0.5rem;
+  /* Derived ramp: Setmore's grey chart tokens are replaced by its blue, teal and orange palette colors. */
+  --chart-1: #94cafa;
+  --chart-2: #1d90f5;
+  --chart-3: #065193;
+  --chart-4: #007178;
+  --chart-5: #ff8a35;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #1a1f23;
+  --sidebar-primary: #1d90f5;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #cee7fd;
+  --sidebar-accent-foreground: #1a1f23;
+  --sidebar-border: #d6dce0;
+  --sidebar-ring: #2c343a;
+}
+
+.dark[data-theme="setmore"],
+.dark [data-theme="setmore"] {
+  --background: #262d32;
+  --foreground: #ecedee;
+  --card: #2c343a;
+  --card-foreground: #ecedee;
+  --popover: #181f25;
+  --popover-foreground: #ecedee;
+  --primary: #1d90f5;
+  --primary-foreground: #ffffff;
+  --secondary: #3d474f;
+  --secondary-foreground: #ecedee;
+  --muted: #3d474f;
+  --muted-foreground: #afb6bb;
+  --accent: #3a4854;
+  --accent-foreground: #ecedee;
+  --destructive: #dd2727;
+  --border: #53606a;
+  --input: #53606a;
+  --ring: #ffffff;
+  --radius: 0.5rem;
+  --chart-1: #94cafa;
+  --chart-2: #5eb0f8;
+  --chart-3: #1d90f5;
+  --chart-4: #3ead85;
+  --chart-5: #ff8a35;
+  --sidebar: #182228;
+  --sidebar-foreground: #ecedee;
+  --sidebar-primary: #1d90f5;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #3a4854;
+  --sidebar-accent-foreground: #ecedee;
+  --sidebar-border: #53606a;
+  --sidebar-ring: #ffffff;
+}
+
+/*
+ * Component rules: Setmore's button shape and feel, through data-slot so components stay upstream shadcn.
+ * Unlayered, so they win over the components' Tailwind utilities (and over a consumer's className).
+ */
+
+/* Pill buttons, as Setmore's buttonRadius: "full". A button inside a button group keeps its square inner corners. */
+[data-theme="setmore"] [data-slot="button"]:not([data-slot="button-group"] *) {
+  border-radius: 9999px;
+}
+
+/* One solid focus ring with a 1px gap, in place of shadcn's border plus 50% halo. */
+[data-theme="setmore"] [data-slot="button"]:focus-visible {
+  border-color: transparent;
+  box-shadow:
+    0 0 0 1px var(--background),
+    0 0 0 3px var(--ring);
+}
+
+/* Colours change in 300ms ease; the halo, fade and press keep 150ms. Size and position never animate. */
+[data-theme="setmore"] [data-slot="button"] {
+  transition-property:
+    color, background-color, border-color, box-shadow, opacity, translate;
+  transition-duration: 300ms, 300ms, 300ms, 150ms, 150ms, 150ms;
+  transition-timing-function: ease;
+}
+
+/* Solid hover and pressed shades for the default (primary) button, in place of bg-primary/80. Keyed on the variant's bg-primary class because the button has no data-variant. */
+[data-theme="setmore"] [data-slot="button"].bg-primary:hover {
+  background-color: #096cc3;
+}
+
+[data-theme="setmore"] [data-slot="button"].bg-primary:active {
+  background-color: #065193;
+}
+
+/* Dark mode: solid Setmore surface fill for fields and outline buttons, in place of shadcn's translucent dark:bg-input/30. Outline buttons are found by their bg-background class and keep their hover. */
+[data-theme="setmore"] [data-slot="input"]:where(.dark *) {
+  background-color: #2c343a;
+}
+
+[data-theme="setmore"] [data-slot="textarea"]:where(.dark *) {
+  background-color: #2c343a;
+}
+
+[data-theme="setmore"] [data-slot="select-trigger"]:where(.dark *) {
+  background-color: #2c343a;
+}
+
+[data-theme="setmore"] [data-slot="native-select"]:where(.dark *) {
+  background-color: #2c343a;
+}
+
+[data-theme="setmore"]
+  [data-slot="button"].bg-background:not(:hover):where(.dark *) {
+  background-color: #2c343a;
+}
+
+/* 44px touch target on touch screens. */
+@media (pointer: coarse) {
+  [data-theme="setmore"] [data-slot="button"] {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+}

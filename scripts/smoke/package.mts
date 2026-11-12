@@ -127,7 +127,12 @@ export function App() {
   const setup = JSON.parse(
     await run("npx", ["--no-install", "earth-ui", "setup"])
   )
-  writeFileSync(join(app, "app.css"), setup.css.lines.join("\n") + "\n")
+  // A theme import after the package stylesheet proves the ./themes/*.css export resolves for Tailwind.
+  const appCss = [
+    ...setup.css.lines,
+    '@import "@asif-sirajudeen/earth-ui/themes/blue.css";',
+  ]
+  writeFileSync(join(app, "app.css"), appCss.join("\n") + "\n")
   await run("npx", ["--no-install", "tsc", "--noEmit", "-p", "."])
   // tsc only resolves the "types" condition; importing each specifier in Node resolves the "default" one.
   for (const specifier of SPECIFIERS)
@@ -151,6 +156,10 @@ export function App() {
     )
   if (!css.includes("--primary"))
     throw new Error("out.css has no --primary: the theme tokens are missing")
+  if (!css.includes('[data-theme="blue"]'))
+    throw new Error(
+      'out.css has no [data-theme="blue"]: the themes/blue.css import did not resolve'
+    )
 
   const list = JSON.parse(
     await run("npx", ["--no-install", "earth-ui", "list"])

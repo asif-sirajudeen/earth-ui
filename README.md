@@ -91,6 +91,30 @@ export default function RootLayout({
 }
 ```
 
+## Themes
+
+A theme changes the color tokens (`--primary`, the chart colors, the sidebar accent). It never changes component source. The package ships `blue`, `green` and `setmore`. `blue` and `green` change color tokens only. `setmore` also sets `--radius` and adds a few component rules (pill buttons, focus ring, dark-mode field fills); see the theming docs. Import a theme after the package stylesheet:
+
+```css
+@import "tailwindcss";
+@import "@asif-sirajudeen/earth-ui/styles.css";
+@import "@asif-sirajudeen/earth-ui/themes/blue.css";
+```
+
+Then set `data-theme` on `<html>`:
+
+```html
+<html data-theme="blue"></html>
+```
+
+Without `data-theme`, components use the default tokens from `styles.css`. A theme works with dark mode: `<html class="dark" data-theme="blue">` uses the theme's dark values. Import several themes to switch between them at runtime by changing the attribute.
+
+Put `data-theme` on `<html>`, not on a wrapper element. Dialogs, popovers and menus render in a portal under `<body>`, outside any wrapper, so they would fall back to the default tokens. If you do scope a theme to a wrapper, also give the wrapper `bg-background text-foreground`, because the base layer applies those to `body` only.
+
+In copy mode, install a theme with `shadcn add @earth-ui/theme-blue`. The CLI appends the scoped rules to your CSS file and leaves your `:root` and `.dark` tokens alone.
+
+To add a theme, create `themes/<name>.css` with a `[data-theme="<name>"]` rule and a `.dark[data-theme="<name>"], .dark [data-theme="<name>"]` rule, then run `pnpm registry`. Both rules must set the same tokens, and each token must exist in `styles.css` `:root`. The build throws otherwise.
+
 ## Look up components with the CLI
 
 The package ships an `earth-ui` command. It answers from the installed version and works offline. Every command prints JSON, except `source --raw`, and `help` at a terminal, which prints text (`--json` forces JSON).

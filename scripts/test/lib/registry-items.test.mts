@@ -1,5 +1,5 @@
 import assert from "node:assert/strict"
-import { readFileSync } from "node:fs"
+import { readdirSync, readFileSync } from "node:fs"
 import { test } from "node:test"
 
 import {
@@ -10,6 +10,7 @@ import {
   findCycle,
   parseTokens,
   styleItem,
+  themeItem,
   type Sources,
 } from "../../lib/registry-items.mts"
 
@@ -215,4 +216,94 @@ test("styles.css markers match devDependencies.shadcn", () => {
     readFileSync("styles.css", "utf8"),
     JSON.parse(readFileSync("package.json", "utf8"))
   )
+})
+
+const base = { primary: "a", ring: "b" }
+const theme = (light: string, dark: string) => `/* comment { } */
+[data-theme="ocean"] {
+  ${light}
+}
+
+.dark[data-theme="ocean"],
+.dark   [data-theme="ocean"] {
+  ${dark}
+}
+`
+
+test("themeItem ships both rules through css with one canonical dark selector", () => {
+  const item = themeItem("ocean", theme("--primary: x;", "--primary: y;"), base)
+  assert.equal(item.name, "theme-ocean")
+  assert.equal(item.type, "registry:theme")
+  assert.equal(item.cssVars, undefined)
+  assert.deepEqual(item.css, {
+    '[data-theme="ocean"]': { "--primary": "x" },
+    '.dark[data-theme="ocean"], .dark [data-theme="ocean"]': {
+      "--primary": "y",
+    },
+  })
+})
+
+test("themeItem throws when light and dark set different tokens", () => {
+  assert.throws(
+    () =>
+      themeItem(
+        "ocean",
+        theme("--primary: x; --ring: z;", "--primary: y;"),
+        base
+      ),
+    /same tokens/
+  )
+})
+
+test("themeItem throws on a token styles.css does not define", () => {
+  assert.throws(
+    () => themeItem("ocean", theme("--primray: x;", "--primray: y;"), base),
+    /--primray not defined/
+  )
+})
+
+test("themeItem throws when selectors do not match the file name", () => {
+  assert.throws(
+    () => themeItem("sea", theme("--primary: x;", "--primary: y;"), base),
+    /expected the token rules/
+  )
+})
+
+test("themeItem keeps component rules and @media blocks scoped under the theme", () => {
+  const css =
+    theme("--primary: x;", "--primary: y;") +
+    `[data-theme="ocean"] [data-slot="button"] { border-radius: 9999px; }
+@media (pointer: coarse) {
+  [data-theme="ocean"] [data-slot="button"] { min-height: 2.75rem; }
+}`
+  assert.deepEqual(themeItem("ocean", css, base).css, {
+    '[data-theme="ocean"]': { "--primary": "x" },
+    '.dark[data-theme="ocean"], .dark [data-theme="ocean"]': {
+      "--primary": "y",
+    },
+    '[data-theme="ocean"] [data-slot="button"]': { "border-radius": "9999px" },
+    "@media (pointer: coarse)": {
+      '[data-theme="ocean"] [data-slot="button"]': { "min-height": "2.75rem" },
+    },
+  })
+})
+
+test("themeItem throws on a component rule outside the theme scope", () => {
+  const css =
+    theme("--primary: x;", "--primary: y;") +
+    `[data-slot="button"] { border-radius: 0; }`
+  assert.throws(() => themeItem("ocean", css, base), /must be scoped/)
+})
+
+test("themeItem throws on a token set in a component rule", () => {
+  const css =
+    theme("--primary: x;", "--primary: y;") +
+    `[data-theme="ocean"] [data-slot="button"] { --primary: z; }`
+  assert.throws(() => themeItem("ocean", css, base), /sets a token/)
+})
+
+test("every themes/*.css file builds", () => {
+  const tokens = parseTokens(readFileSync("styles.css", "utf8")).light
+  for (const file of readdirSync("themes").filter((f) => f.endsWith(".css")))
+    themeItem(file.slice(0, -4), readFileSync(`themes/${file}`, "utf8"), tokens)
 })

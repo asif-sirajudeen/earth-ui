@@ -212,6 +212,125 @@ export function parseTokens(css: string) {
   }
 }
 
+type CssRules = { [selector: string]: Record<string, string> | CssRules }
+
+const canonical = (selector: string) =>
+  selector
+    .split(",")
+    .map((s) => s.trim().replace(/\s+/g, " "))
+    .join(", ")
+
+/** Plain CSS (rules and at-rule blocks, no nesting inside rules) as the registry `css` object, in file order. */
+function parseCss(css: string): CssRules {
+  const src = css.replace(/\/\*[\s\S]*?\*\//g, "")
+  let i = 0
+  const block = (): CssRules => {
+    const out: CssRules = {}
+    for (;;) {
+      const open = src.indexOf("{", i)
+      const close = src.indexOf("}", i)
+      if (close >= 0 && (open < 0 || close < open)) {
+        i = close + 1
+        return out
+      }
+      if (open < 0) return out
+      const selector = canonical(src.slice(i, open))
+      i = open + 1
+      if (selector.startsWith("@")) {
+        out[selector] = block()
+        continue
+      }
+      const end = src.indexOf("}", i)
+      out[selector] = Object.fromEntries(
+        src
+          .slice(i, end)
+          .split(";")
+          .map((d) => d.trim())
+          .filter(Boolean)
+          .map((d) => [
+            d.slice(0, d.indexOf(":")).trim(),
+            d
+              .slice(d.indexOf(":") + 1)
+              .trim()
+              .replace(/\s+/g, " "),
+          ])
+      )
+      i = end + 1
+    }
+  }
+  return block()
+}
+
+/**
+ * A theme file (themes/<name>.css) as a registry:theme item. The file holds:
+ * - token rules `[data-theme="<name>"]` (light) and `.dark[data-theme="<name>"], .dark [data-theme="<name>"]` (dark),
+ *   both setting the same tokens, each already defined in styles.css `:root`;
+ * - optionally, component rules scoped under `[data-theme="<name>"] ` (for example `[data-slot="button"]`), plain
+ *   properties only, at the top level or inside an at-rule such as `@media`.
+ * The rules ship through `css`, not `cssVars`: the CLI writes cssVars into `:root`/`.dark`, which would
+ * replace the consumer's default tokens instead of adding a scoped theme.
+ */
+export function themeItem(
+  name: string,
+  css: string,
+  baseTokens: Record<string, string>
+): RegistryItem {
+  const file = `themes/${name}.css`
+  const light = `[data-theme="${name}"]`
+  const dark = `.dark${light}, .dark ${light}`
+  const rules = parseCss(css)
+  const tokens = (selector: string) => {
+    const decls = rules[selector] as Record<string, string> | undefined
+    if (!decls)
+      throw new Error(`${file}: expected the token rules ${light} and ${dark}`)
+    const vars = Object.keys(decls).sort()
+    if (!vars.length || vars.some((v) => !v.startsWith("--")))
+      throw new Error(`${file}: ${selector} must set tokens (--name) only`)
+    return vars
+  }
+  const lightVars = tokens(light)
+  if (lightVars.join() !== tokens(dark).join())
+    throw new Error(
+      `${file}: light and dark rules must set the same tokens, or light values leak into dark mode`
+    )
+  const unknown = lightVars.filter((v) => !(v.slice(2) in baseTokens))
+  if (unknown.length)
+    throw new Error(
+      `${file}: ${unknown.join(", ")} not defined in styles.css :root`
+    )
+
+  const checkComponentRules = (block: CssRules, inAtRule: boolean) => {
+    for (const [selector, body] of Object.entries(block)) {
+      if (!inAtRule && (selector === light || selector === dark)) continue
+      if (selector.startsWith("@")) {
+        if (inAtRule)
+          throw new Error(`${file}: ${selector} is nested in another at-rule`)
+        checkComponentRules(body as CssRules, true)
+        continue
+      }
+      if (selector.split(", ").some((s) => !s.startsWith(`${light} `)))
+        throw new Error(
+          `${file}: ${selector} must be scoped under "${light} " like the token rules`
+        )
+      if (Object.keys(body).some((p) => p.startsWith("--")))
+        throw new Error(
+          `${file}: ${selector} sets a token; set tokens in the ${light} and dark rules`
+        )
+    }
+  }
+  checkComponentRules(rules, false)
+
+  const title = name[0]!.toUpperCase() + name.slice(1)
+  return {
+    name: `theme-${name}`,
+    type: "registry:theme",
+    title: `${title} theme`,
+    description: `${title} color theme, scoped to data-theme="${name}". Works in light and dark mode.`,
+    // No dependency on the style item: re-adding it rewrites the consumer's default tokens. Every ui item pulls it in.
+    css: rules,
+  }
+}
+
 /** Mirrors shadcn's own base style item; tokens come from styles.css. */
 export function styleItem(css: string, pkg: PackageJson): RegistryItem {
   assertShadcnPin(css, pkg)

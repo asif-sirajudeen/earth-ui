@@ -1848,6 +1848,181 @@
           }
         }
       }
+    },
+    {
+      "name": "theme-blue",
+      "type": "registry:theme",
+      "title": "Blue theme",
+      "description": "Blue color theme, scoped to data-theme=\"blue\". Works in light and dark mode.",
+      "css": {
+        "[data-theme=\"blue\"]": {
+          "--primary": "oklch(0.488 0.243 264.376)",
+          "--primary-foreground": "oklch(0.97 0.014 254.604)",
+          "--chart-1": "oklch(0.809 0.105 251.813)",
+          "--chart-2": "oklch(0.623 0.214 259.815)",
+          "--chart-3": "oklch(0.546 0.245 262.881)",
+          "--chart-4": "oklch(0.488 0.243 264.376)",
+          "--chart-5": "oklch(0.424 0.199 265.638)",
+          "--sidebar-primary": "oklch(0.546 0.245 262.881)",
+          "--sidebar-primary-foreground": "oklch(0.97 0.014 254.604)"
+        },
+        ".dark[data-theme=\"blue\"], .dark [data-theme=\"blue\"]": {
+          "--primary": "oklch(0.424 0.199 265.638)",
+          "--primary-foreground": "oklch(0.97 0.014 254.604)",
+          "--chart-1": "oklch(0.809 0.105 251.813)",
+          "--chart-2": "oklch(0.623 0.214 259.815)",
+          "--chart-3": "oklch(0.546 0.245 262.881)",
+          "--chart-4": "oklch(0.488 0.243 264.376)",
+          "--chart-5": "oklch(0.424 0.199 265.638)",
+          "--sidebar-primary": "oklch(0.623 0.214 259.815)",
+          "--sidebar-primary-foreground": "oklch(0.97 0.014 254.604)"
+        }
+      }
+    },
+    {
+      "name": "theme-green",
+      "type": "registry:theme",
+      "title": "Green theme",
+      "description": "Green color theme, scoped to data-theme=\"green\". Works in light and dark mode.",
+      "css": {
+        "[data-theme=\"green\"]": {
+          "--primary": "oklch(0.527 0.154 150.069)",
+          "--primary-foreground": "oklch(0.982 0.018 155.826)",
+          "--chart-1": "oklch(0.871 0.15 154.449)",
+          "--chart-2": "oklch(0.723 0.219 149.579)",
+          "--chart-3": "oklch(0.627 0.194 149.214)",
+          "--chart-4": "oklch(0.527 0.154 150.069)",
+          "--chart-5": "oklch(0.448 0.119 151.328)",
+          "--sidebar-primary": "oklch(0.627 0.194 149.214)",
+          "--sidebar-primary-foreground": "oklch(0.982 0.018 155.826)"
+        },
+        ".dark[data-theme=\"green\"], .dark [data-theme=\"green\"]": {
+          "--primary": "oklch(0.448 0.119 151.328)",
+          "--primary-foreground": "oklch(0.982 0.018 155.826)",
+          "--chart-1": "oklch(0.871 0.15 154.449)",
+          "--chart-2": "oklch(0.723 0.219 149.579)",
+          "--chart-3": "oklch(0.627 0.194 149.214)",
+          "--chart-4": "oklch(0.527 0.154 150.069)",
+          "--chart-5": "oklch(0.448 0.119 151.328)",
+          "--sidebar-primary": "oklch(0.723 0.219 149.579)",
+          "--sidebar-primary-foreground": "oklch(0.982 0.018 155.826)"
+        }
+      }
+    },
+    {
+      "name": "theme-setmore",
+      "type": "registry:theme",
+      "title": "Setmore theme",
+      "description": "Setmore color theme, scoped to data-theme=\"setmore\". Works in light and dark mode.",
+      "css": {
+        "[data-theme=\"setmore\"]": {
+          "--background": "#ffffff",
+          "--foreground": "#1a1f23",
+          "--card": "#ffffff",
+          "--card-foreground": "#1a1f23",
+          "--popover": "#ffffff",
+          "--popover-foreground": "#1a1f23",
+          "--primary": "#1d90f5",
+          "--primary-foreground": "#ffffff",
+          "--secondary": "#f3f5f6",
+          "--secondary-foreground": "#1a1f23",
+          "--muted": "#f3f5f6",
+          "--muted-foreground": "#586874",
+          "--accent": "#cee7fd",
+          "--accent-foreground": "#1a1f23",
+          "--destructive": "#dd2727",
+          "--border": "#d6dce0",
+          "--input": "#d6dce0",
+          "--ring": "#2c343a",
+          "--radius": "0.5rem",
+          "--chart-1": "#94cafa",
+          "--chart-2": "#1d90f5",
+          "--chart-3": "#065193",
+          "--chart-4": "#007178",
+          "--chart-5": "#ff8a35",
+          "--sidebar": "#fafafa",
+          "--sidebar-foreground": "#1a1f23",
+          "--sidebar-primary": "#1d90f5",
+          "--sidebar-primary-foreground": "#ffffff",
+          "--sidebar-accent": "#cee7fd",
+          "--sidebar-accent-foreground": "#1a1f23",
+          "--sidebar-border": "#d6dce0",
+          "--sidebar-ring": "#2c343a"
+        },
+        ".dark[data-theme=\"setmore\"], .dark [data-theme=\"setmore\"]": {
+          "--background": "#262d32",
+          "--foreground": "#ecedee",
+          "--card": "#2c343a",
+          "--card-foreground": "#ecedee",
+          "--popover": "#181f25",
+          "--popover-foreground": "#ecedee",
+          "--primary": "#1d90f5",
+          "--primary-foreground": "#ffffff",
+          "--secondary": "#3d474f",
+          "--secondary-foreground": "#ecedee",
+          "--muted": "#3d474f",
+          "--muted-foreground": "#afb6bb",
+          "--accent": "#3a4854",
+          "--accent-foreground": "#ecedee",
+          "--destructive": "#dd2727",
+          "--border": "#53606a",
+          "--input": "#53606a",
+          "--ring": "#ffffff",
+          "--radius": "0.5rem",
+          "--chart-1": "#94cafa",
+          "--chart-2": "#5eb0f8",
+          "--chart-3": "#1d90f5",
+          "--chart-4": "#3ead85",
+          "--chart-5": "#ff8a35",
+          "--sidebar": "#182228",
+          "--sidebar-foreground": "#ecedee",
+          "--sidebar-primary": "#1d90f5",
+          "--sidebar-primary-foreground": "#ffffff",
+          "--sidebar-accent": "#3a4854",
+          "--sidebar-accent-foreground": "#ecedee",
+          "--sidebar-border": "#53606a",
+          "--sidebar-ring": "#ffffff"
+        },
+        "[data-theme=\"setmore\"] [data-slot=\"button\"]:not([data-slot=\"button-group\"] *)": {
+          "border-radius": "9999px"
+        },
+        "[data-theme=\"setmore\"] [data-slot=\"button\"]:focus-visible": {
+          "border-color": "transparent",
+          "box-shadow": "0 0 0 1px var(--background), 0 0 0 3px var(--ring)"
+        },
+        "[data-theme=\"setmore\"] [data-slot=\"button\"]": {
+          "transition-property": "color, background-color, border-color, box-shadow, opacity, translate",
+          "transition-duration": "300ms, 300ms, 300ms, 150ms, 150ms, 150ms",
+          "transition-timing-function": "ease"
+        },
+        "[data-theme=\"setmore\"] [data-slot=\"button\"].bg-primary:hover": {
+          "background-color": "#096cc3"
+        },
+        "[data-theme=\"setmore\"] [data-slot=\"button\"].bg-primary:active": {
+          "background-color": "#065193"
+        },
+        "[data-theme=\"setmore\"] [data-slot=\"input\"]:where(.dark *)": {
+          "background-color": "#2c343a"
+        },
+        "[data-theme=\"setmore\"] [data-slot=\"textarea\"]:where(.dark *)": {
+          "background-color": "#2c343a"
+        },
+        "[data-theme=\"setmore\"] [data-slot=\"select-trigger\"]:where(.dark *)": {
+          "background-color": "#2c343a"
+        },
+        "[data-theme=\"setmore\"] [data-slot=\"native-select\"]:where(.dark *)": {
+          "background-color": "#2c343a"
+        },
+        "[data-theme=\"setmore\"] [data-slot=\"button\"].bg-background:not(:hover):where(.dark *)": {
+          "background-color": "#2c343a"
+        },
+        "@media (pointer: coarse)": {
+          "[data-theme=\"setmore\"] [data-slot=\"button\"]": {
+            "min-height": "2.75rem",
+            "min-width": "2.75rem"
+          }
+        }
+      }
     }
   ]
 }
