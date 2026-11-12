@@ -114,6 +114,10 @@ jobs:
       - name: Check registry.json is current
         run: pnpm registry:check
 
+      # Fails when styles.css differs from what `pnpm styles` generates from the pinned shadcn. Needs the network.
+      - name: Check styles.css is current
+        run: pnpm styles --check
+
   build:
     runs-on: ubuntu-latest
     steps:

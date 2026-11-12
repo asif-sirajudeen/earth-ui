@@ -51,6 +51,7 @@
     "build": "tsdown && node scripts/build/props.mts && node scripts/build/examples.mts && shadcn build --output dist/registry",
     "registry": "node scripts/build/registry.mts && shadcn registry validate && shadcn build",
     "registry:check": "node scripts/build/registry.mts && git diff --exit-code registry.json",
+    "styles": "node scripts/build/styles.mts",
     "index": "node scripts/build/barrel.mts",
     "index:check": "node scripts/build/barrel.mts --check",
     "site:check": "pnpm --filter site gen && git add -N site/content && git diff --exit-code site/content",
