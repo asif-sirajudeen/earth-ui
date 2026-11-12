@@ -11,12 +11,12 @@ node dist/cli.js docs dialog | node -e '
   })
 '
 node dist/cli.js source dialog | grep -q '"code": "\\"use client\\"'
-# Only items with no import path may be missing from the CLI.
+# Only items with no import path (the style and the themes) may be missing from the CLI.
 node dist/cli.js list | node -e '
   let out = ""
   process.stdin.on("data", (d) => (out += d)).on("end", () => {
     const names = new Set(JSON.parse(out).components.map((c) => c.name))
-    const missing = require("./registry.json").items.map((i) => i.name).filter((n) => !names.has(n))
-    if (missing.sort().join() !== "style") throw new Error("Missing from CLI: " + missing)
+    const missing = require("./registry.json").items.map((i) => i.name).filter((n) => !names.has(n) && n !== "style" && !n.startsWith("theme-"))
+    if (missing.length) throw new Error("Missing from CLI: " + missing)
   })
 '
