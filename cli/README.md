@@ -2,7 +2,7 @@
 
 UI components come from the `@asif-sirajudeen/earth-ui` npm package. Import them from the package. Do not copy component source into the project and do not run `shadcn add`.
 
-Look components up with the `earth-ui` CLI before you write UI. It reads the installed version and works offline. Every command prints JSON.
+Look components up with the `earth-ui` CLI before you write UI. It reads the installed version and works offline. Every command prints JSON, except `source --raw`, and `help` at a terminal, which prints text (`--json` forces JSON).
 
 ```sh
 npx @asif-sirajudeen/earth-ui search <need>     # find components, e.g. search modal

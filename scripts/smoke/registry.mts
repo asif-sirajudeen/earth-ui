@@ -17,6 +17,8 @@ import { createServer } from "node:http"
 import { tmpdir } from "node:os"
 import { join, resolve } from "node:path"
 
+import { parseTokens } from "../lib/registry-items.mts"
+
 const install = process.argv.includes("--install")
 const repo = process.cwd()
 const shadcn = join(repo, "node_modules/.bin/shadcn")
@@ -129,11 +131,21 @@ try {
         throw new Error(`app.css: ${token} missing from ${selector}`)
     }
 
+    // Theme items add scoped rules and must leave the default tokens alone: theme-blue also sets --primary.
+    for (const selector of ['[data-theme="blue"]', '.dark [data-theme="blue"]'])
+      if (!css.includes(selector))
+        throw new Error(`app.css: theme rule ${selector} missing`)
+    const primary = `--primary: ${parseTokens(readFileSync("styles.css", "utf8")).light.primary};`
+    if (!block(":root").includes(primary))
+      throw new Error(
+        `app.css: a theme item overwrote :root (expected ${primary})`
+      )
+
     const before = [sha("app.css"), sha("package.json")]
-    await add(["style"], "--overwrite")
+    await add(["style", "theme-blue"], "--overwrite")
     if (sha("app.css") !== before[0] || sha("package.json") !== before[1]) {
       throw new Error(
-        "re-adding @earth-ui/style changed app.css or package.json (not idempotent)"
+        "re-adding @earth-ui/style and @earth-ui/theme-blue changed app.css or package.json (not idempotent)"
       )
     }
     console.log(

@@ -140,6 +140,9 @@ jobs:
       - uses: ./.github/actions/setup
       - name: Build package
         run: pnpm build
+      # Fails when the committed pages in site/content/docs/components are out of date with the CLI output.
+      - name: Check generated docs pages are current
+        run: pnpm site:check
       - name: Test and build docs site
         run: pnpm --filter site test && pnpm --filter site build
 

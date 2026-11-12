@@ -1,4 +1,5 @@
 @import "tailwindcss";
 @import "@asif-sirajudeen/earth-ui/styles.css";
-@import "fumadocs-ui/css/shadcn.css";
+@import "@asif-sirajudeen/earth-ui/themes/setmore.css";
+@import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";

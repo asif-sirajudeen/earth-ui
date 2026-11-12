@@ -1,0 +1,104 @@
+---
+title: Theming
+description: Switch from the base tokens to a theme such as Setmore without changing component source.
+---
+
+A theme is a CSS file that sets the color tokens under a `data-theme` attribute and, optionally, restyles component parts through their `data-slot` attribute. Component source stays upstream shadcn, so a shadcn update never wipes a theme.
+
+Use the **Base / Setmore** switch at the top of the sidebar to see every preview on this site in either theme. The docs chrome (sidebar, page background) keeps its own colors. The choice is saved in your browser.
+
+## Switch from base to Setmore
+
+Import the theme after the package stylesheet:
+
+```css
+@import "tailwindcss";
+@import "@asif-sirajudeen/earth-ui/styles.css";
+@import "@asif-sirajudeen/earth-ui/themes/setmore.css";
+```
+
+Set `data-theme` on `<html>`:
+
+```html
+<html data-theme="setmore"></html>
+```
+
+Remove the attribute to go back to the base tokens. Dark mode still works: `<html class="dark" data-theme="setmore">` uses the theme's dark values.
+
+In copy mode, install the theme with the shadcn CLI instead of the import:
+
+```sh
+npx shadcn add @earth-ui/theme-setmore
+```
+
+The CLI appends the theme's rules to your CSS file and leaves your `:root` and `.dark` tokens as they are.
+
+## What the Setmore theme changes
+
+**Tokens.** All 31 color tokens, light and dark, mapped from Setmore's brand colors. `--accent` carries Setmore's blue hover wash, and the chart ramp is derived from Setmore's blue, teal and orange palette because its own chart tokens are grey:
+
+```css
+[data-theme="setmore"] {
+  --primary: #1d90f5;
+  --primary-foreground: #ffffff;
+  --border: #d6dce0;
+  --ring: #2c343a;
+  /* ...27 more */
+}
+
+.dark[data-theme="setmore"],
+.dark [data-theme="setmore"] {
+  --primary: #1d90f5;
+  --background: #262d32;
+  /* ...29 more */
+}
+```
+
+**Button rules.** Setmore's button shape and feel, through `data-slot="button"`:
+
+```css
+/* Pill buttons. A button inside a button group keeps its inner corners. */
+[data-theme="setmore"] [data-slot="button"]:not([data-slot="button-group"] *) {
+  border-radius: 9999px;
+}
+
+/* One solid focus ring with a 1px gap, in place of the border plus 50% halo. */
+[data-theme="setmore"] [data-slot="button"]:focus-visible {
+  border-color: transparent;
+  box-shadow:
+    0 0 0 1px var(--background),
+    0 0 0 3px var(--ring);
+}
+
+/* Colours change in 300ms ease; size and position never animate. */
+[data-theme="setmore"] [data-slot="button"] {
+  transition-property:
+    color, background-color, border-color, box-shadow, opacity, translate;
+  transition-duration: 300ms, 300ms, 300ms, 150ms, 150ms, 150ms;
+  transition-timing-function: ease;
+}
+
+/* 44px touch target on touch screens. */
+@media (pointer: coarse) {
+  [data-theme="setmore"] [data-slot="button"] {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+}
+```
+
+## Limits
+
+- **Variants and sizes.** The button renders `data-slot="button"` but no `data-variant` or `data-size`, so a theme cannot restyle one variant or size alone. The theme restyles the default button's hover and pressed shades by its `bg-primary` class. Setmore's solid destructive button, outline edge and EDS sizes are not in the theme.
+- **Overrides.** The button rules are unlayered, so they win over a `className` that sets the same property. To override one, use an important utility such as `rounded-none!`.
+- **Scope.** Put `data-theme` on `<html>`. Dialogs, popovers and menus render in a portal under `<body>`, so a theme on a wrapper element does not reach them.
+- **Fonts, radius scale and shadows.** The theme sets colors only. The base `--radius`, `font-sans` and Tailwind shadows stay as they are.
+
+## Add a theme
+
+Create `themes/<name>.css` with:
+
+1. A `[data-theme="<name>"]` rule and a `.dark[data-theme="<name>"], .dark [data-theme="<name>"]` rule. Both set the same tokens, and each token must already exist in `styles.css` `:root`.
+2. Optionally, component rules scoped under `[data-theme="<name>"] `, with plain properties only, at the top level or inside `@media`.
+
+Run `pnpm registry`. The build throws if a rule breaks these constraints, and adds a `theme-<name>` registry item.

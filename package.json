@@ -10,7 +10,8 @@
   },
   "files": [
     "dist",
-    "styles.css"
+    "styles.css",
+    "themes"
   ],
   "sideEffects": [
     "*.css"
@@ -24,6 +25,7 @@
       "default": "./dist/index.js"
     },
     "./styles.css": "./styles.css",
+    "./themes/*.css": "./themes/*.css",
     "./package.json": "./package.json",
     "./use-highlighted-code": {
       "types": "./dist/hooks/use-highlighted-code.d.ts",
@@ -51,6 +53,7 @@
     "registry:check": "node scripts/build/registry.mts && git diff --exit-code registry.json",
     "index": "node scripts/build/barrel.mts",
     "index:check": "node scripts/build/barrel.mts --check",
+    "site:check": "pnpm --filter site gen && git add -N site/content && git diff --exit-code site/content",
     "links:check": "node scripts/check/links.mts",
     "registry:smoke": "node scripts/smoke/registry.mts",
     "package:smoke": "node scripts/smoke/package.mts",

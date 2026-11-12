@@ -117,9 +117,10 @@ async function main() {
   }
   const items: Item[] = JSON.parse(readFileSync("registry.json", "utf8")).items
   const byName = new Map(items.map((i) => [`@earth-ui/${i.name}`, i]))
-  // `style` is our own token item; upstream's version scaffolds src/lib/utils.ts, which we replace with the cn package.
+  // Only components and hooks have upstream source. `style` is our own token item (upstream's version scaffolds
+  // src/lib/utils.ts, which we replace with the cn package), and theme items are ours alone.
   const names = items
-    .filter((i) => i.type !== "registry:style")
+    .filter((i) => i.type === "registry:ui" || i.type === "registry:hook")
     .map((i) => i.name)
 
   // Upstream's dry-run lists the deps of the whole closure (button for calendar), so compare against ours the same way.
